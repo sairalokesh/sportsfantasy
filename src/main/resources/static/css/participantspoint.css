@@ -1,0 +1,8 @@
+@charset "ISO-8859-1";
+@media (min-width: 768px) {
+	.col-md-1 {
+    -ms-flex: 0 0 8.333333%;
+    flex: 0 0 8.333333%;
+    max-width: 7.5%!important;
+}
+}

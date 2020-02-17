@@ -1,0 +1,125 @@
+<div class="spaceAround tall">
+	<div class="teamPreviewRowWrapper" th:each="teamParticipant,iter : ${teamParticipants}">
+		<div class="rowTitle" th:text="${teamParticipant.key}">Wicket-Keepers</div>
+		<div class="spaceAround rowContent playerRowHeight">
+		
+			<div class="spaceAround rowContent playerRowHeight" th:each="gameparticipant : ${teamParticipant.value}">
+				<div class="js--field-player fieldPlayerMain">
+					<div class="playerImageProfile">
+					<span class="playerImageRoleContainer" style="background-color: #ffc107;" th:if="${gameparticipant.capitanId!=null}">C</span>
+					<span class="playerImageRoleContainer" style="background-color: #3eb9e8;" th:if="${gameparticipant.viceCapitanId!=null}">VC</span>
+					<span class="playerImageRoleContainer" style="background-color: #6d6c7d;" th:if="${gameparticipant.suppoterId!=null}">SP</span>
+						<div class="imageProfileContainer">
+							<div class="player-image-profile__image" th:style="'background: url('+${gameparticipant.participantImage}+');'"></div>
+						</div>
+					</div>
+					<div class="playerTitleContainer">
+						<div class="fieldPlayerTitle awayTeamPlayerTitle" th:text="${gameparticipant.participantName}">J Buttler</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+</div>
+<style>
+.spaceAround {
+    justify-content: space-around;
+}
+.tall {
+    position: absolute;
+    top: 0;
+    left: 0;
+    min-height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+.teamPreviewRowWrapper {
+    width: 100%;
+    padding-top: 8px;
+}
+.playerImageRoleContainer {
+   height: 30px;
+    width: 30px;
+    position: absolute;
+    left: -22px;
+    top: -13px;
+    border-radius: 79%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-weight: bolder;
+}
+.rowTitle {
+    margin-bottom: 4px;
+    text-align: center;
+    color: #fff;
+    text-transform: uppercase;
+    font-size: var(--font-small);
+    opacity: 0.52;
+}
+.rowContent {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    padding: 8px 0;
+}
+.fieldPlayerMain {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.playerImageProfile {
+    height: 38px;
+    width: 38px;
+    border-radius: 10px 0;
+    position: relative;
+}
+.imageProfileContainer {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    height: 100%;
+    width: 100%;
+}
+.player-image-profile__image {
+    width: 100%;
+    flex: 1;
+    background-size: cover!important;
+    background-repeat: no-repeat!important;
+    border-radius: 10px 10px 0 0;
+}
+.playerTitleContainer {
+    position: relative;
+}
+.awayTeamPlayerTitle {
+    color: #282828;
+    background-color: #fff;
+}
+.playerPoints {
+    white-space: nowrap;
+    color: #fff;
+    text-align: center;
+    padding: 2px;
+    font-size: var(--font-small);
+}
+.fieldPlayerTitle {
+	width:100px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: center;
+    font-size: var(--font-small);
+    white-space: nowrap;
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.25);
+    border-radius: 2px;
+    padding: 0px 4px;
+    height: 20px;
+    line-height: 20px;
+}
+.playerRowHeight {
+    height: 60px;
+}
+</style>

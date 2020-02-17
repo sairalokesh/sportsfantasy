@@ -1,0 +1,144 @@
+@charset "ISO-8859-1";
+body {
+	font-weight: 600;
+	font-size: 13px;
+	height: 100%;
+	width: 100%;
+	margin: 0px;
+	padding: 0px;
+	text-align: center;
+	font-family: 'Nunito', sans-serif;
+}
+
+.container {
+	width: 100%;
+	margin: 0 auto;
+	position: relative;
+	z-index: 5;
+}
+
+.wave-bg, .city-bg {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	z-index: 1;
+	background: url(http://easybook.kwst.net/images/pattern.png) repeat;
+	filter: blur(2px);
+	-webkit-filter: blur(2px);
+}
+
+section {
+	padding: 220px 0;
+	z-index: 1;
+}
+
+/*------Dasboard------------------------------------------------*/
+.dasboard-wrap {
+	padding-left: 290px;
+}
+
+.dasboard-sidebar {
+	position: absolute;
+	left: 41%;
+	width: 250px;
+	z-index: 20;
+}
+
+.dasboard-sidebar-content {
+	/* padding: 40px 0 44px 0; */
+	padding: 0px 0 44px 0;
+	border-radius: 6px;
+	z-index: 20;
+	overflow: hidden;
+}
+
+.log-out-btn {
+	position: absolute;
+	width: 100%;
+	left: 0;
+	height: 44px;
+	bottom: 0;
+	line-height: 44px;
+	color: #fff;
+	font-size: 16px;
+	text-transform: uppercase;
+	text-align: center;
+	font-weight: bold;
+}
+
+.log-out-btn i {
+	padding-left: 10px;
+}
+
+.dasboard-avatar {
+	overflow: hidden;
+	/* padding: 0 55px; */
+	position: relative;
+}
+
+.dasboard-avatar img {
+	width: 100%;
+	height: auto;
+	border-radius: 4px;
+}
+
+.dasboard-sidebar-item {
+	margin: 30px 0 20px;
+}
+
+.dasboard-sidebar-item:before {
+	content: '';
+	position: absolute;
+	left: 50%;
+	width: 30px;
+	bottom: -10px;
+	height: 2px;
+	margin-left: -15px;
+	border-radius: 2px;
+	background: rgba(255, 255, 255, 0.21);
+}
+
+.dasboard-sidebar-item h3 {
+	color: #fff;
+	font-size: 30px;
+}
+
+.dasboard-sidebar-item h3 span {
+	float: left;
+	width: 100%;
+	padding-bottom: 10px;
+	    font-size: 20px;
+}
+
+.banner-wdget-content a, .box-image-widget-media a:hover,
+	.rooms-media-btn-item, .sw-btn, .bt n:hover, .more-photos-button,
+	.box-item a.gal-link:hover, .dasboard-sidebar-content, .tfp-det-btn:hover,
+	.color3-bg, .team-social, .text-carousel-wrap .sw-btn:hover,
+	.home-intro-card-counter, .mlc, .geodir-opt-tooltip, .custom-form .log-submit-btn,
+	.lg-actions .lg-next:hover, .lg-actions .lg-prev:hover, .error-wrap form  .search-submit:hover,
+	.close-reg:hover, .custom-form .log-submit-btn:hover, .soc-log a:hover
+	{
+	background: #18458B;
+}
+
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p,
+	blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn,
+	em, font, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup,
+	tt, var, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table,
+	caption, tbody, tfoot, thead, tr, th, td {
+	border: none;
+	outline: 0;
+	font-weight: inherit;
+	font-style: inherit;
+	font-size: 100%;
+	vertical-align: baseline;
+	text-decoration: none;
+	margin: 0;
+	padding: 0;
+}
+
+ol, ul {
+	list-style: none;
+}

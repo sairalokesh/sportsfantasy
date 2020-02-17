@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1"/>
+ <meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Game Participants - All Sports Fantasy</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round"/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"/>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"/>
+<link rel="stylesheet" th:href="@{/css/participant.css}"/>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="https://code.jquery.com/ui/1.11.0/jquery-ui.min.js"></script>
+
+</head>
+<body>
+<nav th:replace="fragments/adminmenu :: adminmenu"></nav>
+<div class="container-fluid"><br/><br/><br/>
+<div class="alert alert-danger alert-dismissible fade show" role="alert" th:if="${errormessage!='' and errormessage!=null}">
+	<span th:text="${errormessage}"></span>
+	<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		<span aria-hidden="true">&times;</span>
+	</button>
+</div>
+<div class="alert alert-success alert-dismissible fade show" role="alert" th:if="${successmessage!='' and successmessage!=null}">
+	<span th:text="${successmessage}"></span>
+	<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		<span aria-hidden="true">&times;</span>
+	</button>
+</div>
+<div class="table-wrapper">
+	<div class="table-title">
+		<div class="row">
+			<div class="col-sm-6">
+				<h2>
+					<b>Game Questions</b>
+				</h2>
+			</div>
+
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-12">
+		<form method="post" th:object="${questionParticipants}">
+			<div class="row">
+			<div class="col-md-12">
+			<div class="form-group">
+				<label for="participantEffect">Participant Question:</label> 
+				<select class="form-control" id="id" th:field="*{questionId}" onchange="getvalue()" > 
+				 <option value="">Select Question</option>
+				 <option th:each="gameQuestion : ${gameQuestions}" th:value="${gameQuestion.id}" th:text="${gameQuestion.question}"></option>
+				</select>
+			</div>
+			</div>
+			</div>
+			</form>
+				
+			<form th:action="@{'/admin/updateQuestionParticpants'}" method="post" th:object="${questionParticipants}">
+			<div class="row">
+			<div class="col-md-1">
+			<div class="form-group">
+			 <label for="nominatedCount">&nbsp;</label> 
+			 <button class="btn btn-success add-more form-control" type="button"><i class="glyphicon glyphicon-plus"></i> Add</button>
+			</div>
+			</div>
+			</div>
+			
+			<div class="row">
+				
+				<div class="col-md-2">
+				<div class="form-group" style="text-align: center;">
+					<label for="participantEffect">Name</label> 
+				</div>
+				</div>
+				
+				<div class="col-md-2">
+				<div class="form-group" style="text-align: center;">
+					<label for="nominatedCount">Effect</label> 
+				</div>
+				</div>
+				
+				<div class="col-md-2">
+				<div class="form-group" style="text-align: center;">
+					<label for="nominatedCount">Image</label> 
+				</div>
+				</div>
+				<div class="col-md-1">
+				<div class="form-group" style="text-align: center;">
+					<label for="nominatedCount">Country</label> 
+				</div>
+				</div>
+				
+				<div class="col-md-1">
+				<div class="form-group" style="text-align: center;">
+					<label for="nominatedCount">Type</label> 
+				</div>
+				</div>
+				
+				<div class="col-md-1">
+				<div class="form-group" style="text-align: center;">
+					<label for="nominatedCount">Points</label> 
+				</div>
+				</div>
+				
+				<div class="col-md-1">
+				<div class="form-group" style="text-align: center;">
+					<label for="nominatedCount">Rating</label> 
+				</div>
+				</div>
+				
+				<div class="col-md-1">
+				<div class="form-group" style="text-align: center;">
+					<label for="nominatedCount">Availability</label> 
+				</div>
+				</div>
+				
+				
+				<div class="col-md-1">
+				<div class="form-group">
+				 <label for="nominatedCount">&nbsp;</label> 
+				</div>
+				</div>
+			
+			</div>
+			<div class="after-add-more"></div>
+			<div class="row removedata" th:each="participantPoint, itemStat: ${questionParticipants.gameParticipants}">
+			<div class="col-md-2">
+				<div class="form-group">
+					<input type="text" class="form-control" id="participantName" th:field="*{gameParticipants[__${itemStat.index}__].participantName}"/>
+				</div>
+				</div>
+				
+				<div class="col-md-2">
+				<div class="form-group">
+					<input type="text" class="form-control" id="participantEffect" th:field="*{gameParticipants[__${itemStat.index}__].participantEffect}"/>
+				</div>
+				</div>
+				
+				<div class="col-md-2">
+				<div class="form-group">
+					<input type="text" class="form-control" id="participantImage" th:field="*{gameParticipants[__${itemStat.index}__].participantImage}"/>
+				</div>
+				</div>
+				
+				<div class="col-md-1">
+				<div class="form-group">
+					<input type="text" class="form-control" id="participantGameType" th:field="*{gameParticipants[__${itemStat.index}__].participantGameType}"/>
+				</div>
+				</div>
+				
+				<div class="col-md-1">
+				<div class="form-group">
+					<input type="text" class="form-control" id="participantType" th:field="*{gameParticipants[__${itemStat.index}__].participantType}"/>
+				</div>
+				</div>
+				
+				<div class="col-md-1">
+				<div class="form-group">
+					<input type="text" class="form-control" id="participantPoints" th:field="*{gameParticipants[__${itemStat.index}__].participantPoints}"/>
+				</div>
+				</div>
+				
+				<div class="col-md-1">
+				<div class="form-group">
+					<input type="text" class="form-control" id="participantRating" th:field="*{gameParticipants[__${itemStat.index}__].participantRating}"/>
+				</div>
+				</div>
+				
+				<div class="col-md-1">
+				<div class="form-group">
+					<input type="text" class="form-control" id="participantRating" th:field="*{gameParticipants[__${itemStat.index}__].availability}"/>
+				</div>
+				</div>
+				
+				<div class="col-md-1">
+				<div class="form-group">
+				 <button class="btn btn-danger remove form-control" type="button"><i class="glyphicon glyphicon-remove"></i> remove</button>
+				</div>
+				</div>
+				
+				<input type="hidden" class="form-control" id="id" th:field="*{gameParticipants[__${itemStat.index}__].id}"/>
+				<input type="hidden" class="form-control" id="gameQuestions" th:field="*{gameParticipants[__${itemStat.index}__].gameQuestions}"/>
+			
+			</div>
+			
+			
+			
+			
+			<div class="col-md-1">
+			<div class="form-group">
+			<input type="hidden" class="form-control" id="questionId" th:field="*{questionId}"/>
+			<button type="submit" class="btn btn-primary" th:text="${'Submit'}">Submit</button>
+			</div>
+			</div>
+		</form>
+	</div>
+</div>
+</div>
+</div>
+</body>
+<script type="text/javascript">
+function getvalue() {
+	var id = $("#id").val();
+	window.location.href = '/admin/questionparticipants/'+id;
+}
+</script>
+<script type="text/javascript" th:inline="javascript">
+//<![CDATA[	
+$(document).ready(function() {
+	var i = [[${questionParticipants.gameParticipants}]].length - 1;
+	
+    $(".add-more").click(function(e){ 
+    	e.preventDefault();
+		i++;
+		var html = '<div class="row removedata"><div class="col-md-2"><div class="form-group"><input type="text" class="form-control" id="participantName" name="gameParticipants['+i+'].participantName"/></div></div><div class="col-md-2"><div class="form-group"><input type="text" class="form-control" id="participantEffect" name="gameParticipants['+i+'].participantEffect"/></div></div><div class="col-md-2"><div class="form-group"><input type="text" class="form-control" id="participantImage" name="gameParticipants['+i+'].participantImage"/></div></div>  <div class="col-md-1"><div class="form-group"><input type="text" class="form-control" id="participantGameType" name="gameParticipants['+i+'].participantGameType"/></div></div><div class="col-md-1"><div class="form-group"><input type="text" class="form-control" id="participantType" name="gameParticipants['+i+'].participantType"/></div></div><div class="col-md-1"><div class="form-group"><input type="text" class="form-control" id="participantPoints" name="gameParticipants['+i+'].participantPoints"/></div></div><div class="col-md-1"><div class="form-group"><input type="text" class="form-control" id="participantRating" name="gameParticipants['+i+'].participantRating"/></div></div><div class="col-md-1"><div class="form-group"><input type="text" class="form-control" id="participantRating" name="gameParticipants['+i+'].availability"/></div></div><div class="col-md-1"><div class="form-group"><button class="btn btn-danger remove form-control" type="button"><i class="glyphicon glyphicon-remove"></i> remove</button></div></div></div>';
+		$(".after-add-more").append(html);
+    });
+
+    $("body").on("click",".remove",function(){ 
+        $(this).parents(".removedata").remove();
+    });
+  });
+
+	// ]]>
+</script>
+</html>

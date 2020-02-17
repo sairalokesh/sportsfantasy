@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1"/>
+ <meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Dashboard</title>
+<link rel="shortcut icon" type="image/png" th:href="@{/pages/images/icon/favicon.png}"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"/>
+<link rel="stylesheet" th:href="@{/css/main.css}"/>
+<link rel="stylesheet" th:href="@{/css/userdashboard.css}"/>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+<script src="https://unpkg.com/tippy.js@4.3.4/umd/index.all.min.js"></script>
+</head>
+<body>
+<nav th:replace="fragments/usermenu :: usermenu"></nav>
+<div class="content" style="margin-left: 0px;">
+<div class="container-widget">
+  <div class="col-md-12">
+  <div class="topstats clearfix bottom-10">
+    <div class="arrow"></div>
+    <div class="row">
+    <div class="col-xs-6 col-lg-2 wigdet">
+      <span class="title"><i class="fa fa-dot-circle-o"></i> Game Entries</span>
+      <h3 th:text="${userEntries}" class="color-up">$36.45</h3>
+    </div>
+    <div class="col-xs-6 col-lg-2 wigdet">
+      <span class="title"><i class="fa fa-eye"></i> Entries Amount</span>
+      <h3 th:inline="text"><i class="fa fa-inr"></i> [[${entriesAmount}]]</h3>
+    </div>
+    <div class="col-xs-6 col-lg-2 wigdet">
+      <span class="title"><i class="fa fa-calendar-o"></i> Winning Games</span>
+      <h3 th:text="${winningEntries}">$96.25</h3>
+    </div>
+    <div class="col-xs-6 col-lg-2 wigdet">
+      <span class="title"><i class="fa fa-shopping-cart"></i> Winning Amount</span>
+      <h3 class="color-up" th:inline="text"><i class="fa fa-inr"></i> [[${winningAmount}]]</h3>
+    </div>
+    <div class="col-xs-6 col-lg-2 wigdet">
+      <span class="title"><i class="fa fa-university"></i> Bank Account Verified</span>
+      <h3><img id="statusicon" th:src="@{${status == 'Verified' ? '/genders/verified.png' : '/genders/not_verified.png'}}" style="width: 23px;"></img>
+      <script type="text/javascript" th:inline="javascript">
+		tippy('#statusicon', {content: '<b>'+[[${status}]]+'</b>',placement: 'right',arrow: true,arrowType: 'round', maxWidth: 4000})
+	  </script>
+      </h3>
+    </div>
+    
+    <div class="col-xs-6 col-lg-2 wigdet">
+      <span class="title"><i class="fa fa-clock-o"></i> Login Time</span>
+      <h3 class="color-down" id="color-down"></h3>
+    </div>
+    </div>
+  </div>
+  </div>
+  
+  <div class="row">
+  <div class="col-md-12 col-lg-9">
+      <div class="panel panel-widget particpantheight" >
+        <div class="panel-title">
+          Recent Participants
+        </div>
+        <div class="panel-body table-responsive">
+          <table class="table table-dic table-hover ">
+            <tbody th:if="${userSelectedParticipants!=null and !userSelectedParticipants.isEmpty()}">
+              <tr th:each="userSelectedParticipant : ${userSelectedParticipants}">
+                <td th:inline="text"><i class="fa fa-quora"></i>[[${userSelectedParticipant.participantQuestions.question}]]</td>
+                <td class="text-r" th:inline="text">
+                <div class="imageorder" th:if="${userSelectedParticipant.participantOne!=null and userSelectedParticipant.participantOne!=''}"><img th:src="@{'/images/'+${userSelectedParticipant.participantOne.paticipantImageName}}" class="imagewidth"/></div>
+                <div class="imageorder" th:if="${userSelectedParticipant.participantTwo!=null and userSelectedParticipant.participantTwo!=''}"><img th:src="@{'/images/'+${userSelectedParticipant.participantTwo.paticipantImageName}}" class="imagewidth"/></div>
+                <div class="imageorder" th:if="${userSelectedParticipant.participantThree!=null and userSelectedParticipant.participantThree!=''}"><img th:src="@{'/images/'+${userSelectedParticipant.participantThree.paticipantImageName}}" class="imagewidth"/></div>
+                <div class="imageorder" th:if="${userSelectedParticipant.participantFour!=null and userSelectedParticipant.participantFour!=''}"><img th:src="@{'/images/'+${userSelectedParticipant.participantFour.paticipantImageName}}" class="imagewidth"/></div>
+                <div class="imageorder" th:if="${userSelectedParticipant.participantFive!=null and userSelectedParticipant.participantFive!=''}"><img th:src="@{'/images/'+${userSelectedParticipant.participantFive.paticipantImageName}}" class="imagewidth"/></div>
+                <div class="imageorder" th:if="${userSelectedParticipant.participantSix!=null and userSelectedParticipant.participantSix!=''}"><img th:src="@{'/images/'+${userSelectedParticipant.participantSix.paticipantImageName}}" class="imagewidth"/></div>
+                <div class="imageorder" th:if="${userSelectedParticipant.participantSeven!=null and userSelectedParticipant.participantSeven!=''}"><img th:src="@{'/images/'+${userSelectedParticipant.participantSeven.paticipantImageName}}" class="imagewidth"/></div>
+                <div class="imageorder" th:if="${userSelectedParticipant.participantEight!=null and userSelectedParticipant.participantEight!=''}"><img th:src="@{'/images/'+${userSelectedParticipant.participantEight.paticipantImageName}}" class="imagewidth"/></div>
+                <div class="imageorder" th:if="${userSelectedParticipant.participantNine!=null and userSelectedParticipant.participantNine!=''}"><img th:src="@{'/images/'+${userSelectedParticipant.participantNine.paticipantImageName}}" class="imagewidth"/></div>
+                <div class="imageorder" th:if="${userSelectedParticipant.participantTen!=null and userSelectedParticipant.participantTen!=''}"><img th:src="@{'/images/'+${userSelectedParticipant.participantTen.paticipantImageName}}" class="imagewidth"/></div>
+                <div class="imageorder" th:if="${userSelectedParticipant.participantEleven!=null and userSelectedParticipant.participantEleven!=''}"><img th:src="@{'/images/'+${userSelectedParticipant.participantEleven.paticipantImageName}}" class="imagewidth"/></div>
+                </td>
+              </tr>
+            </tbody>
+            <tbody th:if="${userSelectedParticipants==null or userSelectedParticipants.isEmpty()}">
+              <tr>
+                <td th:inline="text" style="text-align: center;">No Game Participant as of now </td>
+              </tr>
+            </tbody>
+          </table>          
+
+        </div>
+      </div>
+      
+      <div class="panel panel-widget transactionheight">
+        <div class="panel-title">
+          Recent Transactions
+        </div>
+        <div class="panel-body table-responsive">
+          <table class="table table-dic table-hover ">
+            <tbody th:if="${userParticipantTransactions!=null and !userParticipantTransactions.isEmpty()}">
+              <tr th:each="userParticipantTransaction : ${userParticipantTransactions}">
+                <td th:inline="text"><i class="fa fa-money"></i>[[${userParticipantTransaction.transactionId}]]</td>
+                <td class="text-r" th:inline="text"><i class="fa fa-inr" style="color: var(--gray);font-size: inherit;"></i>[[${userParticipantTransaction.transactionAmount}]]</td>
+              </tr>
+            </tbody>
+            <tbody th:if="${userParticipantTransactions==null or userParticipantTransactions.isEmpty()}">
+              <tr>
+                <td th:inline="text" style="text-align: center;">No Transaction as of now </td>
+              </tr>
+            </tbody>
+          </table>          
+
+        </div>
+      </div>
+    </div>
+    
+       <div class="col-md-12 col-lg-3 mobiletop">
+      <div class="widget profile-widget" style="height:385px;">
+        <img th:src="${(user.imageUrl!=null and user.imageUrl!='')?('/genders/'+user.imageUrl+'.png'):'http://playmonks.com/playmonks/images/no_image.jpg'}" class="profile-image" alt="img"/>
+        <h1 th:text="${user.firstName+' '+user.lastName}"></h1>
+        <p><i class="fa fa-envelope"></i> <span th:text="${user.email}">London</span></p>
+        <p><i class="fa fa-phone"></i> <span th:text="${user.phoneNumber}">London</span></p>
+        <ul class="stats widget-inline-list clearfix">
+          <li class="col-6" th:inline="text"><span>A/C Number</span>[[${accountNumber}]]</li>
+          <li class="col-6" th:inline="text"><span>IFSC Code</span>[[${ifscCode}]]</li>
+        </ul>
+      </div>
+    </div>
+  </div>  
+</div>
+</div>  
+</body>
+
+<script type="text/javascript" th:inline="javascript">
+var startDateTime = new Date([[${user.loginDate}]]); // YYYY (M-1) D H m s (start time and date from DB)
+var startStamp = startDateTime.getTime();
+var newDate = new Date();
+var newStamp = newDate.getTime();
+var timer;
+function updateClock() {
+    newDate = new Date();
+    newStamp = newDate.getTime();
+    var diff = Math.round((newStamp-startStamp)/1000);
+    var h = Math.floor(diff/(60*60));
+    diff = diff-(h*60*60);
+    var m = Math.floor(diff/(60));
+    diff = diff-(m*60);
+    var s = diff;
+    document.getElementById("color-down").innerHTML = h+" : "+m+" : "+s;
+}
+
+setInterval(updateClock, 1000);
+
+</script>
+<script type="text/javascript" th:inline="javascript">
+	//<![CDATA[
+	 window.onload = function () {
+	    document.addEventListener("contextmenu", function (e) {
+	        e.preventDefault();
+	    }, false);
+	    document.addEventListener("keydown", function (e) {
+	        if (e.ctrlKey && e.shiftKey && e.keyCode == 73) {
+	            disabledEvent(e);
+	        }
+	        if (e.ctrlKey && e.shiftKey && e.keyCode == 74) {
+	            disabledEvent(e);
+	        }
+	        if (e.keyCode == 83 && (navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey)) {
+	            disabledEvent(e);
+	        }
+	        if (e.ctrlKey && e.keyCode == 85) {
+	            disabledEvent(e);
+	        }
+	        if (event.keyCode == 123) {
+	            disabledEvent(e);
+	        }
+	    }, false);
+	    function disabledEvent(e) {
+	        if (e.stopPropagation) {
+	            e.stopPropagation();
+	        } else if (window.event) {
+	            window.event.cancelBubble = true;
+	        }
+	        e.preventDefault();
+	        return false;
+	    }
+	} 
+	// ]]>
+</script>
+
+</html>

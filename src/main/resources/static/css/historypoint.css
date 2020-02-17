@@ -1,0 +1,199 @@
+@charset "ISO-8859-1";
+
+figure i, .ritekhela-team-view1 figure figcaption a, .ritekhela-team-view1-text, .ritekhela-team-view1 figure figcaption, .ritekhela-gallery-view1 h2, .widget_match_countdown h6, .widget_match_countdown .is-countdown, .ritekhela-latest-result-list, .ritekhela-blog-view3-inner, .ritekhela-blog-view3 figure a:before, .ritekhela-team-view2-text, .ritekhela-testimonials-view1-inner, .ritekhela-testimonials-view1 .slick-arrow, .ritekhela-subheader, .ritekhela-fixture-list-vs span, .ritekhela-fixture-list-pool, .ritekhela-pagination ul li a, .ritekhela-modren-match-text .ticket-buy-btn, .ritekhela-fixture-detail figcaption, .ritekhela-tags a, .ritekhela-form form p input[type="submit"], .widget_categories ul li, .ritekhela-player-thumb-wrap, .ritekhela-blog-view4 figure a:before, .ritekhela-error-section-inner, .ritekhela-contact-list i {
+    background-color: #3e454c;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+.headerdata {
+  position: fixed;
+  width: 28.7%;
+}
+
+.activediv {
+	background: antiquewhite;
+}
+
+.activepointdiv {
+	background-color: burlywood!important;
+}
+
+    
+
+.leader_board {
+    margin: 10px;
+    border-radius: 7px;
+    background-color: rgb(255, 255, 255);
+    box-shadow: 0px 3px 2px 0px rgba(0, 0, 0, 0.04);
+    -webkit-transition: 0.5s;
+    -o-transition: 0.5s;
+    transition: 0.5s;
+}
+
+.tbl-content span.user {
+    position: relative;
+    padding-left: 40px;
+}
+
+.tbl-content span.user img.user {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    border-radius: 3px;
+    box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.16);
+    top: calc(50% - 15px);
+    left: 0;
+}
+
+img {
+    max-width: 100%;
+}
+
+img {
+    vertical-align: middle;
+    border-style: none;
+}
+
+.text_exlips {
+    /* overflow: hidden; */
+    /* white-space: nowrap; */
+    text-overflow: ellipsis;
+}
+
+.tbl-content  span {
+    display: block;
+}
+
+.tbl-content span.text {
+    font-weight: normal;
+    font-size: 17px;
+    line-height: 20px;
+    color: #798086;
+}
+
+.tbl-content span.text b {
+    font-weight: 500;
+    color: #47535D;
+}
+
+.tbl-content span.text small {
+    font-size: 15px;
+    font-weight: bold;
+}
+
+h1{
+  font-size: 30px;
+  color: #fff;
+  text-transform: uppercase;
+  font-weight: 300;
+  text-align: center;
+  margin-bottom: 15px;
+}
+table{
+  width:100%;
+  table-layout: fixed;
+}
+.tbl-header{
+  background-color: rgba(255,255,255,0.3);
+ }
+.tbl-content{
+  /* height:91.2%; */
+  height: 84.2%;
+  overflow-x:auto;
+  margin-top: 0px;
+  border: 1px solid rgba(255,255,255,0.3);
+  background-color: white;
+}
+th{
+  padding: 20px 15px;
+  text-align: left;
+  font-weight: 700;
+  font-size: 17px;
+  color: var(--dark);
+  text-transform: uppercase;
+  background-color: white;
+}
+td{
+  padding: 15px;
+  text-align: left;
+  vertical-align:middle;
+  font-weight: 300;
+  font-size: 21px;
+ color: var(--dark);
+ border-bottom: solid 1px var(--pink);
+}
+tr {
+	    cursor: pointer;
+}
+
+
+/* demo styles */
+
+@import url(https://fonts.googleapis.com/css?family=Roboto:400,500,300,700);
+body{
+  background: -webkit-linear-gradient(left, #25c481, #25b7c4);
+  background: linear-gradient(to right, #25c481, #25b7c4);
+  font-family: 'Roboto', sans-serif;
+}
+section{
+    display: inline-block;
+    width: 100%;
+    max-width: 550px;
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0px 0px 20px 5px rgba(0, 0, 0, 0.5);
+    height: calc(93vh - 40px);
+    margin-top: 80px;
+    overflow: hidden;
+    border-radius: 10px;
+    background-color: #E9F3FF;
+}
+
+
+/* follow me template */
+.made-with-love {
+  margin-top: 40px;
+  padding: 10px;
+  clear: left;
+  text-align: center;
+  font-size: 10px;
+  font-family: arial;
+  color: #fff;
+}
+.made-with-love i {
+  font-style: normal;
+  color: #F50057;
+  font-size: 14px;
+  position: relative;
+  top: 2px;
+}
+.made-with-love a {
+  color: #fff;
+  text-decoration: none;
+}
+.made-with-love a:hover {
+  text-decoration: underline;
+}
+
+
+/* for custom scrollbar for webkit browser*/
+
+::-webkit-scrollbar {
+    width: 6px;
+} 
+::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
+} 
+::-webkit-scrollbar-thumb {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
+}

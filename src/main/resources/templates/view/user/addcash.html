@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Add Cash</title>
+<link rel="shortcut icon" type="image/png"
+	th:href="@{/pages/images/icon/favicon.png}" />
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" />
+<link rel="stylesheet" th:href="@{/css/addcash.css}" />
+</head>
+<body>
+	<nav th:replace="fragments/usermenu :: usermenu"></nav>
+	<div class="container-fluid">
+		<br /> <br />
+		<div class="row mt-30 mb-30">
+			<div class="col-md-12">
+				<div class="alert alert-danger alert-dismissible fade show"
+					role="alert" th:if="${errormessage!='' and errormessage!=null}">
+					<span th:text="${errormessage}"></span>
+					<button type="button" class="close" data-dismiss="alert"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="alert alert-success alert-dismissible fade show"
+					role="alert" th:if="${successmessage!='' and successmessage!=null}">
+					<span th:text="${successmessage}"></span>
+					<button type="button" class="close" data-dismiss="alert"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="referal-progress">
+					<h2>Currency</h2>
+					<table class="table table-hover">
+						<tbody>
+							<tr>
+								<td>Bonus Amount</td>
+								<td><strong
+									th:text="'₹ '+${#numbers.formatDecimal(userAmount.bonusAmount, 1, 'COMMA', 2, 'POINT')}"></strong></td>
+							</tr>
+							<tr>
+								<td>Added &amp; Winning Amount</td>
+								<td><strong
+									th:text="'₹ '+${#numbers.formatDecimal(userAmount.addedAmount, 1, 'COMMA', 2, 'POINT')}"></strong></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<a th:href="@{'/user/adduseramount'}" class="btn btn-primary"
+					th:if="${userAmount.phonevalid}" style="width: 49%">Add Cash</a> <a
+					href="javascript:void(0)"
+					class="btn btn-primary confirm-phone-number"
+					th:if="${!userAmount.phonevalid}" style="width: 49%">Add Cash</a>
+				<button type="button" class="btn btn-success" style="width: 49%">Withdraw</button>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-md-12 register-right">
+				<div class="row mt-30 mb-30">
+					<div class="col-sm-12 col-md-3">
+						<div class="share-boxes">
+							<h1 class="referalcode" th:text="${userAmount.user.cuponCode}"></h1>
+							<p>Referal Code</p>
+						</div>
+					</div>
+					<div class="col"></div>
+					<div class="col-sm-12 col-md-3">
+						<div class="share-boxes">
+							<img src="https://i.ibb.co/PtYrLNy/img1.png" alt="img2"
+								border="0" />
+							<p>Share with your friends</p>
+							<img src="https://i.ibb.co/Sr5F70S/dotted-arrow1.png"
+								alt="dotted-arrow1" class="dotted-line" /> <img
+								src="https://i.ibb.co/Fqs2KxB/dotted-arrow2.png"
+								alt="dotted-arrow2" class="dotted-line2" />
+						</div>
+					</div>
+					<div class="col"></div>
+					<div class="col-sm-12 col-md-3">
+						<div class="share-boxes">
+							<img
+								src="https://upload.wikimedia.org/wikipedia/commons/7/7c/India_new_10_INR%2C_MG_series%2C_2018%2C_obverse.jpg"
+								alt="img3" border="0" />
+							<p>Get ₹10 for each user registration &amp; first
+								participant</p>
+						</div>
+					</div>
+				</div>
+
+				<div class="row refer-form-sec">
+					<div class="col-md-12">
+						<div class="refer-form">
+							<ul>
+								<li class="facebook-color"><a href="javascript:void(0)"
+									onclick="sharefbimage()">Facebook</a></li>
+								<li class="youtube-color"><a href="#">you tube</a></li>
+								<li class="twitter-color"><a href="#">twitter</a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				<div class="row mt-30 mb-30">
+					<div class="col-md-12">
+						<div class="referal-progress">
+							<h2>YOUR REFERAL USERS</h2>
+							<table class="table table-hover">
+								<tbody
+									th:if="${userAmount.cuponCodeUsers!=null && userAmount.cuponCodeUsers.size() &gt; 0}">
+									<tr th:each="cuponuser: ${userAmount.cuponCodeUsers}">
+										<td
+											th:text="${cuponuser.utilizeUser.firstName+' '+cuponuser.utilizeUser.lastName}"></td>
+										<td><strong
+											th:text="'₹ '+${#numbers.formatDecimal(cuponuser.codeused?'10':'00', 1, 'COMMA', 2, 'POINT')}"></strong></td>
+									</tr>
+								</tbody>
+								<tbody
+									th:if="${userAmount.cuponCodeUsers==null || userAmount.cuponCodeUsers.size() == 0}">
+									<tr>
+										<td style="text-align: center;"><strong
+											th:text="'NO REFERAL USERS'"></strong></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<div class="modal fade" id="phoneModal" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel" aria-hidden="true"
+		data-backdrop="static" data-keyboard="false">
+		<div class="modal-dialog" style="width: 100%">
+			<div class="modal-content">
+				'
+				<div class="modal-body">
+					<p style="text-align: center; font-weight: bold;">
+						<span id="errormessagedata" style="color: red; font-size: medium;"></span>
+					</p>
+					<form name="registerForm" id="registerForm" method="post"
+						autocomplete="off">
+						<div class="row">
+							<div class="col-md-12">
+								<div class="form-group">
+									<label for="phoneNumber">Phone Number:</label> <input
+										type="text" class="form-control" id="phoneNumber"
+										name="phoneNumber" />
+								</div>
+							</div>
+							<div class="col-md-12">
+								<div class="form-group" style="text-align: center;">
+									<input type="submit" value="Submit"
+										class="btn btn-primary login_btn" />
+									<button type="button" class="btn btn-danger"
+										data-dismiss="modal">Cancel</button>
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</body>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+<script
+	src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.min.js"></script>
+<script
+	src="https://cdn.jsdelivr.net/npm/jquery-validation-bootstrap-tooltip@0.10.2/jquery-validate.bootstrap-tooltip.min.js"></script>
+<script async defer src="https://connect.facebook.net/en_US/sdk.js"></script>
+<script type="text/javascript" th:inline="javascript">
+	function sharefbimage() {
+		FB.init({
+			appId : 906949786042597,
+			status : true,
+			xfbml : true,
+			version : 'v2.9'
+		});
+		FB.ui({
+			method : 'share',
+			name : 'Facebook Dialogs',
+			href : 'https://moviein.herokuapp.com/movies/all',
+			link : 'https://moviein.herokuapp.com/movies/all',
+			text : 'This is Test Application',
+			//picture : 'your image url',
+			caption : 'Ishelf Book',
+			description : 'this is test description data....'
+		}, function(response) {
+			if (response && response.post_id) {
+				console.log('success');
+			} else {
+				console.log('error');
+			}
+		});
+	}
+
+	$(".confirm-phone-number").on('click', function(e) {
+		e.preventDefault();
+		document.getElementById("registerForm").reset();
+		$('#phoneModal').modal('show');
+	});
+
+	$(function() {
+		$("#registerForm")
+				.validate(
+						{
+							errorClass : 'inputError',
+							validClass : 'InputSuccess',
+							rules : {
+								phoneNumber : {
+									required : true,
+									minlength : 10,
+									maxlength : 10
+								}
+							},
+
+							messages : {
+								phoneNumber : {
+									required : "Please enter phone number",
+									minlength : "phone number must be 10 digits length",
+									maxlength : "phone number cann't exceed 10 digits length"
+								}
+
+							},
+							submitHandler : function(form) {
+								var phoneNumber = $("#phoneNumber").val();
+								$
+										.get(
+												"/user/saveUserPhoneNumber?phoneNumber="
+														+ phoneNumber,
+												function(data) {
+													if (data != null
+															&& data.status != 201) {
+														$("#errormessagedata")
+																.text(
+																		data.message);
+													} else if (data != null
+															&& data.status == 201) {
+														window.location.href = "/user/adduseramount";
+													} else {
+														$("#errormessagedata")
+																.text(
+																		data.message);
+													}
+												});
+								//alert();
+								// form.submit();
+							}
+						});
+	});
+</script>
+<script type="text/javascript" th:inline="javascript">
+	//<![CDATA[
+
+	$("#phoneNumber").on('focus', function(e) {
+		$("#errormessagedata").text("");
+	})
+
+	$("#phoneNumber").keypress(function(e) {
+		$("#errormessagedata").text("");
+		if (String.fromCharCode(e.keyCode).match(/[^0-9]/g))
+			return false;
+	});
+	window.onload = function() {
+		document.addEventListener("contextmenu", function(e) {
+			e.preventDefault();
+		}, false);
+		document.addEventListener("keydown", function(e) {
+			if (event.keyCode == 123) {
+				disabledEvent(e);
+			}
+		}, false);
+		function disabledEvent(e) {
+			if (e.stopPropagation) {
+				e.stopPropagation();
+			} else if (window.event) {
+				window.event.cancelBubble = true;
+			}
+			e.preventDefault();
+			return false;
+		}
+	}
+	// ]]>
+</script>
+</html>

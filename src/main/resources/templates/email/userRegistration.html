@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title th:remove="all">User Registration</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<style>
+#container {
+    margin-top: auto;
+    margin-right: auto;
+    margin-left: auto;
+    margin-bottom: auto;
+    zoom: 1
+}
+
+#main {
+    display: inline-block;
+    border: 1px solid #ececec;
+}
+
+#header {
+    margin: -20px 0px -10px 0px;
+    border-bottom: #ececec solid 1px;
+    text-align: center;
+}
+#body{
+    padding:10px;
+}
+#footer {
+    border-top: #ececec solid 1px;
+    padding: 5px;
+}
+</style>
+</head>
+<body>
+    <div id="container">
+        <div id="main">
+            <div id="header">
+
+                <a href="http://www.abcfinance.de" th:if="${user.country != 'Netherlands'}"><img
+                    src="https://www.abcfinance.de/fileadmin/templates/images/logo-abcfinance.png"
+                    alt="logo" width="300" /></a>
+
+                 <a href="https://www.abcfinance.nl" th:if="${user.country == 'Netherlands'}"><img
+                    src="https://www.abcfinance.nl/typo3conf/ext/site_template/Resources/Public/Img/logo-abcfinance.png"
+                    alt="logo" width="300" /></a>
+
+            </div>
+            <div id="body">
+                <p th:if="${emailtype == 'useremail'}">
+                    <span th:if="${user.country != 'NETHERLANDS'}">Sehr geehrter Nutzer der Connect-App,</span>
+                    <span th:if="${user.country == 'NETHERLANDS'}">Geachte gebruiker van Connect App,</span>
+                </p>
+                <p th:if="${emailtype == 'adminemail'}">
+                    <span th:if="${user.country != 'Netherlands'}">Sehr geehrter Admin,</span>
+                    <span th:if="${user.country == 'Netherlands'}">Beste beheerder,</span>
+                </p>
+
+                <div>
+                    <p th:if="${type != 'backend' and emailtype == 'useremail'}">
+                        <span th:if="${user.country != 'Netherlands'}">wir haben Ihre Daten erhalten und Ihr Account wird <b>bald aktiviert</b>. Bitte verwenden Sie <b>nach der Aktivierung</b> Ihre E-Mail-Adresse als Benutzernamen. Ihr Passwort wird Ihnen zugesendet, sobald Ihre Registrierung bestätigt wurde.</span>
+                        <span th:if="${user.country == 'Netherlands'}">We hebben uw gegevens ontvangen en uw account <b>wordt binnenkort geactiveerd</b>. Gebruik uw e-mailadres als gebruikersnaam <b>na activering</b>. Uw wachtwoord zal naar u worden verzonden zodra uw registratie is bevestigd.</span>
+                    </p>
+                    
+	                  <p th:if="${type == 'backend' and emailtype == 'useremail'}">
+	                        <span th:if="${user.country != 'Netherlands'}">Ihr Account wurde aktiviert. Sie können sich jederzeit mit den folgenden Informationen einloggen.</span>
+	                        <span th:if="${user.country == 'Netherlands'}">Uw account is geactiveerd. U kunt zich altijd aanmelden met de onderstaande gegevens.</span>
+	                  </p>
+                    
+                    <p th:if="${type != 'backend' and emailtype == 'adminemail'}">
+                        <span th:if="${user.country != 'Netherlands'}">ein neuer Nutzer hat sich für die Connect-App registriert. Bitte prüfen und aktivieren Sie diesen.</span>
+                        <span th:if="${user.country == 'Netherlands'}">een nieuwe gebruiker heeft zich geregistreerd voor de Connect-app. Controleer dit en activeer dit.</span>
+                    </p>
+
+                    <table>
+                        <tr>
+                            <td class="colorText" th:text="#{mail.user.registration.user.details}">Nutzerdetails:</td><td></td>
+                        </tr>
+                        <tr>
+                            <td th:text="#{connectapp.user.overview.email}">E-Mail</td>
+                            <td th:text="${user.email}">user.email</td>
+                        </tr>
+                        <tr>
+                            <td th:text="#{connectapp.user.overview.phone}">Telefon</td>
+                            <td th:text="${user.phone}">user.phone</td>
+                        </tr>
+
+                        <tr th:if="${user.handler != null}">
+                            <td th:text="#{mail.user.registration.handler.name}">Händlername</td>
+                            <td th:text="${user.handler.name}">user.handler.name</td>
+                        </tr>
+                        <tr th:if="${user.tempHandler != null}">
+                            <td th:text="#{mail.user.registration.handler.name}">Händlername</td>
+                            <td th:text="${user.tempHandler}">user.tempHandler</td>
+                        </tr>
+                        <tr th:if="${user.contactPerson != null}">
+                            <td th:text="#{connectapp.contactPerson.overview.title}">Contact Person</td>
+                            <td th:text="${user.contactPerson.name}">user.contactPerson.name</td>
+                        </tr>
+                        <tr>
+                            <td th:text="#{connectapp.handler.overview.country}">Country</td>
+                            <td th:text="${user.country}">user.country</td>
+                        </tr>
+                       <tr th:if="${type == 'backend'}">
+                            <td th:text="#{connectapp.login.password}">Password</td>
+                            <td th:text="${password}">password</td>
+                      </tr>
+                    </table>
+                </div>
+            </div>
+            <div id="footer">
+                <div th:text="#{mail.footer}"></div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

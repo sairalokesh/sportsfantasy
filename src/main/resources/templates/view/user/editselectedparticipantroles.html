@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1"/>
+ <meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Game Participants - All Sports Fantasy</title>
+<link rel="shortcut icon" type="image/png" th:href="@{/pages/images/icon/favicon.png}"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css"/>
+<link rel="stylesheet" th:href="@{/css/participantsrole.css}"/>
+<style>
+.inputError {
+    color: red;
+    font-size: 16px;
+    text-align: center;
+    font-weight: bolder;
+}
+/* width */
+::-webkit-scrollbar {
+  width: 3px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px grey; 
+  border-radius: 10px;
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: blue!important; 
+  border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: blue!important; 
+}
+</style>
+</head>
+<body style="background: url(http://0effortthemes.com/soccerclubv2/images/background/innerpageBg.jpg);">
+<nav th:replace="fragments/usermenu :: usermenu"></nav>
+ <div class="container-fluid"><br/><br/><br/>
+ <div class="row">
+	<div class="col-md-12 col-sm-12">
+	<div class="alert alert-danger alert-dismissible fade show" role="alert" th:if="${errormessage!=null and errormessage!=''}">
+	  <strong th:text="${errormessage}"></strong>
+	  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+	    <span aria-hidden="true">&times;</span>
+	  </button>
+	</div>
+	</div>
+</div>
+
+<form class="form" id="paymentForm" th:object="${selectedMembers}" method="post" th:action="@{'/user/updateparticpants'}">
+ <div class="row">
+  <div class="col-md-12 col-sm-12">
+	<div th:class="'radiobtn  animated '+${gameQuestion.questionEffect}">
+		<a th:href="${'/user/game/'+gameType+'/amount/'+questionId+'/editselectedparticipants/'+amountId+'/'+userTeamId+'/'+userTempId+'/'+index}" style="text-decoration:none;">
+			<label>
+				<img src="https://icon-library.net/images/back-arrow-icon/back-arrow-icon-15.jpg" style="width:19px;"/>
+				<span th:text="${gameQuestion.question}" style="margin-left: 10px;vertical-align: middle;"></span> 
+				<span th:inline="text" style="margin-left: 25%;vertical-align: middle;">Entry : <i class="fa fa-inr" style="font-size: 15px;"></i> [[${amountEntry.amount}]]</span>
+				<span th:id="'demo'+${gameQuestion.id}" style="float:right;"></span>
+			</label>
+		</a>
+		<script type="text/javascript" th:inline="javascript">
+		// <![CDATA[
+			var x = setInterval(function() {
+				var countDownDate = new Date([[${gameQuestion.validDate}]]).getTime();
+				var now = new Date().getTime();
+				var distance = countDownDate - now;
+				var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+				var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+				var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+				var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+				document.getElementById("demo"+[[${gameQuestion.id}]]).innerHTML = days + "Days : " + hours + "Hrs : "+ minutes + "Mints : " + seconds + "Secs";
+				 if (distance <= 0) {
+					    $("#myModal").modal("show");
+					  }
+				}, 1000);
+			
+			// ]]>
+		</script>
+	</div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-5 col-sm-12 col-xs-12">
+  <div class="row">
+  <div class="col-md-12 col-sm-12 col-xs-12" style="text-align:center;">
+  <label id="capitanId-error" class="inputError" for="capitanId" style="padding: 0px;">&nbsp;</label>
+  <label id="viceCapitanId-error" class="inputError" for="viceCapitanId" style="padding: 0px;">&nbsp;</label>
+  <label id="suppoterId-error" class="inputError" for="suppoterId" style="padding: 0px;">&nbsp;</label>
+  </div>
+  </div>
+   <table class="table table-hover" style="background-color:white;">
+	<thead class="tableheader">
+	<tr>
+	<th width="55%">Participant</th>
+	<th width="15%">C(3X)</th>
+	<th width="15%">VC(2X)</th>
+	<th width="15%">SP(1.5X)</th>
+	</tr>
+	</thead>
+	</table>
+  <div style="overflow-x: auto;height: calc(100vh - 292px);">
+	<table class="table table-hover" style="background-color:white;">
+	<tbody th:each="participant : ${gameParticipants}">
+	<tr>
+		<td colspan="4" th:text="${participant.key}" class="tdheader">Cell</td>
+	</tr>
+	
+      <tr th:each="gameparticipant,iter : ${participant.value}" style="background: white;">
+          <td width="55%">
+            <div class="row" style="margin-top: 10px;flex-wrap: inherit;">
+	            <div class="col-md-1 col-sm-1 col-xs-3">
+	            <img th:src="${gameparticipant.participantImage}" style="width:60px; height:52px;border-radius: 50%;" class="image"/>
+	            </div>
+	            <div class="col-md-11 col-sm-11 col-xs-9">
+	             <p style="margin: 3px 0px 2px 0px;font-weight: bolder;margin-left: 50px;margin-top: 6px;" th:text="${gameparticipant.participantName}"></p>
+	             <p style="margin-left: 50px;" th:text="${gameparticipant.participantGameType+' - '+ gameparticipant.participantPoints +' PTS'}"></p>
+	            </div>
+	         </div>
+          </td>
+          <td width="15%" style="vertical-align: middle;text-align:center;"><input type='radio' th:id="'captain'+${gameparticipant.id}" th:field="*{capitanId}" th:value="${gameparticipant.id}" th:onclick="'javascript:checkradiovalidation(\''+'captain'+ '\',\'' +   ${gameparticipant.id} + '\');'"/></td>
+          <td width="15%" style="vertical-align: middle;text-align:center;"><input type="radio" th:id="'vicecaptain'+${gameparticipant.id}" th:field="*{viceCapitanId}" th:value="${gameparticipant.id}" th:onclick="'javascript:checkradiovalidation(\''+'vicecaptain'+ '\',\'' +   ${gameparticipant.id} + '\');'"/></td>
+          <td width="15%" style="vertical-align: middle;text-align:center;"><input type="radio" th:id="'suppoter'+${gameparticipant.id}" th:field="*{suppoterId}" th:value="${gameparticipant.id}" th:onclick="'javascript:checkradiovalidation(\''+'suppoter'+ '\',\'' +   ${gameparticipant.id} + '\');'"/></td>
+      </tr>
+	</tbody>
+	</table>
+	</div>
+  
+
+<input type="hidden" th:field="*{amountId}" name="amountId"/>
+ <input type="hidden" th:field="*{questionId}" name="questionId"/>
+ <input type="hidden" th:field="*{gameType}" name="gameType"/>
+ <input type="hidden" th:field="*{userTempId}" name="userTempId"/>
+ <input type="hidden" th:field="*{index}" name="index"/>
+ <div class="row footer">
+ <div class="col-md-12 col-sm-12 animated fadeInRightBig" style="text-align: center;margin-top:10px;">
+     <button type="submit" class="btn btn-primary" onClick="scrolltop()">Update</button><br/><br/>
+ </div>
+ </div>
+ </div>
+  <div class="col-md-7 col-sm-12 col-xs-12" style="background-image: url(https://myteam11main.s3.ap-south-1.amazonaws.com/images/static/cric1ket_bg.jpg);background-size: cover;box-shadow: 0 0 20px 5px rgba(0,0,0,.5);
+    background-repeat: no-repeat;
+    background-position: center center;height: calc(100vh - 191px);max-width: 57%;border-radius: 20px;">
+    <div id="appendplayers"></div>
+  </div>
+ </div>
+</form>
+</div>
+
+<div class="modal fade" id="myModal" role="dialog" data-backdrop="static" data-keyboard="false">
+<div class="modal-dialog">
+  <div class="modal-content">
+    <div class="modal-body">
+      <p style="font-size:100%">Dead Line Reached...</p>
+    </div>
+    <div class="modal-footer" style="text-align:center;display: block;">
+        <button type="button" class="btn btn-primary redirectmodal" data-dismiss="modal">OK</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="mycheckModal" role="dialog" data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-body">
+        <p style="font-size:100%" th:text="'Max '+${gameQuestion.choices}+' Participants Allowed.'"></p>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.min.js"></script>
+
+<script type="text/javascript" th:inline="javascript">
+//<![CDATA[
+var gameQuestion = [[${gameQuestion}]];	
+var dataparticipants = [[${selectedMembers.selectedMembers}]];
+var selectedcaptain = [[${selectedMembers.capitanId}]];
+var selectedviceCapitan = [[${selectedMembers.viceCapitanId}]];
+var selectedsuppoter = [[${selectedMembers.suppoterId}]];
+preview();
+
+function preview() {
+	$.ajax({
+	     type : "POST",
+	     contentType : "application/json",
+	     url : "/user/game/previewUserTeam",
+	     data : JSON.stringify({selectedParticipants: dataparticipants, questionId: gameQuestion.id, captainId: selectedcaptain, viceCaptainId: selectedviceCapitan, suppoterId: selectedsuppoter}),
+	     dataType : 'json',
+	     success : function(data) {
+	    	 console.log("Data", data);
+	     },
+	     error : function(e) {
+	    	 $("#appendplayers").html(e.responseText);
+	    	// console.log("error", e.responseText);
+	     }
+	 });
+	}
+	
+function checkradiovalidation(type, participantId) {
+	if(type == 'captain') {
+		$("#vicecaptain"+participantId).prop("checked", false);
+		$("#suppoter"+participantId).prop("checked", false);
+		selectedcaptain = participantId;
+		if(selectedviceCapitan == participantId) {
+			selectedviceCapitan  = "";
+		}
+		if(selectedsuppoter == participantId) {
+			selectedsuppoter  = "";
+		}
+	} else if (type == 'vicecaptain') {
+		$("#captain"+participantId).prop("checked", false);
+		$("#suppoter"+participantId).prop("checked", false);
+		selectedviceCapitan = participantId;
+		if(selectedcaptain == participantId) {
+			selectedcaptain  = "";
+		}
+		if(selectedsuppoter == participantId) {
+			selectedsuppoter  = "";
+		}
+	} else if (type == 'suppoter') {
+		$("#captain"+participantId).prop("checked", false);
+		$("#vicecaptain"+participantId).prop("checked", false);
+		selectedsuppoter = participantId;
+		if(selectedviceCapitan == participantId) {
+			selectedviceCapitan  = "";
+		}
+		if(selectedcaptain == participantId) {
+			selectedcaptain  = "";
+		}
+	}
+	preview();
+}	
+
+
+$(function() {
+    $("#paymentForm").validate({
+    	errorClass:'inputError',
+    	validClass:'InputSuccess',
+    	rules: {
+    		capitanId:{required:true},
+    		viceCapitanId:{required:true},
+    		suppoterId:{required:true}
+    		},
+    		
+    	messages: {			
+    		capitanId:{
+    			required:"Please Select Captain"
+    		},
+    		viceCapitanId:{
+    			required:"Please Select Vice Captain"
+    		},
+    		suppoterId:{
+    			required:"Please Select Suppoter"
+    		}
+
+
+    	},
+    	submitHandler: function(form) {	
+    		form.submit();
+    		}
+    	});
+  });
+	
+$(function() {
+	$(".redirectmodal").on('click', function(){
+		window.location.href="/user/game/"+gameQuestion.questionType+"/entry";
+	})
+})
+
+function scrolltop() {
+    window.scrollTo(0, 0);
+    }
+//]]>
+</script>
+<script type="text/javascript" th:inline="javascript">
+//<![CDATA[
+	window.onload = function () {
+        document.addEventListener("contextmenu", function (e) {
+            e.preventDefault();
+        }, false);
+        document.addEventListener("keydown", function (e) {
+            //document.onkeydown = function(e) {
+            // "I" key
+            if (e.ctrlKey && e.shiftKey && e.keyCode == 73) {
+                disabledEvent(e);
+            }
+            // "J" key
+            if (e.ctrlKey && e.shiftKey && e.keyCode == 74) {
+                disabledEvent(e);
+            }
+            // "S" key + macOS
+            if (e.keyCode == 83 && (navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey)) {
+                disabledEvent(e);
+            }
+            // "U" key
+            if (e.ctrlKey && e.keyCode == 85) {
+                disabledEvent(e);
+            }
+            // "F12" key
+            if (event.keyCode == 123) {
+                disabledEvent(e);
+            }
+        }, false);
+        function disabledEvent(e) {
+            if (e.stopPropagation) {
+                e.stopPropagation();
+            } else if (window.event) {
+                window.event.cancelBubble = true;
+            }
+            e.preventDefault();
+            return false;
+        }
+    }
+        
+ // ]]>
+	</script>
+
+</html>

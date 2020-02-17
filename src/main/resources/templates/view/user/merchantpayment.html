@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1"/>
+ <meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Payment Redirecting - All Sports Fantasy</title>
+<link rel="shortcut icon" type="image/png" th:href="@{/pages/images/icon/favicon.png}"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"/>
+<link rel="stylesheet" th:href="@{/css/signinup.css}"/>
+<style>
+p {
+    left: 0;
+    margin-top: -100px;
+    position: absolute;
+    text-align: center;
+    top: 50%;
+    width: 100%;
+    color: white;
+    font-size: xx-large;
+    font-weight: 900;
+}
+</style>
+</head>
+<body>
+<div class="container-fluid container-fluid-image"><br/><br/>
+ <div class="login-form">
+<form action="https://test.cashfree.com/billpay/checkout/post/submit" name="frm1" method="post">
+      <p>Please wait....... <br/> Redirect to Payment Page</p>
+      <input type="hidden" name="signature" th:value="${signature}"/>
+      <input type="hidden" name="orderCurrency" th:value="${orderCurrency}"/>
+      <input type="hidden" name="customerName" th:value="${customerName}"/>
+      <input type="hidden" name="customerEmail" th:value="${customerEmail}"/>
+      <input type="hidden" name="customerPhone" th:value="${customerPhone}"/>
+      <input type="hidden" name="orderAmount" th:value="${orderAmount}"/>
+      <input type ="hidden" name="returnUrl" th:value="${returnUrl}"/>
+      <input type="hidden" name="appId" th:value="${appId}"/>
+      <input type="hidden" name="orderId" th:value="${orderId}"/>
+  </form>
+</div>
+</div>
+</body>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery-validation-bootstrap-tooltip@0.10.2/jquery-validate.bootstrap-tooltip.min.js"></script>
+<script type="text/javascript">
+document.frm1.submit();
+</script>
+
+</html>

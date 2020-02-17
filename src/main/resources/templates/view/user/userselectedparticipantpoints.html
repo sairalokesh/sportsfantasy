@@ -1,0 +1,166 @@
+<div class="col-md-12">
+<div class="row">
+<div class="col-md-7 col-sm-12">
+<div class="spaceAround tall" style="background-image: url(https://myteam11main.s3.ap-south-1.amazonaws.com/images/static/cric1ket_bg.jpg);
+background-size: cover;box-shadow: 0 0 20px 5px rgba(0,0,0,.5);
+    background-repeat: no-repeat;
+    background-position: center center;height: calc(100vh - 142px);border-radius: 20px;">
+	<div class="teamPreviewRowWrapper" th:each="teamParticipant,iter : ${teamParticipants}">
+		<div class="rowTitle" th:text="${teamParticipant.key}" style="margin-bottom:20px;">Wicket-Keepers</div>
+		<div class="spaceAround rowContent playerRowHeight">
+			<div class="spaceAround rowContent playerRowHeight" th:each="gameparticipant : ${teamParticipant.value}">
+			<a href="javascript:void(0)" class="userInfo" th:attr="data-id=${gameparticipant.gameParticipants.id}, data-questionid=${questionId}, data-usertempid=${teamId}, data-amountid=${amountId}, data-userid=${userId}" style="text-decoration:none;">
+				<div class="js--field-player fieldPlayerMain">
+					<div class="playerImageProfile">
+					<span class="playerImageRoleContainer" style="background-color: #ffc107;" th:if="${gameparticipant.captain}">C</span>
+					<span class="playerImageRoleContainer" style="background-color: #3eb9e8;" th:if="${gameparticipant.viceCaptain}">VC</span>
+					<span class="playerImageRoleContainer" style="background-color: #6d6c7d;" th:if="${gameparticipant.suppoter}">SP</span>
+						<div class="imageProfileContainer">
+							<div class="player-image-profile__image" th:style="'background: url('+${gameparticipant.gameParticipants.participantImage}+');'"></div>
+						</div>
+					</div>
+					<div class="playerTitleContainer">
+						<div class="fieldPlayerTitle awayTeamPlayerTitle" th:text="${gameparticipant.gameParticipants.participantName}">J Buttler</div>
+					</div>
+					<div class="playerPoints" style="font-size: 10px;" th:if="${gameparticipant.captain}" th:text="${gameparticipant.captainScore!=0.0 && gameparticipant.captainScore!=0 ?#numbers.formatDecimal(gameparticipant.captainScore, 0, 'COMMA', 2, 'POINT') : gameparticipant.captainScore+'0'}+' PTS'">22.5  PTS</div>
+					<div class="playerPoints" style="font-size: 10px;" th:if="${gameparticipant.viceCaptain}" th:text="${gameparticipant.viceCaptainScore!=0.0 && gameparticipant.viceCaptainScore!=0 ?#numbers.formatDecimal(gameparticipant.viceCaptainScore, 0, 'COMMA', 2, 'POINT') : gameparticipant.viceCaptainScore+'0'}+' PTS'">22.5  PTS</div>
+					<div class="playerPoints" style="font-size: 10px;" th:if="${gameparticipant.suppoter}" th:text="${gameparticipant.suppoterScore!=0.0 && gameparticipant.suppoterScore!=0 ?#numbers.formatDecimal(gameparticipant.suppoterScore, 0, 'COMMA', 2, 'POINT') : gameparticipant.suppoterScore+'0'}+' PTS'">22.5  PTS</div>
+					<div class="playerPoints" style="font-size: 10px;" th:if="${!gameparticipant.suppoter && !gameparticipant.captain && !gameparticipant.viceCaptain}" th:text="${gameparticipant.score!=0.0 && gameparticipant.score!=0 ?#numbers.formatDecimal(gameparticipant.score, 0, 'COMMA', 2, 'POINT') : gameparticipant.score+'0'}+' PTS'">22.5  PTS</div>
+				</div>
+				</a>
+			</div>
+		</div>
+	</div>
+</div>	
+</div>
+<div class="col-md-5 col-sm-12">
+<div class="participantinforeplace"></div>
+</div>
+</div>
+</div>
+<script>
+$(document).ready(function(){
+	var addclass = 'activepointdiv';
+	var $cols = $('.readexPointsInfo').click(function(e) {
+	    $cols.removeClass(addclass);
+	    $(this).addClass(addclass);
+	});		
+$(".userInfo").on('click', function(e){
+	e.preventDefault();
+	var id = $(this).data('id');
+	var questionId = $(this).data('questionid');
+	var usertempid = $(this).data('usertempid');
+	var amountid = $(this).data('amountid');
+	var userid = $(this).data('userid');
+	$.get("/user/history/game/selectedparticipantscoreinfo/"+id+"/"+questionId+"/"+usertempid+"/"+amountid+"/"+userid, function( data ) {
+		  $( ".participantinforeplace" ).html( data );
+	});
+	
+});
+});
+</script>
+
+
+
+
+<style>
+.spaceAround {
+    justify-content: space-around;
+}
+.tall {
+    position: absolute;
+    top: 0;
+    left: 0;
+    min-height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+.teamPreviewRowWrapper {
+    width: 100%;
+    padding-top: 8px;
+}
+.playerImageRoleContainer {
+   height: 30px;
+    width: 30px;
+    position: absolute;
+    left: -22px;
+    top: -13px;
+    border-radius: 79%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-weight: bolder;
+}
+.rowTitle {
+    margin-bottom: 4px;
+    text-align: center;
+    color: #fff;
+    text-transform: uppercase;
+    font-size: var(--font-small);
+    opacity: 0.52;
+}
+.rowContent {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    padding: 8px 0;
+}
+.fieldPlayerMain {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.playerImageProfile {
+    height: 38px;
+    width: 38px;
+    border-radius: 10px 0;
+    position: relative;
+}
+.imageProfileContainer {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    height: 100%;
+    width: 100%;
+}
+.player-image-profile__image {
+    width: 100%;
+    flex: 1;
+    background-size: cover!important;
+    background-repeat: no-repeat!important;
+    border-radius: 10px 10px 0 0;
+}
+.playerTitleContainer {
+    position: relative;
+}
+.awayTeamPlayerTitle {
+    color: #282828;
+    background-color: #fff;
+}
+.playerPoints {
+    white-space: nowrap;
+    color: #fff;
+    text-align: center;
+    padding: 2px;
+    font-size: var(--font-small);
+}
+.fieldPlayerTitle {
+	width:75px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: center;
+    font-size: var(--font-small);
+    white-space: nowrap;
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.25);
+    border-radius: 2px;
+    padding: 0px 4px;
+    height: 20px;
+    line-height: 20px;
+}
+.playerRowHeight {
+    height: 60px;
+}
+</style>

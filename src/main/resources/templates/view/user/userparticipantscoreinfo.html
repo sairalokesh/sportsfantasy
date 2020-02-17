@@ -1,0 +1,89 @@
+<div class="row">
+<div class="col-md-12">
+<table class="w3-table w3-bordered w3-striped w3-border test w3-hoverable">
+<thead style="border-bottom: 1px solid deepskyblue;">
+<tr class="w3-green">
+  <th width="50%" style="border-top-left-radius: 15px;">EVENT</th>
+  <th width="250%"><span style="float:right;">ACTUAL</span></th>
+  <th width="250%" style="border-top-right-radius: 15px;"><span style="float:right;">POINTS</span></th>
+</tr>
+</thead>
+</table>
+<div style="height: 395px;overflow-x: auto;margin-top: 0px;background-color: white;">
+<table class="w3-table w3-bordered w3-striped w3-border test w3-hoverable">
+<tbody>
+<tr>
+  <td>Runs</td>
+  <td><span style="float:right;" th:text="${userPoints.gameParticipantPoints.runs}"></span></td>
+  <td><span style="float:right;" th:text="${1 * userPoints.gameParticipantPoints.runs}"></span></td>
+</tr>
+<tr>
+  <td>Fours</td>
+  <td><span style="float:right;" th:text="${userPoints.gameParticipantPoints.fours}"></span></td>
+  <td><span style="float:right;" th:text="${1 * userPoints.gameParticipantPoints.fours}"></span></td>
+</tr>
+<tr>
+  <td>Sixes</td>
+  <td><span style="float:right;" th:text="${userPoints.gameParticipantPoints.sixes}"></span></td>
+  <td><span style="float:right;" th:text="${2 * userPoints.gameParticipantPoints.sixes}"></span></td>
+</tr>
+<tr>
+  <td>Catches</td>
+  <td><span style="float:right;" th:text="${userPoints.gameParticipantPoints.catches}"></span></td>
+  <td><span style="float:right;" th:text="${7 * userPoints.gameParticipantPoints.catches}"></span></td>
+</tr>
+<tr>
+  <td>Fifties</td>
+  <td><span style="float:right;" th:text="${userPoints.gameParticipantPoints.fifties}"></span></td>
+  <td><span style="float:right;" th:text="${6 * userPoints.gameParticipantPoints.fifties}"></span></td>
+</tr>
+<tr>
+  <td>Hundreds</td>
+  <td><span style="float:right;" th:text="${userPoints.gameParticipantPoints.hundries}"></span></td>
+  <td><span style="float:right;" th:text="${12 * userPoints.gameParticipantPoints.hundries}"></span></td>
+</tr>
+<tr>
+  <td>Wickets</td>
+  <td><span style="float:right;" th:text="${userPoints.gameParticipantPoints.wickets}"></span></td>
+  <td><span style="float:right;" th:text="${10 * userPoints.gameParticipantPoints.wickets}"></span></td>
+</tr>
+<tr>
+  <td>Runouts</td>
+  <td><span style="float:right;" th:text="${userPoints.gameParticipantPoints.runouts}"></span></td>
+  <td><span style="float:right;" th:text="${1 * userPoints.gameParticipantPoints.runouts}"></span></td>
+</tr>
+<tr>
+  <td>Bowlings</td>
+  <td><span style="float:right;" th:text="${userPoints.gameParticipantPoints.bowlings}"></span></td>
+  <td><span style="float:right;" th:text="${6 * userPoints.gameParticipantPoints.bowlings}"></span></td>
+</tr>
+<tr>
+  <td>Maiden</td>
+  <td><span style="float:right;" th:text="${userPoints.gameParticipantPoints.maidens}"></span></td>
+  <td><span style="float:right;" th:text="${5 * userPoints.gameParticipantPoints.maidens}"></span></td>
+</tr>
+</tbody>
+</table>
+</div>
+  <footer  class="add_width_left app_footer mega">
+  <div  class="text_btns">
+  	<a  class="foot_btn" href="/fantasy-sports/sports/team-list/39404/5816443">
+  	<span class="left_text">Total Points</span>
+  	<span class="left_text" style="text-align:center;" th:if="${userPoints.gameParticipantScore.captain}" 
+  	th:text="${'3 X ' + userPoints.gameParticipantScore.score}"></span>
+  	<span class="left_text" style="text-align:center;" th:if="${userPoints.gameParticipantScore.viceCaptain}" 
+  	th:text="${'2 X ' + userPoints.gameParticipantScore.score}"></span>
+  	<span class="left_text" style="text-align:center;" th:if="${userPoints.gameParticipantScore.suppoter}" 
+  	th:text="${'1.5 X ' + userPoints.gameParticipantScore.score}"></span>
+  	<span class="left_text" style="text-align:center;" th:if="${!userPoints.gameParticipantScore.suppoter and !userPoints.gameParticipantScore.viceCaptain and !userPoints.gameParticipantScore.captain}" 
+  	th:text="${'1 X ' + userPoints.gameParticipantScore.score}"></span>
+  	
+  	<span class="left_text" style="float:right;" th:if="${userPoints.gameParticipantScore.captain}" th:text="${userPoints.gameParticipantScore.captainScore}">Total Points</span>
+  	<span class="left_text" style="float:right;" th:if="${userPoints.gameParticipantScore.viceCaptain}" th:text="${userPoints.gameParticipantScore.viceCaptainScore}">Total Points</span>
+  	<span class="left_text" style="float:right;" th:if="${userPoints.gameParticipantScore.suppoter}" th:text="${userPoints.gameParticipantScore.suppoterScore}">Total Points</span>
+  	<span class="left_text" style="float:right;" th:if="${!userPoints.gameParticipantScore.suppoter and !userPoints.gameParticipantScore.viceCaptain and !userPoints.gameParticipantScore.captain}" th:text="${userPoints.gameParticipantScore.score}">Total Points</span>
+  	</a>
+  </div>
+ </footer>
+ </div>
+ </div>

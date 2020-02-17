@@ -1,0 +1,427 @@
+@charset "ISO-8859-1";
+
+.close {
+  position: absolute;
+  right: 32px;
+  top: 32px;
+  width: 32px;
+  height: 32px;
+  z-index: 1000000;
+  /* opacity: 0.3; */
+}
+.close:hover {
+  opacity: 1;
+}
+.close:before, .close:after {
+  position: absolute;
+  left: 15px;
+  /* content: ' '; */
+  height: 33px;
+  width: 2px;
+  background-color: #333;
+}
+.close:before {
+  transform: rotate(45deg);
+}
+.close:after {
+  transform: rotate(-45deg);
+}
+
+.col-xs-1 {
+	width:10%!important;
+}
+
+.col-xs-11 {
+	width:90%!important;
+}
+
+.tableheader {
+   background: #272e38;
+   color: white;
+   font-weight: bolder;
+   text-align: center;
+}
+
+.tdheader {
+	background: #0d928d;
+    font-size: 21px;
+    text-align: center;
+    font-weight: 900;
+    color:white;
+}
+
+nav > .nav.nav-tabs{
+
+  border: none;
+    color:#fff;
+    background:#272e38;
+    border-radius:0;
+
+}
+nav > div a.nav-item.nav-link,
+nav > div a.nav-item.nav-link.active
+{
+  border: none;
+  /* padding: 18px 25px; */
+  color:#fff;
+  background:#272e38;
+  border-radius:0;
+}
+
+nav > div a.nav-item.nav-link.active:after
+ {
+  content: "";
+  position: relative;
+  /* bottom: -60px; */
+  bottom: -50px;
+  left: -10%;
+  border: 15px solid transparent;
+  border-top-color: #e74c3c ;
+}
+.tab-content{
+  background: #fdfdfd;
+    line-height: 25px;
+    border: 1px solid #ddd;
+    border-top:5px solid #e74c3c;
+    border-bottom:5px solid #e74c3c;
+    padding:30px 25px;
+    margin-bottom: 20px;
+}
+
+nav > div a.nav-item.nav-link:hover,
+nav > div a.nav-item.nav-link:focus
+{
+  border: none;
+    background: #e74c3c;
+    color:#fff;
+    border-radius:0;
+    transition:background 0.20s linear;
+}
+
+.navactive > .active {
+  color:#fff!important;
+  background:blue!important;
+}
+
+.tab-content > .tab-pane > .marginalign {
+	margin-right: 0px!important;
+	margin-left: 0px!important;
+}
+
+
+
+
+
+
+
+
+
+.winner {
+	 background-color: #ffc107!important;
+}  
+
+.modal {
+  text-align: center;
+  padding: 0!important;
+}
+
+.modal:before {
+  content: '';
+  display: inline-block;
+  height: 100%;
+  vertical-align: middle;
+  margin-right: -4px; /* Adjusts for spacing */
+}
+
+.modal-dialog {
+  display: inline-block;
+  text-align: left;
+  vertical-align: middle;
+} 
+
+
+.container-fluid-image {
+  background-image: url("http://www.comparedada.com/wp-content/uploads/2018/02/aa.jpg");
+  background-color: #cccccc;
+  height: 100vh;
+  width: 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+
+.inputGroup {
+  background-color: #28a745;
+  display: block;
+  margin: 10px 0;
+  position: relative;
+  }
+  
+  label {
+    padding: 12px 30px;
+    width: 100%;
+    display: block;
+    text-align: left;
+    color: #ffffff;
+    cursor: pointer;
+    position: relative;
+    z-index: 2;
+    transition: color 200ms ease-in;
+    overflow: hidden;
+  }
+  
+  label::before {
+      width: 100%;
+      height: 10px;
+      border-radius: 50%;
+      content: '';
+      background-color: #5562eb;
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%) scale3d(1, 1, 1);
+      transition: all 300ms cubic-bezier(0.4, 0.0, 0.2, 1);
+      opacity: 0;
+      z-index: -1;
+    }
+    
+   
+    
+
+  input[type="checkbox"]:checked ~ label {
+    color: #fff;
+  }
+  
+    input[type="checkbox"]:checked ~ label:before {
+      transform: translate(-50%, -50%) scale3d(56, 56, 1);
+      opacity: 1;
+    }
+
+    input[type="checkbox"]:checked ~ label:after {
+      background-color: #54E0C7;
+      border-color: #54E0C7;
+    }
+
+  input {
+    width: 32px;
+    height: 32px;
+    order: 1;
+    z-index: 2;
+    position: absolute;
+    right: 30px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    visibility: hidden;
+  }
+  
+  @media only screen and (max-width: 600px) {
+  .container-fluid-image {
+  background-image: url("http://www.comparedada.com/wp-content/uploads/2018/02/aa.jpg");
+  background-color: #cccccc;
+  height: 100%;
+  width: 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+}
+
+  @media only screen and (max-width: 900px) {
+  .container-fluid-image {
+  background-image: url("http://www.comparedada.com/wp-content/uploads/2018/02/aa.jpg");
+  background-color: #cccccc;
+  height: 100%;
+  width: 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+}
+
+  @media only screen and (max-width: 1024px) {
+  .container-fluid-image {
+  background-image: url("http://www.comparedada.com/wp-content/uploads/2018/02/aa.jpg");
+  background-color: #cccccc;
+  height: 100%;
+  width: 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+}
+
+.radiobtn {
+	position: relative;
+	display: block;
+}
+
+.radiobtn label {
+	display: block;
+	background: #fee8c3;
+	color: black;
+	border-radius: 5px;
+	padding: 10px 20px;
+	border: 2px solid #fdd591;
+	margin-bottom: 5px;
+	cursor: pointer;
+}
+
+.radiobtn label:hover {
+	background: #fdcb77;
+}
+
+/* common */
+.ribbon {
+  width: 150px;
+  height: 150px;
+  overflow: hidden;
+  position: absolute;
+}
+.ribbon::before,
+.ribbon::after {
+  position: absolute;
+  z-index: -1;
+  content: '';
+  display: block;
+  border: 5px solid #2980b9;
+}
+.ribbon span {
+  position: absolute;
+  display: block;
+  width: 225px;
+  padding: 15px 0;
+  background-color: #3498db;
+  box-shadow: 0 5px 10px rgba(0,0,0,.1);
+  color: #fff;
+  font: 700 18px/1 'Lato', sans-serif;
+  text-shadow: 0 1px 1px rgba(0,0,0,.2);
+  text-transform: uppercase;
+  text-align: center;
+}
+
+/* top left*/
+.ribbon-top-left {
+  top: -10px;
+  left: -10px;
+}
+.ribbon-top-left::before,
+.ribbon-top-left::after {
+  border-top-color: transparent;
+  border-left-color: transparent;
+}
+.ribbon-top-left::before {
+  top: 0;
+  right: 0;
+}
+.ribbon-top-left::after {
+  bottom: 0;
+  left: 0;
+}
+.ribbon-top-left span {
+  right: -25px;
+  top: 30px;
+  transform: rotate(-45deg);
+}
+
+/* top right*/
+.ribbon-top-right {
+  /* top: -10px; */
+  right: -10px;
+}
+.ribbon-top-right::before,
+.ribbon-top-right::after {
+  border-top-color: transparent;
+  border-right-color: transparent;
+}
+.ribbon-top-right::before {
+  top: 0;
+  left: 0;
+}
+.ribbon-top-right::after {
+  bottom: 0;
+  right: 0;
+}
+.ribbon-top-right span {
+  left: -25px;
+  top: 30px;
+  transform: rotate(45deg);
+}
+
+/* bottom left*/
+.ribbon-bottom-left {
+  bottom: -10px;
+  left: -10px;
+  z-index: 100000;
+}
+.ribbon-bottom-left::before,
+.ribbon-bottom-left::after {
+  border-bottom-color: transparent;
+  border-left-color: transparent;
+}
+.ribbon-bottom-left::before {
+  bottom: 0;
+  right: 0;
+}
+.ribbon-bottom-left::after {
+  top: 0;
+  left: 0;
+}
+.ribbon-bottom-left span {
+  right: -25px;
+  bottom: 30px;
+  /* transform: rotate(225deg); */
+  transform: rotate(405deg);
+}
+
+/* bottom right*/
+.ribbon-bottom-right {
+  bottom: -10px;
+  right: -10px;
+}
+.ribbon-bottom-right::before,
+.ribbon-bottom-right::after {
+  border-bottom-color: transparent;
+  border-right-color: transparent;
+}
+.ribbon-bottom-right::before {
+  bottom: 0;
+  left: 0;
+}
+.ribbon-bottom-right::after {
+  top: 0;
+  right: 0;
+}
+.ribbon-bottom-right span {
+  left: -25px;
+  bottom: 30px;
+  transform: rotate(-225deg);
+}
+
+.footer {
+	position: fixed;
+	bottom: 0px;
+	width: 100%;
+	background-color: #354d51;
+	color: white;
+	z-index: 10000000;
+	height: 56px;
+}
+
+
+
+
+
+
+
+
+
+@media only screen and (max-width: 600px) {
+ .col-xs-3 {
+ width:25%!important;
+ }
+ .col-xs-9 {
+ width:75%!important;
+ }
+}

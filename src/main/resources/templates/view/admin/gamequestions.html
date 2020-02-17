@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1"/>
+ <meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Game Questions - All Sports Fantasy</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round"/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"/>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"/>
+<link rel="stylesheet" media="all" type="text/css" href="https://code.jquery.com/ui/1.12.1/themes/ui-lightness/jquery-ui.css" />
+<link rel="stylesheet" media="all" type="text/css" href="https://trentrichardson.com/examples/timepicker/jquery-ui-timepicker-addon.css" />
+<link rel="stylesheet" th:href="@{/css/participant.css}"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.css"/>
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css"/>
+<link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.bootstrap4.min.css"/>
+</head>
+<body>
+<nav th:replace="fragments/adminmenu :: adminmenu"></nav>
+<div class="container-fluid"><br/><br/><br/>
+<div class="table-wrapper" th:if="${isdisplay}">
+	<div class="table-title">
+		<div class="row">
+			<div class="col-sm-6">
+				<h2>
+					<b>Game Question</b>
+				</h2>
+			</div>
+
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-12">
+			<form th:action="@{${isAdd?'/admin/savegamequestion':'/admin/updategamequestion'}}" th:object="${gameQuestion}" method="post" autocomplete="off">
+				<div class="form-group">
+					<label for="participantName">Question:</label> 
+					<input type="text" class="form-control" id="question" th:field="*{question}"/>
+				</div>
+				
+				<div class="form-group">
+					<label for="participantEffect">Question Effect:</label> 
+					<input type="text" class="form-control" id="questionEffect" th:field="*{questionEffect}"/>
+				</div>
+				
+				<div class="form-group">
+					<label for="nominatedCount">Question Choice:</label> 
+					<input type="text" class="form-control" id="choices" th:field="*{choices}"/>
+				</div>
+				
+				<div class="form-group">
+					<label for="nominatedCount">Valid Date:</label> 
+					<input type="text" class="form-control" id="exValidDate" th:field="*{exValidDate}"/>
+				</div>
+				
+				<div class="form-group">
+					<label for="nominatedCount">Spin Date:</label> 
+					<input type="text" class="form-control" id="spindatepicker" th:field="*{exSpinDate}"/>
+				</div>
+				
+				<div class="form-group">
+					<label for="nominatedCount">Team One</label> 
+					<input type="text" class="form-control" id="teamOne" th:field="*{teamOne}"/>
+				</div>
+				
+				<div class="form-group">
+					<label for="nominatedCount">Team One Image</label> 
+					<input type="text" class="form-control" id="teamOneImage" th:field="*{teamOneImage}"/>
+				</div>
+				
+				<div class="form-group">
+					<label for="nominatedCount">Team Two</label> 
+					<input type="text" class="form-control" id="teamTwo" th:field="*{teamTwo}"/>
+				</div>
+				
+				<div class="form-group">
+					<label for="nominatedCount">Team Two Image</label> 
+					<input type="text" class="form-control" id="teamTwoImage" th:field="*{teamTwoImage}"/>
+				</div>
+				
+				<div class="form-group">
+					<label for="nominatedCount">Question Type</label> 
+					<input type="text" class="form-control" id="questionType" th:field="*{questionType}"/>
+				</div>
+				
+				<div class="form-group">
+					<label for="nominated">is Active:</label> 
+					<input type="checkbox" class="form-control" id="active" th:field="*{active}" style="width: 2%;"/>
+				</div>
+				
+				<input type="hidden" class="form-control" id="id" th:field="*{id}"/>
+				<input type="hidden" class="form-control" id="createdDate" th:field="*{exCreatedDate}"/>
+				<button type="submit" class="btn btn-primary" th:text="${isAdd?'Save':'Update'}">Submit</button>
+			</form>
+		</div>
+	</div>
+</div>
+
+<div class="alert alert-danger alert-dismissible fade show" role="alert" th:if="${errormessage!='' and errormessage!=null}">
+	<span th:text="${errormessage}"></span>
+	<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		<span aria-hidden="true">&times;</span>
+	</button>
+</div>
+<div class="alert alert-success alert-dismissible fade show" role="alert" th:if="${successmessage!='' and successmessage!=null}">
+	<span th:text="${successmessage}"></span>
+	<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		<span aria-hidden="true">&times;</span>
+	</button>
+</div>
+
+<div class="table-wrapper">
+	<div class="table-title">
+		<div class="row">
+			<div class="col-sm-6">
+				<h2>
+					<b>Game Questions</b>
+				</h2>
+			</div>
+			<div class="col-sm-6">
+				<a th:href="@{'/admin/addgamequestion'}" class="btn btn-success"><i class="material-icons">&#xE147;</i> <span>Add New Question</span></a>
+			</div>
+		</div>
+	</div>
+	<table id="example" class="table table-striped table-bordered dt-responsive nowrap" style="width:100%">
+		<thead>
+			<tr>
+				<th style="text-align:center;">Team One</th>
+				<th style="text-align:center;">Team Two</th>		
+				<th style="text-align:center;">Effect</th>
+				<th style="text-align:center;">Choices</th>
+				<th style="text-align:center;">Is Active</th>
+				<th style="text-align:center;">Actions</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="gameQuestion : ${gameQuestions}">
+				<td th:text="${gameQuestion.teamOne}" style="text-align:center;"></td>
+				<td th:text="${gameQuestion.teamTwo}" style="text-align:center;"></td>
+				<td th:text="${gameQuestion.questionEffect}" style="text-align:center;"></td>
+				<td th:text="${gameQuestion.choices}" style="text-align:center;"></td>
+				<td th:text="${gameQuestion.active?'Yes':'No'}" style="text-align:center;"></td>
+				<td><a th:href="@{'/admin/editgamequestion/'+${gameQuestion.id}}" class="edit"><i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a> 
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+</div>
+    
+</body>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="https://code.jquery.com/ui/1.11.0/jquery-ui.min.js"></script>
+<script type="text/javascript" src="https://trentrichardson.com/examples/timepicker/jquery-ui-timepicker-addon.js"></script>
+<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
+<script src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
+<script src="https://cdn.datatables.net/responsive/2.2.3/js/responsive.bootstrap4.min.js"></script>
+<script type="text/javascript" th:inline="javascript">
+/*<![CDATA[*/
+$(document).ready(function() {
+	$('[data-toggle="tooltip"]').tooltip();
+	$("#exValidDate").datetimepicker({
+		dateFormat : 'dd-mm-yy',
+		timeFormat : "HH:mm:ss"
+	});
+
+	$("#spindatepicker").datetimepicker({
+		dateFormat : 'dd-mm-yy',
+		timeFormat : "HH:mm:ss"
+	});
+	$('#example').DataTable({
+		"aaSorting" : [ [ 3, "desc" ] ],
+	});
+});
+/*]]>*/
+</script>
+</html>

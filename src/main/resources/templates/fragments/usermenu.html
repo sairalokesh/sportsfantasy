@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark" th:fragment="usermenu">
+  <a th:href="@{'/user/dashboard'}" class="navbar-brand">All Sports Fantasy</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarCollapse">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item" th:classappend="${title == 'userdashboard' ? 'active' : ''}">
+        <a class="nav-link" th:href="@{'/user/dashboard'}">Dashboard</a>
+      </li>
+      <li class="nav-item" th:classappend="${title == 'usergameentrypages' ? 'active' : ''}">
+        <a class="nav-link" th:href="@{'/user/game/cricket/entry'}">Game Entry</a>
+      </li>
+       <li class="nav-item" th:classappend="${title == 'usereditgamepages' ? 'active' : ''}">
+        <a class="nav-link" th:href="@{'/user/game/cricket/edit'}">Edit Team</a>
+      </li>
+      <li class="nav-item" th:classappend="${title == 'usertransactions' ? 'active' : ''}">
+        <a class="nav-link" th:href="@{'/user/transactions'}">Transactions</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" th:href="@{'/user/history/game/cricket/upcoming'}">History</a>
+      </li>
+    </ul>
+    <ul class="navbar-nav">
+    <li class="nav-item" th:classappend="${title == 'useraddcash' ? 'active' : ''}">
+        <a class="nav-link" th:href="@{'/user/addcash'}">Add Cash</a>
+      </li>
+      <li class="nav-item" th:classappend="${title == 'userprofile' ? 'active' : ''}">
+        <a class="nav-link" th:href="@{'/user/profile'}">Profile</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="javascript:void(0)" th:href="@{'/logout'}">Signout</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+</html>

@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1"/>
+ <meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Game Participants - All Sports Fantasy</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round"/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"/>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"/>
+<link rel="stylesheet" th:href="@{/css/participant.css}"/>
+<link rel="stylesheet" th:href="@{/css/participantspoint.css}"/>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="https://code.jquery.com/ui/1.11.0/jquery-ui.min.js"></script>
+
+</head>
+<body>
+<nav th:replace="fragments/adminmenu :: adminmenu"></nav>
+<div class="container-fluid"><br/><br/><br/>
+<div class="alert alert-danger alert-dismissible fade show" role="alert" th:if="${errormessage!='' and errormessage!=null}">
+	<span th:text="${errormessage}"></span>
+	<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		<span aria-hidden="true">&times;</span>
+	</button>
+</div>
+<div class="alert alert-success alert-dismissible fade show" role="alert" th:if="${successmessage!='' and successmessage!=null}">
+	<span th:text="${successmessage}"></span>
+	<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		<span aria-hidden="true">&times;</span>
+	</button>
+</div>
+<div class="table-wrapper">
+	<div class="table-title">
+		<div class="row">
+			<div class="col-sm-6">
+				<h2>
+					<b>Game Questions</b>
+				</h2>
+			</div>
+
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-12">
+		
+		<form method="post">
+			<div class="row">
+			<div class="col-md-12">
+			<div class="form-group">
+				<label for="participantEffect">Participant Question:</label> 
+				<select class="form-control" id="id" th:field="*{questionId}" onchange="getvalue()" > 
+				 <option value="">Select Question</option>
+				 <option th:each="gameQuestion : ${gameQuestions}" th:value="${gameQuestion.id}" th:text="${gameQuestion.question}"></option>
+				</select>
+			</div>
+			</div>
+			</div>
+			</form>
+				
+			<form th:action="@{'/admin/updateQuestionParticpantpoints'}" method="post" th:object="${questionParticipantPoints}">
+			<div class="row" id="myHeader">
+				
+				<div class="col-md-2">
+				<div class="form-group" style="text-align: center;">
+					<label for="participantEffect">Name</label> 
+				</div>
+				</div>
+				
+				<div class="col-md-1">
+				<div class="form-group" style="text-align: center;">
+					<label for="nominatedCount">Runs</label> 
+				</div>
+				</div>
+				
+				<div class="col-md-1">
+				<div class="form-group" style="text-align: center;">
+					<label for="nominatedCount">Fours</label> 
+				</div>
+				</div>
+				<div class="col-md-1">
+				<div class="form-group" style="text-align: center;">
+					<label for="nominatedCount">Sixes</label> 
+				</div>
+				</div>
+				
+				<div class="col-md-1">
+				<div class="form-group" style="text-align: center;">
+					<label for="nominatedCount">Catches</label> 
+				</div>
+				</div>
+				
+				<div class="col-md-1">
+				<div class="form-group" style="text-align: center;">
+					<label for="nominatedCount">Wickets</label> 
+				</div>
+				</div>
+				
+				<div class="col-md-1">
+				<div class="form-group" style="text-align: center;">
+					<label for="nominatedCount">Maidens</label> 
+				</div>
+				</div>
+				
+				<div class="col-md-1">
+				<div class="form-group" style="text-align: center;">
+					<label for="nominatedCount">Fifties</label> 
+				</div>
+				</div>
+				
+				<div class="col-md-1">
+				<div class="form-group" style="text-align: center;">
+					<label for="nominatedCount">Hundries</label> 
+				</div>
+				</div>
+				
+				<div class="col-md-1">
+				<div class="form-group" style="text-align: center;">
+					<label for="nominatedCount">RunOuts</label> 
+				</div>
+				</div>
+				
+				<div class="col-md-1">
+				<div class="form-group" style="text-align: center;">
+					<label for="nominatedCount">Bowlings</label> 
+				</div>
+				</div>
+			</div>
+			<div class="row removedata content" th:each="participantPoint, itemStat: ${questionParticipantPoints.gameParticipantPoints}">
+			<div class="col-md-2">
+				<div class="form-group">
+				<select class="form-control" id="participantId" th:field="*{gameParticipantPoints[__${itemStat.index}__].gameParticipants.id}" readonly="readonly"> 
+				 	<option th:each="gameParticipant : ${gameParticipants}" th:if="*{gameParticipantPoints[__${itemStat.index}__].gameParticipants.id} == ${gameParticipant.id}" th:value="${gameParticipant.id}" th:text="${gameParticipant.participantName}"></option>
+				</select>
+				</div>
+				</div>
+				
+				<div class="col-md-1">
+				<div class="form-group">
+					<input type="text" class="form-control" id="participantEffect" th:field="*{gameParticipantPoints[__${itemStat.index}__].runs}"/>
+				</div>
+				</div>
+				
+				<div class="col-md-1">
+				<div class="form-group">
+					<input type="text" class="form-control" id="participantImage" th:field="*{gameParticipantPoints[__${itemStat.index}__].fours}"/>
+				</div>
+				</div>
+				
+				<div class="col-md-1">
+				<div class="form-group">
+					<input type="text" class="form-control" id="participantGameType" th:field="*{gameParticipantPoints[__${itemStat.index}__].sixes}"/>
+				</div>
+				</div>
+				
+				<div class="col-md-1">
+				<div class="form-group">
+					<input type="text" class="form-control" id="participantType" th:field="*{gameParticipantPoints[__${itemStat.index}__].catches}"/>
+				</div>
+				</div>
+				
+				<div class="col-md-1">
+				<div class="form-group">
+					<input type="text" class="form-control" id="participantPoints" th:field="*{gameParticipantPoints[__${itemStat.index}__].wickets}"/>
+				</div>
+				</div>
+				
+				<div class="col-md-1">
+				<div class="form-group">
+					<input type="text" class="form-control" id="participantRating" th:field="*{gameParticipantPoints[__${itemStat.index}__].maidens}"/>
+				</div>
+				</div>
+				
+				<div class="col-md-1">
+				<div class="form-group">
+					<input type="text" class="form-control" id="participantRating" th:field="*{gameParticipantPoints[__${itemStat.index}__].fifties}"/>
+				</div>
+				</div>
+				
+				<div class="col-md-1">
+				<div class="form-group">
+					<input type="text" class="form-control" id="participantRating" th:field="*{gameParticipantPoints[__${itemStat.index}__].hundries}"/>
+				</div>
+				</div>
+				
+				<div class="col-md-1">
+				<div class="form-group">
+					<input type="text" class="form-control" id="participantRating" th:field="*{gameParticipantPoints[__${itemStat.index}__].runouts}"/>
+				</div>
+				</div>
+				
+				<div class="col-md-1">
+				<div class="form-group">
+					<input type="text" class="form-control" id="participantRating" th:field="*{gameParticipantPoints[__${itemStat.index}__].bowlings}"/>
+				</div>
+				</div>
+				
+				<input type="hidden" class="form-control" id="id" th:field="*{gameParticipantPoints[__${itemStat.index}__].id}"/>
+				<input type="hidden" class="form-control" id="gameQuestions" th:field="*{gameParticipantPoints[__${itemStat.index}__].gameQuestions}"/>
+			</div>
+			<div class="col-md-1">
+			<div class="form-group">
+			<input type="hidden" class="form-control" id="questionId" th:field="*{questionId}"/>
+			<button type="submit" class="btn btn-primary" th:text="${'Submit'}">Submit</button>
+			</div>
+			</div>
+		</form>
+	</div>
+</div>
+</div>
+</div>
+</body>
+<script type="text/javascript">
+function getvalue() {
+	var id = $("#id").val();
+	window.location.href = '/admin/questionparticipantpoints/'+id;
+}
+
+window.onscroll = function() {myFunction()};
+var header = document.getElementById("myHeader");
+var sticky = header.offsetTop;
+function myFunction() {
+  if (window.pageYOffset > sticky) {
+    header.classList.add("sticky");
+  } else {
+    header.classList.remove("sticky");
+  }
+}
+</script>
+</html>
