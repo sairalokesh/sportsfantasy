@@ -15,208 +15,229 @@ import org.hibernate.annotations.GenericGenerator;
 @Table(name = "game_questions")
 public class GameQuestions implements Serializable {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 855814508857630712L;
+  /**
+   * 
+   */
+  private static final long serialVersionUID = 855814508857630712L;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
-	@GenericGenerator(name = "native", strategy = "native")
-	@Column(name = "id")
-	private Long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
+  @GenericGenerator(name = "native", strategy = "native")
+  @Column(name = "id")
+  private Long id;
 
-	@Column(name = "team_one")
-	private String teamOne;
+  @Column(name = "team_one")
+  private String teamOne;
 
-	@Column(name = "team_one_image")
-	private String teamOneImage;
-	
-	@Column(name = "team_two")
-	private String teamTwo;
+  @Column(name = "team_one_image")
+  private String teamOneImage;
 
-	@Column(name = "team_two_image")
-	private String teamTwoImage;
+  @Column(name = "team_two")
+  private String teamTwo;
 
-	@Column(name = "question")
-	private String question;
+  @Column(name = "team_two_image")
+  private String teamTwoImage;
 
-	@Column(name = "valid_date")
-	private Date validDate;
+  @Column(name = "question")
+  private String question;
 
-	@Column(name = "spin_date")
-	private Date spinDate;
+  @Column(name = "valid_date")
+  private Date validDate;
 
-	@Column(name = "created_date")
-	private Date createdDate;
+  @Column(name = "spin_date")
+  private Date spinDate;
 
-	@Column(name = "question_effect")
-	private String questionEffect;
+  @Column(name = "created_date")
+  private Date createdDate;
 
-	@Column(name = "is_active")
-	private boolean active = true;
+  @Column(name = "question_effect")
+  private String questionEffect;
 
-	@Column(name = "choices")
-	private Integer choices;
+  @Column(name = "is_active")
+  private boolean active = true;
 
-	@Column(name = "question_type")
-	private String questionType;
+  @Column(name = "choices")
+  private Integer choices;
 
-	@Transient
-	private String exValidDate;
+  @Column(name = "question_type")
+  private String questionType;
 
-	@Transient
-	private String exSpinDate;
+  @Column(name = "unique_id")
+  private Long uniqueId;
 
-	@Transient
-	private String exCreatedDate;
+  @Column(name = "game_type")
+  private String gameType;
 
-	@Transient
-	private String gameQuestion;
+  @Transient
+  private String exValidDate;
 
-	public GameQuestions() {
-		super();
-	}
+  @Transient
+  private String exSpinDate;
 
-	public GameQuestions(Long id) {
-		super();
-		this.id = id;
-	}
+  @Transient
+  private String exCreatedDate;
 
-	public Long getId() {
-		return id;
-	}
+  @Transient
+  private String gameQuestion;
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+  public GameQuestions() {
+    super();
+  }
 
-	public String getTeamOne() {
-		return teamOne;
-	}
+  public GameQuestions(Long id) {
+    super();
+    this.id = id;
+  }
 
-	public void setTeamOne(String teamOne) {
-		this.teamOne = teamOne;
-	}
+  public Long getId() {
+    return id;
+  }
 
-	public String getTeamTwo() {
-		return teamTwo;
-	}
+  public void setId(Long id) {
+    this.id = id;
+  }
 
-	public void setTeamTwo(String teamTwo) {
-		this.teamTwo = teamTwo;
-	}
+  public String getTeamOne() {
+    return teamOne;
+  }
 
-	public String getQuestion() {
-		return question;
-	}
+  public void setTeamOne(String teamOne) {
+    this.teamOne = teamOne;
+  }
 
-	public void setQuestion(String question) {
-		this.question = question;
-	}
+  public String getTeamTwo() {
+    return teamTwo;
+  }
 
-	public Date getValidDate() {
-		return validDate;
-	}
+  public void setTeamTwo(String teamTwo) {
+    this.teamTwo = teamTwo;
+  }
 
-	public void setValidDate(Date validDate) {
-		this.validDate = validDate;
-	}
+  public String getQuestion() {
+    return question;
+  }
 
-	public Date getSpinDate() {
-		return spinDate;
-	}
+  public void setQuestion(String question) {
+    this.question = question;
+  }
 
-	public void setSpinDate(Date spinDate) {
-		this.spinDate = spinDate;
-	}
+  public Date getValidDate() {
+    return validDate;
+  }
 
-	public Date getCreatedDate() {
-		return createdDate;
-	}
+  public void setValidDate(Date validDate) {
+    this.validDate = validDate;
+  }
 
-	public void setCreatedDate(Date createdDate) {
-		this.createdDate = createdDate;
-	}
+  public Date getSpinDate() {
+    return spinDate;
+  }
 
-	public String getQuestionEffect() {
-		return questionEffect;
-	}
+  public void setSpinDate(Date spinDate) {
+    this.spinDate = spinDate;
+  }
 
-	public void setQuestionEffect(String questionEffect) {
-		this.questionEffect = questionEffect;
-	}
+  public Date getCreatedDate() {
+    return createdDate;
+  }
 
-	public boolean isActive() {
-		return active;
-	}
+  public void setCreatedDate(Date createdDate) {
+    this.createdDate = createdDate;
+  }
 
-	public void setActive(boolean active) {
-		this.active = active;
-	}
+  public String getQuestionEffect() {
+    return questionEffect;
+  }
 
-	public Integer getChoices() {
-		return choices;
-	}
+  public void setQuestionEffect(String questionEffect) {
+    this.questionEffect = questionEffect;
+  }
 
-	public void setChoices(Integer choices) {
-		this.choices = choices;
-	}
+  public boolean isActive() {
+    return active;
+  }
 
-	public String getExValidDate() {
-		return exValidDate;
-	}
+  public void setActive(boolean active) {
+    this.active = active;
+  }
 
-	public void setExValidDate(String exValidDate) {
-		this.exValidDate = exValidDate;
-	}
+  public Integer getChoices() {
+    return choices;
+  }
 
-	public String getExSpinDate() {
-		return exSpinDate;
-	}
+  public void setChoices(Integer choices) {
+    this.choices = choices;
+  }
 
-	public void setExSpinDate(String exSpinDate) {
-		this.exSpinDate = exSpinDate;
-	}
+  public String getExValidDate() {
+    return exValidDate;
+  }
 
-	public String getExCreatedDate() {
-		return exCreatedDate;
-	}
+  public void setExValidDate(String exValidDate) {
+    this.exValidDate = exValidDate;
+  }
 
-	public void setExCreatedDate(String exCreatedDate) {
-		this.exCreatedDate = exCreatedDate;
-	}
+  public String getExSpinDate() {
+    return exSpinDate;
+  }
 
-	public String getTeamOneImage() {
-		return teamOneImage;
-	}
+  public void setExSpinDate(String exSpinDate) {
+    this.exSpinDate = exSpinDate;
+  }
 
-	public void setTeamOneImage(String teamOneImage) {
-		this.teamOneImage = teamOneImage;
-	}
+  public String getExCreatedDate() {
+    return exCreatedDate;
+  }
 
-	public String getTeamTwoImage() {
-		return teamTwoImage;
-	}
+  public void setExCreatedDate(String exCreatedDate) {
+    this.exCreatedDate = exCreatedDate;
+  }
 
-	public void setTeamTwoImage(String teamTwoImage) {
-		this.teamTwoImage = teamTwoImage;
-	}
+  public String getTeamOneImage() {
+    return teamOneImage;
+  }
 
-	public String getQuestionType() {
-		return questionType;
-	}
+  public void setTeamOneImage(String teamOneImage) {
+    this.teamOneImage = teamOneImage;
+  }
 
-	public void setQuestionType(String questionType) {
-		this.questionType = questionType;
-	}
+  public String getTeamTwoImage() {
+    return teamTwoImage;
+  }
 
-	public String getGameQuestion() {
-		return gameQuestion;
-	}
+  public void setTeamTwoImage(String teamTwoImage) {
+    this.teamTwoImage = teamTwoImage;
+  }
 
-	public void setGameQuestion(String gameQuestion) {
-		this.gameQuestion = gameQuestion;
-	}
+  public String getQuestionType() {
+    return questionType;
+  }
 
+  public void setQuestionType(String questionType) {
+    this.questionType = questionType;
+  }
+
+  public String getGameQuestion() {
+    return gameQuestion;
+  }
+
+  public void setGameQuestion(String gameQuestion) {
+    this.gameQuestion = gameQuestion;
+  }
+
+  public Long getUniqueId() {
+    return uniqueId;
+  }
+
+  public void setUniqueId(Long uniqueId) {
+    this.uniqueId = uniqueId;
+  }
+
+  public String getGameType() {
+    return gameType;
+  }
+
+  public void setGameType(String gameType) {
+    this.gameType = gameType;
+  }
 }

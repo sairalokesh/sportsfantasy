@@ -24,7 +24,7 @@
                              <div class="item">
                                  <ul class="ec-team-matches">
                                      <li>
-                                         <a href="javascript:void(0);"><img th:src="${gameQuestion.teamOneImage}" alt=""/><span th:text="${gameQuestion.teamOne}">Arsenal</span></a>
+                                         <a href="javascript:void(0);"><img th:src="${gameQuestion.teamOneImage!=null && gameQuestion.teamOneImage!=''?gameQuestion.teamOneImage:'https://rangerwear.com/content/images/thumbs/default-image_600.png'}" alt="" style="width:100px;height:100px"/><span th:text="${gameQuestion.teamOne}">Arsenal</span></a>
                                      </li>
                                      <li>
                                      	<small th:text="${#dates.dayOfWeekName(gameQuestion.validDate)}">Wednesday</small>
@@ -39,7 +39,7 @@
                                         <small th:text="${#dates.format(gameQuestion.validDate, 'hh:mm aa')}">08:00am</small>
                                     </li>
                                      <li>
-                                         <a href="javascript:void(0);"><img th:src="${gameQuestion.teamTwoImage}" alt=""/><span th:text="${gameQuestion.teamTwo}">Premier League</span></a>
+                                         <a href="javascript:void(0);"><img th:src="${gameQuestion.teamTwoImage!=null && gameQuestion.teamTwoImage!=''?gameQuestion.teamTwoImage:'https://rangerwear.com/content/images/thumbs/default-image_600.png'}" alt="" style="width:100px;height:100px"/><span th:text="${gameQuestion.teamTwo}">Premier League</span></a>
                                      </li>
                                  </ul>
                                  <div id="ec-Countdown" class="ec-match-countdown is-countdown">

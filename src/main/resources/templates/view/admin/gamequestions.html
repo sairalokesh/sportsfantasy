@@ -88,6 +88,8 @@
 				</div>
 				
 				<input type="hidden" class="form-control" id="id" th:field="*{id}"/>
+				<input type="hidden" class="form-control" id="uniqueId" th:field="*{uniqueId}"/>
+				<input type="hidden" class="form-control" id="gameType" th:field="*{gameType}"/>
 				<input type="hidden" class="form-control" id="createdDate" th:field="*{exCreatedDate}"/>
 				<button type="submit" class="btn btn-primary" th:text="${isAdd?'Save':'Update'}">Submit</button>
 			</form>

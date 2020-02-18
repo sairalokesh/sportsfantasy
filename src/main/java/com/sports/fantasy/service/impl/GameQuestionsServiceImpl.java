@@ -1,14 +1,18 @@
 package com.sports.fantasy.service.impl;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-
+import java.util.TimeZone;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
-
+import com.sports.fantasy.api.ApiTeams;
 import com.sports.fantasy.model.GameQuestions;
 import com.sports.fantasy.repository.GameQuestionsRepository;
 import com.sports.fantasy.service.GameQuestionsService;
@@ -98,4 +102,38 @@ public class GameQuestionsServiceImpl implements GameQuestionsService {
 	public GameQuestions getGameQuestionByQuestionId(Long questionId, String gameType) {
 		return gameQuestionsRepository.getGameQuestionByQuestionId(questionId, gameType, true);
 	}
+
+  @Override
+  public void saveApiTeams(List<ApiTeams> teams) throws ParseException {
+    for(ApiTeams team: teams) {
+      if(team.isSquard() || team.isSquad()) {
+        DateFormat formatterIST = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+        formatterIST.setTimeZone(TimeZone.getTimeZone("GMT"));
+        Date validDate = formatterIST.parse(team.getDateTimeGMT());
+        DateFormat formatterUTC = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+        formatterUTC.setTimeZone(TimeZone.getTimeZone("Asia/Kolkata"));
+        if(validDate.after(new Date())) {
+          GameQuestions gameQuestions = new GameQuestions();
+          gameQuestions.setTeamOne(team.getTeamOne().toUpperCase());
+          gameQuestions.setTeamTwo(team.getTeamTwo().toUpperCase());
+          String question = team.getTeamOne().toUpperCase()+" V/S " + team.getTeamTwo().toUpperCase();
+          gameQuestions.setQuestion(question);
+          gameQuestions.setValidDate(validDate);
+          Calendar calendar = Calendar.getInstance();
+          calendar.setTime(validDate);
+          calendar.add(Calendar.HOUR_OF_DAY, 6);
+          Date spinDate = calendar.getTime();
+          gameQuestions.setSpinDate(spinDate);
+          gameQuestions.setCreatedDate(new Date());
+          gameQuestions.setQuestionEffect("rotateIn");
+          gameQuestions.setActive(true);
+          gameQuestions.setChoices(11);
+          gameQuestions.setQuestionType("cricket");
+          gameQuestions.setUniqueId(team.getUniqueId());
+          gameQuestions.setGameType(team.getType());
+          gameQuestionsRepository.save(gameQuestions);
+        }
+      }
+    }
+  }
 }
