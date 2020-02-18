@@ -10,7 +10,7 @@ background-size: cover;box-shadow: 0 0 20px 5px rgba(0,0,0,.5);
 		<div class="spaceAround rowContent playerRowHeight">
 			<div class="spaceAround rowContent playerRowHeight" th:each="gameparticipant : ${teamParticipant.value}">
 			<a href="javascript:void(0)" class="userInfo" th:attr="data-id=${gameparticipant.gameParticipants.id}, data-questionid=${questionId}, data-usertempid=${teamId}, data-amountid=${amountId}, data-userid=${userId}" style="text-decoration:none;">
-				<div class="js--field-player fieldPlayerMain">
+				<div class="js--field-player fieldPlayerMain readexPointsInfo">
 					<div class="playerImageProfile">
 					<span class="playerImageRoleContainer" style="background-color: #ffc107;" th:if="${gameparticipant.captain}">C</span>
 					<span class="playerImageRoleContainer" style="background-color: #3eb9e8;" th:if="${gameparticipant.viceCaptain}">VC</span>
@@ -34,7 +34,9 @@ background-size: cover;box-shadow: 0 0 20px 5px rgba(0,0,0,.5);
 </div>	
 </div>
 <div class="col-md-5 col-sm-12">
-<div class="participantinforeplace"></div>
+<div class="row">
+<span class="participantinforeplace" style="margin-left: 14px;"></span>
+</div>
 </div>
 </div>
 </div>
