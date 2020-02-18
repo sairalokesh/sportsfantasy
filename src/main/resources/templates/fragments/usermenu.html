@@ -19,7 +19,7 @@
       <li class="nav-item" th:classappend="${title == 'usertransactions' ? 'active' : ''}">
         <a class="nav-link" th:href="@{'/user/transactions'}">Transactions</a>
       </li>
-      <li class="nav-item">
+      <li class="nav-item" th:classappend="${title == 'usergameshistory' ? 'active' : ''}">
         <a class="nav-link" th:href="@{'/user/history/game/cricket/upcoming'}">History</a>
       </li>
     </ul>

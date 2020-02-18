@@ -20,6 +20,29 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.min.js"></script>
 <script src="https://unpkg.com/tippy.js@4.3.4/umd/index.all.min.js"></script>
 </head>
+<style>
+ /* width */
+::-webkit-scrollbar {
+  width: 3px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px grey; 
+  border-radius: 10px;
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: blue!important; 
+  border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: blue!important; 
+}
+ </style>
 <body>
 <nav th:replace="fragments/usermenu :: usermenu"></nav>
 <div class="container-fluid">
@@ -135,5 +158,28 @@ $(".readPointsInfo").on('click', function(e){
 	
 });
 });
+</script>
+<script type="text/javascript" th:inline="javascript">
+	//<![CDATA[
+/* 	window.onload = function() {
+		document.addEventListener("contextmenu", function(e) {
+			e.preventDefault();
+		}, false);
+		document.addEventListener("keydown", function(e) {
+			if (event.keyCode == 123) {
+				disabledEvent(e);
+			}
+		}, false);
+		function disabledEvent(e) {
+			if (e.stopPropagation) {
+				e.stopPropagation();
+			} else if (window.event) {
+				window.event.cancelBubble = true;
+			}
+			e.preventDefault();
+			return false;
+		}
+	} */
+	// ]]>
 </script>
 </html>
