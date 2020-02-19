@@ -15,5 +15,4 @@ public interface GameParticipantScoreRepository extends CrudRepository<GameParti
 
   @Query("select gps from GameParticipantScore as gps where gps.gameQuestions.id = ?1 and gps.gameParticipants.id in (?2)")
   List<GameParticipantScore> getSelectedPArticipantsScore(Long questionId, List<Long> participants);
-
 }

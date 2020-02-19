@@ -33,7 +33,7 @@ public class GameParticipantServiceImpl implements GameParticipantService {
 		List<GameParticipants> gameParticipants = gameParticipantRepository.getAllParticipantsByQuestionId(questionId);
 		QuestionParticipants questionParticipants = new QuestionParticipants();
 		questionParticipants.setQuestionId(questionId);
-		if (gameParticipants != null && gameParticipants.size() > 0) {
+		if (gameParticipants != null && !gameParticipants.isEmpty()) {
 			questionParticipants.setGameParticipants(gameParticipants);
 		} else {
 			questionParticipants.setGameParticipants(new ArrayList<GameParticipants>());
@@ -45,14 +45,14 @@ public class GameParticipantServiceImpl implements GameParticipantService {
 	@Override
 	public void updateQuestionParticipants(QuestionParticipants questionParticipants) {
 		if (questionParticipants != null && questionParticipants.getGameParticipants() != null
-				&& questionParticipants.getGameParticipants().size() > 0) {
-			Collection<Long> participantIds = new ArrayList<Long>();
+				&& !questionParticipants.getGameParticipants().isEmpty()) {
+			Collection<Long> participantIds = new ArrayList<>();
 			for (GameParticipants gameParticipants : questionParticipants.getGameParticipants()) {
 				if (gameParticipants != null && gameParticipants.getId() != null) {
 					participantIds.add(gameParticipants.getId());
 				}
 			}
-			if (participantIds == null || participantIds.size() == 0) {
+			if (participantIds == null || participantIds.isEmpty()) {
 				participantIds.add(0L);
 			}
 			gameParticipantRepository.deleteQuestionParticipants(participantIds, questionParticipants.getQuestionId());
@@ -83,19 +83,20 @@ public class GameParticipantServiceImpl implements GameParticipantService {
 							dbGameParticipants.getGameQuestions().getId());
 			if (gameParticipantPoints == null) {
 				GameParticipantPoints saveGameParticipantPoints = new GameParticipantPoints();
-				saveGameParticipantPoints.setBowlings(0);
+				saveGameParticipantPoints.setBowleds(0);
 				saveGameParticipantPoints.setCatches(0);
 				saveGameParticipantPoints.setFifties(0);
 				saveGameParticipantPoints.setFours(0);
 				saveGameParticipantPoints.setGameParticipants(new GameParticipants(dbGameParticipants.getId()));
-				saveGameParticipantPoints
-						.setGameQuestions(new GameQuestions(dbGameParticipants.getGameQuestions().getId()));
+				saveGameParticipantPoints.setGameQuestions(new GameQuestions(dbGameParticipants.getGameQuestions().getId()));
 				saveGameParticipantPoints.setHundries(0);
 				saveGameParticipantPoints.setMaidens(0);
 				saveGameParticipantPoints.setRunouts(0);
 				saveGameParticipantPoints.setRuns(0);
 				saveGameParticipantPoints.setSixes(0);
 				saveGameParticipantPoints.setWickets(0);
+				saveGameParticipantPoints.setLbws(0);
+				saveGameParticipantPoints.setStumpeds(0);
 				gameParticipantPointsRepository.save(saveGameParticipantPoints);
 			}
 		}
@@ -142,15 +143,15 @@ public class GameParticipantServiceImpl implements GameParticipantService {
 
 	@Override
 	public Map<String, List<GameParticipants>> covertObjectToMap(List<GameParticipants> gameParticipants) {
-		Map<String, List<GameParticipants>> mapPameParticipants = new LinkedHashMap<String, List<GameParticipants>>();
-		if (gameParticipants != null && gameParticipants.size() > 0) {
+		Map<String, List<GameParticipants>> mapPameParticipants = new LinkedHashMap<>();
+		if (gameParticipants != null && !gameParticipants.isEmpty()) {
 			for (GameParticipants gameParticipant : gameParticipants) {
 				if (mapPameParticipants.containsKey(gameParticipant.getParticipantType())) {
 					List<GameParticipants> list = mapPameParticipants.get(gameParticipant.getParticipantType());
 					list.add(gameParticipant);
 					mapPameParticipants.put(gameParticipant.getParticipantType(), list);
 				} else {
-					List<GameParticipants> list = new ArrayList<GameParticipants>();
+					List<GameParticipants> list = new ArrayList<>();
 					list.add(gameParticipant);
 					mapPameParticipants.put(gameParticipant.getParticipantType(), list);
 				}

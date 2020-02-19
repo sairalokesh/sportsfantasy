@@ -17,17 +17,26 @@ import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import com.sports.fantasy.api.ApiPlayers;
+import com.sports.fantasy.api.ApiScore;
 import com.sports.fantasy.api.ApiTeams;
+import com.sports.fantasy.api.BattingApi;
+import com.sports.fantasy.api.BattingScoreApi;
+import com.sports.fantasy.api.BowlingApi;
+import com.sports.fantasy.api.BowlingScoreApi;
+import com.sports.fantasy.api.FieldingApi;
+import com.sports.fantasy.api.FieldingScoreApi;
 import com.sports.fantasy.api.PlayerSquad;
 import com.sports.fantasy.api.SquadPlayers;
 import com.sports.fantasy.api.TeamSquadApi;
 import com.sports.fantasy.apiservice.TeamApiService;
 import com.sports.fantasy.model.GameParticipantPoints;
+import com.sports.fantasy.model.GameParticipantScore;
 import com.sports.fantasy.model.GameParticipants;
 import com.sports.fantasy.model.GameQuestions;
 import com.sports.fantasy.model.Players;
 import com.sports.fantasy.repository.GameParticipantPointsRepository;
 import com.sports.fantasy.repository.GameParticipantRepository;
+import com.sports.fantasy.repository.GameParticipantScoreRepository;
 import com.sports.fantasy.repository.GameQuestionsRepository;
 import com.sports.fantasy.repository.PlayersRepository;
 
@@ -44,6 +53,8 @@ public class TeamApiServiceImpl implements TeamApiService {
   private GameParticipantRepository gameParticipantRepository;
   @Autowired
   private GameParticipantPointsRepository gameParticipantPointsRepository;
+  @Autowired 
+  private GameParticipantScoreRepository gameParticipantScoreRepository;
 
   @Override
   public List<ApiTeams> getApiTeams() throws UnirestException {
@@ -101,11 +112,20 @@ public class TeamApiServiceImpl implements TeamApiService {
           if (squads != null && squads.getSquad() != null && !squads.getSquad().isEmpty()) {
             for (PlayerSquad playerSquad : squads.getSquad()) {
               String country = playerSquad.getName();
+              String countryCode = "";
+              String coun[] = country.split(" ");
+              if(coun.length>=3) {
+                countryCode = (coun[0].substring(0,1)+coun[1].substring(0,1)+coun[2].substring(0, 1)).trim().toUpperCase();
+              } else if (coun.length==2) {
+                countryCode = (coun[0].substring(0,2)+coun[1].substring(0,1)).trim().toUpperCase();
+              } else if (coun.length==1) {
+                countryCode = (coun[0].substring(0,3)).trim().toUpperCase();
+              }
 
               for (SquadPlayers squadPlayers : playerSquad.getPlayers()) {
                 GameParticipants gameParticipants = new GameParticipants();
                 gameParticipants.setParticipantName(squadPlayers.getName());
-                gameParticipants.setParticipantGameType(country);
+                gameParticipants.setParticipantGameType(countryCode);
                 gameParticipants.setParticipantEffect("rotateIn");
                 List<Players> players =
                     playersRepository.getPlayerInfoByName(squadPlayers.getName());
@@ -145,10 +165,10 @@ public class TeamApiServiceImpl implements TeamApiService {
     if (dbGameParticipants != null && dbGameParticipants.getId() != null
         && dbGameParticipants.getGameQuestions() != null
         && dbGameParticipants.getGameQuestions().getId() != null) {
-      GameParticipantPoints gameParticipantPoints = gameParticipantPointsRepository.findParticipantPointsByQuestionIdAndParticipantId(dbGameParticipants.getId(), dbGameParticipants.getGameQuestions().getId());
-      if (gameParticipantPoints == null) {
+      GameParticipantPoints dbGameParticipantPoints = gameParticipantPointsRepository.findParticipantPointsByQuestionIdAndParticipantId(dbGameParticipants.getId(), dbGameParticipants.getGameQuestions().getId());
+      if (dbGameParticipantPoints == null) {
         GameParticipantPoints saveGameParticipantPoints = new GameParticipantPoints();
-        saveGameParticipantPoints.setBowlings(0);
+        saveGameParticipantPoints.setBowleds(0);
         saveGameParticipantPoints.setCatches(0);
         saveGameParticipantPoints.setFifties(0);
         saveGameParticipantPoints.setFours(0);
@@ -160,8 +180,200 @@ public class TeamApiServiceImpl implements TeamApiService {
         saveGameParticipantPoints.setRuns(0);
         saveGameParticipantPoints.setSixes(0);
         saveGameParticipantPoints.setWickets(0);
-        gameParticipantPointsRepository.save(saveGameParticipantPoints);
+        saveGameParticipantPoints.setLbws(0);
+        saveGameParticipantPoints.setStumpeds(0);
+        GameParticipantPoints gameParticipantPoints = gameParticipantPointsRepository.save(saveGameParticipantPoints);
+        if(gameParticipantPoints!=null) {
+          GameParticipantScore gameParticipantScore = new GameParticipantScore();
+          double score = 
+              (1 * gameParticipantPoints.getRuns()) + 
+              (1 * gameParticipantPoints.getFours()) + 
+              (2 * gameParticipantPoints.getSixes()) + 
+              (6 * gameParticipantPoints.getFifties()) + 
+              (12 * gameParticipantPoints.getHundries()) + 
+              (10 * gameParticipantPoints.getWickets()) + 
+              (5 * gameParticipantPoints.getMaidens()) + 
+              (7 * gameParticipantPoints.getCatches()) +
+              (6 * gameParticipantPoints.getStumpeds()) +
+              (6 * gameParticipantPoints.getRunouts()) +
+              (6 * gameParticipantPoints.getBowleds()) +
+              (6 * gameParticipantPoints.getLbws());
+          /*
+           * if(StringUtils.hasText(gameParticipantPoints.getGameParticipants().getAvailability())
+           * &&
+           * gameParticipantPoints.getGameParticipants().getAvailability().equalsIgnoreCase("YES"))
+           * { score = score + 2; }
+           */
+          gameParticipantScore.setScore(score);
+          double captainScore = 3 * score;
+          gameParticipantScore.setCaptainScore(captainScore);
+          double viceCaptainScore = 2 * score;
+          gameParticipantScore.setViceCaptainScore(viceCaptainScore);
+          double suppoterScore = (1.5) * score;
+          gameParticipantScore.setSuppoterScore(suppoterScore);
+          gameParticipantScore.setGameQuestions(new GameQuestions(dbGameParticipants.getGameQuestions().getId()));
+          gameParticipantScore.setGameParticipants(gameParticipantPoints.getGameParticipants());
+          GameParticipantScore dbGameParticipantScore = gameParticipantScoreRepository.findByQuestionIdAndParticipantId(dbGameParticipants.getGameQuestions().getId(), gameParticipantPoints.getGameParticipants().getId());
+          if(dbGameParticipantScore!=null && dbGameParticipantScore.getId()!=null) {
+              gameParticipantScore.setId(dbGameParticipantScore.getId());
+          }
+          gameParticipantScoreRepository.save(gameParticipantScore);
+        }  
       }
     }
   }
+
+  @Override
+  public void getAllApiParticipantPointsByQuestionId(Long questionId) throws UnirestException {
+    GameQuestions gameQuestions = new GameQuestions();
+    Optional<GameQuestions> dbGameQuestions = gameQuestionsRepository.findById(questionId);
+    if (dbGameQuestions.isPresent()) {
+      gameQuestions = dbGameQuestions.get();
+    }
+
+    if (gameQuestions != null && gameQuestions.getUniqueId() != null) {
+      HttpResponse<String> response = Unirest.get("https://cricapi.com/api/fantasySummary?apikey=quyJMO90QecLkBoY8RtAiMH8Xj52&unique_id=" + gameQuestions.getUniqueId()).asString();
+      if (response.getStatus() == HttpStatus.OK.value()) {
+        Gson gson = new Gson();
+        Type type = new TypeToken<ApiScore>() {}.getType();
+        ApiScore scores = gson.fromJson(response.getBody(), type);
+        if (scores != null && scores.getData() != null) {
+          
+          if (scores.getData().getBatting()!=null && !scores.getData().getBatting().isEmpty()) {
+            for(BattingApi battingApi: scores.getData().getBatting()) {
+              if(battingApi.getScores()!=null && !battingApi.getScores().isEmpty()) {
+                
+                for(BattingScoreApi battingScore: battingApi.getScores()) {
+                  Long pid = Long.parseLong(battingScore.getPid());
+                  GameParticipantPoints dbGameParticipantPoints = gameParticipantPointsRepository.getSelectedApiPArticipantPoints(questionId, pid);
+                  if(dbGameParticipantPoints!=null) {
+                    if(StringUtils.hasText(battingScore.getFours())) {
+                      Integer fours = Integer.parseInt(battingScore.getFours());
+                      dbGameParticipantPoints.setFours(fours);
+                    }
+                    if(StringUtils.hasText(battingScore.getSixes())) {
+                      Integer sixes = Integer.parseInt(battingScore.getSixes());
+                      dbGameParticipantPoints.setSixes(sixes);
+                    }
+                    if(StringUtils.hasText(battingScore.getRuns())) {
+                      Integer runs = Integer.parseInt(battingScore.getRuns());
+                      dbGameParticipantPoints.setRuns(runs);
+                      if(runs>=50 && runs<100) {
+                        dbGameParticipantPoints.setFifties(1);
+                      } else if(runs>=100) {
+                        dbGameParticipantPoints.setHundries(1);
+                      }
+                    }
+                    gameParticipantPointsRepository.save(dbGameParticipantPoints);
+                  }
+                }
+                
+              }
+            }
+          }
+          
+          if (scores.getData().getBowling()!=null && !scores.getData().getBowling().isEmpty()) {
+            for(BowlingApi bowlingApi: scores.getData().getBowling()) {
+              if(bowlingApi.getScores()!=null && !bowlingApi.getScores().isEmpty()) {
+                
+                for(BowlingScoreApi bowlingScoreApi: bowlingApi.getScores()) {
+                  Long pid = Long.parseLong(bowlingScoreApi.getPid());
+                  GameParticipantPoints dbGameParticipantPoints = gameParticipantPointsRepository.getSelectedApiPArticipantPoints(questionId, pid);
+                  if(dbGameParticipantPoints!=null) {
+                    if(StringUtils.hasText(bowlingScoreApi.getWickets())) {
+                      Integer wickets = Integer.parseInt(bowlingScoreApi.getWickets());
+                      dbGameParticipantPoints.setWickets(wickets);
+                    }
+
+                    if(StringUtils.hasText(bowlingScoreApi.getMadiens())) {
+                      Integer madiens = Integer.parseInt(bowlingScoreApi.getMadiens());
+                      dbGameParticipantPoints.setMaidens(madiens);
+                    }
+                    
+                    gameParticipantPointsRepository.save(dbGameParticipantPoints);
+                  }
+                }
+                
+              }
+            }
+          }
+          
+          if (scores.getData().getFielding()!=null && !scores.getData().getFielding().isEmpty()) {
+            for(FieldingApi fieldingApi: scores.getData().getFielding()) {
+              if(fieldingApi.getScores()!=null && !fieldingApi.getScores().isEmpty()) {
+                
+                for(FieldingScoreApi fieldingScoreApi: fieldingApi.getScores()) {
+                  Long pid = Long.parseLong(fieldingScoreApi.getPid());
+                  GameParticipantPoints dbGameParticipantPoints = gameParticipantPointsRepository.getSelectedApiPArticipantPoints(questionId, pid);
+                  if(dbGameParticipantPoints!=null) {
+                    if(StringUtils.hasText(fieldingScoreApi.getCatches())) {
+                      Integer catches = Integer.parseInt(fieldingScoreApi.getCatches());
+                      dbGameParticipantPoints.setCatches(catches);
+                    }
+
+                    if(StringUtils.hasText(fieldingScoreApi.getLbw())) {
+                      Integer lbws = Integer.parseInt(fieldingScoreApi.getLbw());
+                      dbGameParticipantPoints.setLbws(lbws);
+                    }
+                    if(StringUtils.hasText(fieldingScoreApi.getBowled())) {
+                      Integer bowleds = Integer.parseInt(fieldingScoreApi.getBowled());
+                      dbGameParticipantPoints.setBowleds(bowleds);
+                    }
+                    if(StringUtils.hasText(fieldingScoreApi.getStumped())) {
+                      Integer stumpeds = Integer.parseInt(fieldingScoreApi.getStumped());
+                      dbGameParticipantPoints.setStumpeds(stumpeds);
+                    }
+                    
+                    gameParticipantPointsRepository.save(dbGameParticipantPoints);
+                  }
+                }
+                
+              }
+            }
+          }
+          updateQuestionParticipantsScore(questionId);
+        }
+      }
+      
+    } 
+  }
+  
+  private void updateQuestionParticipantsScore(Long questionId) {
+    List<GameParticipantPoints> dbGameParticipantPoints = gameParticipantPointsRepository.getAllParticipantPointsByQuestionId(questionId);
+    if(dbGameParticipantPoints!=null && !dbGameParticipantPoints.isEmpty()) {
+        for(GameParticipantPoints gameParticipantPoints : dbGameParticipantPoints) {
+            if(gameParticipantPoints.getGameParticipants()!=null && gameParticipantPoints.getGameParticipants().getId()!=null && gameParticipantPoints.getGameQuestions()!=null && gameParticipantPoints.getGameQuestions().getId()!=null) {
+                GameParticipantScore gameParticipantScore = new GameParticipantScore();
+                double score = 
+                        (1 * gameParticipantPoints.getRuns()) + 
+                        (1 * gameParticipantPoints.getFours()) + 
+                        (2 * gameParticipantPoints.getSixes()) + 
+                        (6 * gameParticipantPoints.getFifties()) + 
+                        (12 * gameParticipantPoints.getHundries()) + 
+                        (10 * gameParticipantPoints.getWickets()) + 
+                        (5 * gameParticipantPoints.getMaidens()) + 
+                        (7 * gameParticipantPoints.getCatches()) +
+                        (6 * gameParticipantPoints.getStumpeds()) +
+                        (6 * gameParticipantPoints.getRunouts()) +
+                        (6 * gameParticipantPoints.getBowleds()) +
+                        (6 * gameParticipantPoints.getLbws());
+                        
+                gameParticipantScore.setScore(score);
+                double captainScore = 3 * score;
+                gameParticipantScore.setCaptainScore(captainScore);
+                double viceCaptainScore = 2 * score;
+                gameParticipantScore.setViceCaptainScore(viceCaptainScore);
+                double suppoterScore = (1.5) * score;
+                gameParticipantScore.setSuppoterScore(suppoterScore);
+                gameParticipantScore.setGameQuestions(new GameQuestions(questionId));
+                gameParticipantScore.setGameParticipants(gameParticipantPoints.getGameParticipants());
+                GameParticipantScore dbGameParticipantScore = gameParticipantScoreRepository.findByQuestionIdAndParticipantId(questionId, gameParticipantPoints.getGameParticipants().getId());
+                if(dbGameParticipantScore!=null && dbGameParticipantScore.getId()!=null) {
+                    gameParticipantScore.setId(dbGameParticipantScore.getId());
+                }
+                gameParticipantScoreRepository.save(gameParticipantScore);
+            }
+        }
+    }
+} 
 }

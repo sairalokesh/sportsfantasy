@@ -66,66 +66,76 @@
 				
 				<div class="col-md-2">
 				<div class="form-group" style="text-align: center;">
-					<label for="participantEffect">Name</label> 
+					<label for="participantEffect">NAME</label> 
 				</div>
 				</div>
 				
 				<div class="col-md-1">
 				<div class="form-group" style="text-align: center;">
-					<label for="nominatedCount">Runs</label> 
+					<label for="nominatedCount">RUNS</label> 
 				</div>
 				</div>
 				
 				<div class="col-md-1">
 				<div class="form-group" style="text-align: center;">
-					<label for="nominatedCount">Fours</label> 
+					<label for="nominatedCount">FOURS</label> 
 				</div>
 				</div>
 				<div class="col-md-1">
 				<div class="form-group" style="text-align: center;">
-					<label for="nominatedCount">Sixes</label> 
+					<label for="nominatedCount">SIXES</label> 
 				</div>
 				</div>
 				
 				<div class="col-md-1">
 				<div class="form-group" style="text-align: center;">
-					<label for="nominatedCount">Catches</label> 
+					<label for="nominatedCount">CATCHES</label> 
 				</div>
 				</div>
 				
 				<div class="col-md-1">
 				<div class="form-group" style="text-align: center;">
-					<label for="nominatedCount">Wickets</label> 
+					<label for="nominatedCount">WICKETS</label> 
 				</div>
 				</div>
 				
 				<div class="col-md-1">
 				<div class="form-group" style="text-align: center;">
-					<label for="nominatedCount">Maidens</label> 
+					<label for="nominatedCount">MAIDENS</label> 
 				</div>
 				</div>
 				
 				<div class="col-md-1">
 				<div class="form-group" style="text-align: center;">
-					<label for="nominatedCount">Fifties</label> 
+					<label for="nominatedCount">FIFTES</label> 
 				</div>
 				</div>
 				
 				<div class="col-md-1">
 				<div class="form-group" style="text-align: center;">
-					<label for="nominatedCount">Hundries</label> 
+					<label for="nominatedCount">HUNDRIES</label> 
 				</div>
 				</div>
 				
 				<div class="col-md-1">
 				<div class="form-group" style="text-align: center;">
-					<label for="nominatedCount">RunOuts</label> 
+					<label for="nominatedCount">RUNOUTS</label> 
 				</div>
 				</div>
 				
 				<div class="col-md-1">
 				<div class="form-group" style="text-align: center;">
-					<label for="nominatedCount">Bowlings</label> 
+					<label for="nominatedCount">BOWLEDS</label> 
+				</div>
+				</div>
+				<div class="col-md-1">
+				<div class="form-group" style="text-align: center;">
+					<label for="nominatedCount">STUMPEDS</label> 
+				</div>
+				</div>
+				<div class="col-md-1">
+				<div class="form-group" style="text-align: center;">
+					<label for="nominatedCount">LBWS</label> 
 				</div>
 				</div>
 			</div>
@@ -194,7 +204,17 @@
 				
 				<div class="col-md-1">
 				<div class="form-group">
-					<input type="text" class="form-control" id="participantRating" th:field="*{gameParticipantPoints[__${itemStat.index}__].bowlings}"/>
+					<input type="text" class="form-control" id="participantRating" th:field="*{gameParticipantPoints[__${itemStat.index}__].bowleds}"/>
+				</div>
+				</div>
+				<div class="col-md-1">
+				<div class="form-group">
+					<input type="text" class="form-control" id="participantRating" th:field="*{gameParticipantPoints[__${itemStat.index}__].stumpeds}"/>
+				</div>
+				</div>
+				<div class="col-md-1">
+				<div class="form-group">
+					<input type="text" class="form-control" id="participantRating" th:field="*{gameParticipantPoints[__${itemStat.index}__].lbws}"/>
 				</div>
 				</div>
 				

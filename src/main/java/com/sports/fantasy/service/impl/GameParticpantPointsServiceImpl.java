@@ -2,12 +2,9 @@ package com.sports.fantasy.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.StringUtils;
-
 import com.sports.fantasy.domain.QuestionParticipantPoints;
 import com.sports.fantasy.model.GameParticipantPoints;
 import com.sports.fantasy.model.GameParticipantScore;
@@ -29,7 +26,7 @@ public class GameParticpantPointsServiceImpl implements GameParticpantPointsServ
 		List<GameParticipantPoints> gameParticipantPoints = gameParticipantPointsRepository.getAllParticipantPointsByQuestionId(questionId);
 		QuestionParticipantPoints questionParticipants = new QuestionParticipantPoints();
 		questionParticipants.setQuestionId(questionId);
-		if(gameParticipantPoints!=null && gameParticipantPoints.size()>0) {
+		if(gameParticipantPoints!=null && !gameParticipantPoints.isEmpty()) {
 			questionParticipants.setGameParticipantPoints(gameParticipantPoints);
 		} else {
 			questionParticipants.setGameParticipantPoints(new ArrayList<GameParticipantPoints>());
@@ -40,25 +37,30 @@ public class GameParticpantPointsServiceImpl implements GameParticpantPointsServ
 
 	@Override
 	public void updateQuestionParticipantPoints(QuestionParticipantPoints questionParticipantPoints) {
-		if(questionParticipantPoints!=null && questionParticipantPoints.getGameParticipantPoints()!=null && questionParticipantPoints.getGameParticipantPoints().size()>0) {
+		if(questionParticipantPoints!=null && questionParticipantPoints.getGameParticipantPoints()!=null && !questionParticipantPoints.getGameParticipantPoints().isEmpty()) {
 			for(GameParticipantPoints gameParticipantPoints : questionParticipantPoints.getGameParticipantPoints()) {
 				if(gameParticipantPoints.getGameParticipants()!=null && gameParticipantPoints.getGameParticipants().getId()!=null && gameParticipantPoints.getGameQuestions()!=null && gameParticipantPoints.getGameQuestions().getId()!=null) {
 					gameParticipantPointsRepository.save(gameParticipantPoints);
 					GameParticipantScore gameParticipantScore = new GameParticipantScore();
 					double score = 
-							(1 * gameParticipantPoints.getRuns()) + 
-							(1 * gameParticipantPoints.getFours()) + 
-							(2 * gameParticipantPoints.getSixes()) + 
-							(6 * gameParticipantPoints.getFifties()) + 
-							(12 * gameParticipantPoints.getHundries()) + 
-							(10 * gameParticipantPoints.getWickets()) + 
-							(5 * gameParticipantPoints.getMaidens()) + 
-							(6 * gameParticipantPoints.getBowlings()) + // bowled
-							(7 * gameParticipantPoints.getCatches()) + 
-							(1 * gameParticipantPoints.getRunouts()); // thrower - 3, stumped - 2 
-					if(StringUtils.hasText(gameParticipantPoints.getGameParticipants().getAvailability()) && gameParticipantPoints.getGameParticipants().getAvailability().equalsIgnoreCase("YES")) {
-						score = score + 2;
-					}
+                        (1 * gameParticipantPoints.getRuns()) + 
+                        (1 * gameParticipantPoints.getFours()) + 
+                        (2 * gameParticipantPoints.getSixes()) + 
+                        (6 * gameParticipantPoints.getFifties()) + 
+                        (12 * gameParticipantPoints.getHundries()) + 
+                        (10 * gameParticipantPoints.getWickets()) + 
+                        (5 * gameParticipantPoints.getMaidens()) + 
+                        (7 * gameParticipantPoints.getCatches()) +
+                        (6 * gameParticipantPoints.getStumpeds()) +
+                        (6 * gameParticipantPoints.getRunouts()) +
+                        (6 * gameParticipantPoints.getBowleds()) + // bowled
+                        (6 * gameParticipantPoints.getLbws()); 
+          /*
+           * if(StringUtils.hasText(gameParticipantPoints.getGameParticipants().getAvailability())
+           * &&
+           * gameParticipantPoints.getGameParticipants().getAvailability().equalsIgnoreCase("YES"))
+           * { score = score + 2; }
+           */
 					gameParticipantScore.setScore(score);
 					double captainScore = 3 * score;
 					gameParticipantScore.setCaptainScore(captainScore);

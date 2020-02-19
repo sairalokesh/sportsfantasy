@@ -9,5 +9,6 @@ public interface TeamApiService {
   public List<ApiTeams> getApiTeams() throws UnirestException;
   public void getApiPlayers() throws UnirestException;
   public void getAllApiParticipantsByQuestionId(Long questionId) throws UnirestException;
+  public void getAllApiParticipantPointsByQuestionId(Long questionId) throws UnirestException;
 
 }

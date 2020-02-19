@@ -183,13 +183,9 @@
 				</div>
 				
 				<input type="hidden" class="form-control" id="id" th:field="*{gameParticipants[__${itemStat.index}__].id}"/>
+				<input type="hidden" class="form-control" id="pid" th:field="*{gameParticipants[__${itemStat.index}__].pid}"/>
 				<input type="hidden" class="form-control" id="gameQuestions" th:field="*{gameParticipants[__${itemStat.index}__].gameQuestions}"/>
-			
 			</div>
-			
-			
-			
-			
 			<div class="col-md-1">
 			<div class="form-group">
 			<input type="hidden" class="form-control" id="questionId" th:field="*{questionId}"/>

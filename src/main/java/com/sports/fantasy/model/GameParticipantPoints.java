@@ -14,152 +14,173 @@ import org.hibernate.annotations.GenericGenerator;
 @Table(name = "game_participant_points")
 public class GameParticipantPoints {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
-	@GenericGenerator(name = "native", strategy = "native")
-	@Column(name = "id")
-	private Long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
+  @GenericGenerator(name = "native", strategy = "native")
+  @Column(name = "id")
+  private Long id;
 
-	@ManyToOne
-	@JoinColumn(name = "question_id")
-	private GameQuestions gameQuestions;
+  @ManyToOne
+  @JoinColumn(name = "question_id")
+  private GameQuestions gameQuestions;
 
-	@ManyToOne
-	@JoinColumn(name = "participant_id")
-	private GameParticipants gameParticipants;
+  @ManyToOne
+  @JoinColumn(name = "participant_id")
+  private GameParticipants gameParticipants;
 
-	@Column(name = "runs")
-	private Integer runs = 0;
+  @Column(name = "runs")
+  private Integer runs = 0;
 
-	@Column(name = "wickets")
-	private Integer wickets = 0;
+  @Column(name = "wickets")
+  private Integer wickets = 0;
 
-	@Column(name = "sixes")
-	private Integer sixes = 0;
+  @Column(name = "sixes")
+  private Integer sixes = 0;
 
-	@Column(name = "fours")
-	private Integer fours = 0;
+  @Column(name = "fours")
+  private Integer fours = 0;
 
-	@Column(name = "maidens")
-	private Integer maidens = 0;
+  @Column(name = "maidens")
+  private Integer maidens = 0;
 
-	@Column(name = "catches")
-	private Integer catches = 0;
+  @Column(name = "catches")
+  private Integer catches = 0;
 
-	@Column(name = "fifties")
-	private Integer fifties = 0;
+  @Column(name = "fifties")
+  private Integer fifties = 0;
 
-	@Column(name = "hundries")
-	private Integer hundries = 0;
+  @Column(name = "hundries")
+  private Integer hundries = 0;
 
-	@Column(name = "runouts")
-	private Integer runouts = 0;
+  @Column(name = "runouts")
+  private Integer runouts = 0;
 
-	@Column(name = "bowlings")
-	private Integer bowlings = 0;
+  @Column(name = "bowleds")
+  private Integer bowleds = 0;
 
-	public Long getId() {
-		return id;
-	}
+  @Column(name = "stumpeds")
+  private Integer stumpeds = 0;
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+  @Column(name = "lbws")
+  private Integer lbws = 0;
 
-	public GameQuestions getGameQuestions() {
-		return gameQuestions;
-	}
+  public Long getId() {
+    return id;
+  }
 
-	public void setGameQuestions(GameQuestions gameQuestions) {
-		this.gameQuestions = gameQuestions;
-	}
+  public void setId(Long id) {
+    this.id = id;
+  }
 
-	public GameParticipants getGameParticipants() {
-		return gameParticipants;
-	}
+  public GameQuestions getGameQuestions() {
+    return gameQuestions;
+  }
 
-	public void setGameParticipants(GameParticipants gameParticipants) {
-		this.gameParticipants = gameParticipants;
-	}
+  public void setGameQuestions(GameQuestions gameQuestions) {
+    this.gameQuestions = gameQuestions;
+  }
 
-	public Integer getRuns() {
-		return runs;
-	}
+  public GameParticipants getGameParticipants() {
+    return gameParticipants;
+  }
 
-	public void setRuns(Integer runs) {
-		this.runs = runs;
-	}
+  public void setGameParticipants(GameParticipants gameParticipants) {
+    this.gameParticipants = gameParticipants;
+  }
 
-	public Integer getWickets() {
-		return wickets;
-	}
+  public Integer getRuns() {
+    return runs;
+  }
 
-	public void setWickets(Integer wickets) {
-		this.wickets = wickets;
-	}
+  public void setRuns(Integer runs) {
+    this.runs = runs;
+  }
 
-	public Integer getSixes() {
-		return sixes;
-	}
+  public Integer getWickets() {
+    return wickets;
+  }
 
-	public void setSixes(Integer sixes) {
-		this.sixes = sixes;
-	}
+  public void setWickets(Integer wickets) {
+    this.wickets = wickets;
+  }
 
-	public Integer getFours() {
-		return fours;
-	}
+  public Integer getSixes() {
+    return sixes;
+  }
 
-	public void setFours(Integer fours) {
-		this.fours = fours;
-	}
+  public void setSixes(Integer sixes) {
+    this.sixes = sixes;
+  }
 
-	public Integer getMaidens() {
-		return maidens;
-	}
+  public Integer getFours() {
+    return fours;
+  }
 
-	public void setMaidens(Integer maidens) {
-		this.maidens = maidens;
-	}
+  public void setFours(Integer fours) {
+    this.fours = fours;
+  }
 
-	public Integer getCatches() {
-		return catches;
-	}
+  public Integer getMaidens() {
+    return maidens;
+  }
 
-	public void setCatches(Integer catches) {
-		this.catches = catches;
-	}
+  public void setMaidens(Integer maidens) {
+    this.maidens = maidens;
+  }
 
-	public Integer getFifties() {
-		return fifties;
-	}
+  public Integer getCatches() {
+    return catches;
+  }
 
-	public void setFifties(Integer fifties) {
-		this.fifties = fifties;
-	}
+  public void setCatches(Integer catches) {
+    this.catches = catches;
+  }
 
-	public Integer getHundries() {
-		return hundries;
-	}
+  public Integer getFifties() {
+    return fifties;
+  }
 
-	public void setHundries(Integer hundries) {
-		this.hundries = hundries;
-	}
+  public void setFifties(Integer fifties) {
+    this.fifties = fifties;
+  }
 
-	public Integer getRunouts() {
-		return runouts;
-	}
+  public Integer getHundries() {
+    return hundries;
+  }
 
-	public void setRunouts(Integer runouts) {
-		this.runouts = runouts;
-	}
+  public void setHundries(Integer hundries) {
+    this.hundries = hundries;
+  }
 
-	public Integer getBowlings() {
-		return bowlings;
-	}
+  public Integer getRunouts() {
+    return runouts;
+  }
 
-	public void setBowlings(Integer bowlings) {
-		this.bowlings = bowlings;
-	}
+  public void setRunouts(Integer runouts) {
+    this.runouts = runouts;
+  }
 
+  public Integer getBowleds() {
+    return bowleds;
+  }
+
+  public void setBowleds(Integer bowleds) {
+    this.bowleds = bowleds;
+  }
+
+  public Integer getStumpeds() {
+    return stumpeds;
+  }
+
+  public void setStumpeds(Integer stumpeds) {
+    this.stumpeds = stumpeds;
+  }
+
+  public Integer getLbws() {
+    return lbws;
+  }
+
+  public void setLbws(Integer lbws) {
+    this.lbws = lbws;
+  }
 }
