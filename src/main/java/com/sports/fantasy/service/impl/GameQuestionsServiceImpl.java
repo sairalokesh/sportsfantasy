@@ -119,26 +119,29 @@ public class GameQuestionsServiceImpl implements GameQuestionsService {
         DateFormat formatterUTC = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
         formatterUTC.setTimeZone(TimeZone.getTimeZone("Asia/Kolkata"));
         if (validDate.after(new Date())) {
-          GameQuestions gameQuestions = new GameQuestions();
-          gameQuestions.setTeamOne(team.getTeamOne().toUpperCase());
-          gameQuestions.setTeamTwo(team.getTeamTwo().toUpperCase());
-          String question =
-              team.getTeamOne().toUpperCase() + " V/S " + team.getTeamTwo().toUpperCase();
-          gameQuestions.setQuestion(question);
-          gameQuestions.setValidDate(validDate);
-          Calendar calendar = Calendar.getInstance();
-          calendar.setTime(validDate);
-          calendar.add(Calendar.HOUR_OF_DAY, 6);
-          Date spinDate = calendar.getTime();
-          gameQuestions.setSpinDate(spinDate);
-          gameQuestions.setCreatedDate(new Date());
-          gameQuestions.setQuestionEffect("rotateIn");
-          gameQuestions.setActive(true);
-          gameQuestions.setChoices(11);
-          gameQuestions.setQuestionType("cricket");
-          gameQuestions.setUniqueId(team.getUniqueId());
-          gameQuestions.setGameType(team.getType());
-          gameQuestionsRepository.save(gameQuestions);
+          GameQuestions dbGameQuestions = gameQuestionsRepository.findByUniqueId(team.getUniqueId());
+          if(dbGameQuestions == null) {
+            GameQuestions gameQuestions = new GameQuestions();
+            gameQuestions.setTeamOne(team.getTeamOne().toUpperCase());
+            gameQuestions.setTeamTwo(team.getTeamTwo().toUpperCase());
+            String question =
+                team.getTeamOne().toUpperCase() + " V/S " + team.getTeamTwo().toUpperCase();
+            gameQuestions.setQuestion(question);
+            gameQuestions.setValidDate(validDate);
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(validDate);
+            calendar.add(Calendar.HOUR_OF_DAY, 6);
+            Date spinDate = calendar.getTime();
+            gameQuestions.setSpinDate(spinDate);
+            gameQuestions.setCreatedDate(new Date());
+            gameQuestions.setQuestionEffect("rotateIn");
+            gameQuestions.setActive(true);
+            gameQuestions.setChoices(11);
+            gameQuestions.setQuestionType("cricket");
+            gameQuestions.setUniqueId(team.getUniqueId());
+            gameQuestions.setGameType(team.getType());
+            gameQuestionsRepository.save(gameQuestions);
+          }
         }
       }
     }

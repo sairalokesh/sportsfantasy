@@ -127,8 +127,7 @@ public class TeamApiServiceImpl implements TeamApiService {
                 gameParticipants.setParticipantName(squadPlayers.getName());
                 gameParticipants.setParticipantGameType(countryCode);
                 gameParticipants.setParticipantEffect("rotateIn");
-                List<Players> players =
-                    playersRepository.getPlayerInfoByName(squadPlayers.getName());
+                List<Players> players = playersRepository.getPlayerInfoByName(squadPlayers.getName());
                 if (players != null && !players.isEmpty()) {
                   gameParticipants.setParticipantImage(players.get(0).getImagePath());
                   if (StringUtils.hasText(players.get(0).getPosition())
@@ -150,8 +149,7 @@ public class TeamApiServiceImpl implements TeamApiService {
                 gameParticipants.setParticipantPoints(0.0);
                 gameParticipants.setParticipantRating(0.0);
                 gameParticipants.setPid(squadPlayers.getPid());
-                GameParticipants dbGameParticipants =
-                    gameParticipantRepository.save(gameParticipants);
+                GameParticipants dbGameParticipants = gameParticipantRepository.save(gameParticipants);
                 saveParticipantsPoints(dbGameParticipants);
               }
             }

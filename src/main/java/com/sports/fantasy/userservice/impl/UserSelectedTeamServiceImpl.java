@@ -2,7 +2,6 @@ package com.sports.fantasy.userservice.impl;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -166,13 +165,13 @@ public class UserSelectedTeamServiceImpl implements UserSelectedTeamService {
       Map<String, List<GameParticipantScore>> mapraticipants = new TreeMap<>();
       for (GameParticipantScore gameParticipantScore : gameParticipantScores) {
         if (userSelectedTeam.getCaptainId() != null && gameParticipantScore.getGameParticipants()
-            .getId() == userSelectedTeam.getCaptainId()) {
+            .getId().toString().equalsIgnoreCase(userSelectedTeam.getCaptainId().toString())) {
           gameParticipantScore.setCaptain(true);
         } else if (userSelectedTeam.getViceCaptainId() != null && gameParticipantScore
-            .getGameParticipants().getId() == userSelectedTeam.getViceCaptainId()) {
+            .getGameParticipants().getId().toString().equalsIgnoreCase(userSelectedTeam.getViceCaptainId().toString())) {
           gameParticipantScore.setViceCaptain(true);
         } else if (userSelectedTeam.getSuppoterId() != null && gameParticipantScore
-            .getGameParticipants().getId() == userSelectedTeam.getSuppoterId()) {
+            .getGameParticipants().getId().toString().equalsIgnoreCase(userSelectedTeam.getSuppoterId().toString())) {
           gameParticipantScore.setSuppoter(true);
         }
         if (mapraticipants
@@ -198,11 +197,11 @@ public class UserSelectedTeamServiceImpl implements UserSelectedTeamService {
     GameParticipantPoints gameParticipantPoints = gameParticipantPointsRepository.findParticipantPointsByQuestionIdAndParticipantId(participantId, questionId);
     GameParticipantScore gameParticipantScore = gameParticipantScoreRepository.findByQuestionIdAndParticipantId(questionId, participantId);
     if(gameParticipantScore!=null && gameParticipantScore.getGameParticipants()!=null && gameParticipantScore.getGameParticipants().getId()!=null) {
-      if(userSelectedTeam.getCaptainId()!=null && gameParticipantScore.getGameParticipants().getId() == userSelectedTeam.getCaptainId()) {
+      if(userSelectedTeam.getCaptainId()!=null && gameParticipantScore.getGameParticipants().getId().toString().equalsIgnoreCase(userSelectedTeam.getCaptainId().toString())) {
         gameParticipantScore.setCaptain(true);
-      } else if(userSelectedTeam.getViceCaptainId()!=null && gameParticipantScore.getGameParticipants().getId() == userSelectedTeam.getViceCaptainId()) {
+      } else if(userSelectedTeam.getViceCaptainId()!=null && gameParticipantScore.getGameParticipants().getId().toString().equalsIgnoreCase(userSelectedTeam.getViceCaptainId().toString())) {
         gameParticipantScore.setViceCaptain(true);
-      }  else if(userSelectedTeam.getSuppoterId()!=null && gameParticipantScore.getGameParticipants().getId() == userSelectedTeam.getSuppoterId()) {
+      }  else if(userSelectedTeam.getSuppoterId()!=null && gameParticipantScore.getGameParticipants().getId().toString().equalsIgnoreCase(userSelectedTeam.getSuppoterId().toString())) {
         gameParticipantScore.setSuppoter(true);
       }
     }

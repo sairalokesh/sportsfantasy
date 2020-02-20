@@ -117,15 +117,16 @@ public class DataMapper {
       for (GameParticipants gameParticipant : gameParticipants) {
         if (participants != null && gameParticipant != null) {
           if (participants.getCaptainId() != null && gameParticipant.getId() != null
-              && participants.getCaptainId() == gameParticipant.getId()) {
+              && participants.getCaptainId().toString().equalsIgnoreCase(gameParticipant.getId().toString())) {
             gameParticipant.setCapitanId(participants.getCaptainId());
           }
+          
           if (participants.getViceCaptainId() != null && gameParticipant.getId() != null
-              && participants.getViceCaptainId() == gameParticipant.getId()) {
+              && participants.getViceCaptainId().toString().equalsIgnoreCase(gameParticipant.getId().toString())) {
             gameParticipant.setViceCapitanId(participants.getViceCaptainId());
           }
           if (participants.getSuppoterId() != null && gameParticipant.getId() != null
-              && participants.getSuppoterId() == gameParticipant.getId()) {
+              && participants.getSuppoterId().toString().equalsIgnoreCase(gameParticipant.getId().toString())) {
             gameParticipant.setSuppoterId(participants.getSuppoterId());
           }
         }
