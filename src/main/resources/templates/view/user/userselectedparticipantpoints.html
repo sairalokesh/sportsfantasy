@@ -1,10 +1,11 @@
 <div class="col-md-12">
 <div class="row">
 <div class="col-md-7 col-sm-12">
+
 <div class="spaceAround tall" style="background-image: url(https://myteam11main.s3.ap-south-1.amazonaws.com/images/static/cric1ket_bg.jpg);
 background-size: cover;box-shadow: 0 0 20px 5px rgba(0,0,0,.5);
     background-repeat: no-repeat;
-    background-position: center center;height: calc(100vh - 142px);border-radius: 20px;">
+    background-position: center center;height: calc(100vh - 142px);border-radius: 20px;" th:if="${isActive}">
 	<div class="teamPreviewRowWrapper" th:each="teamParticipant,iter : ${teamParticipants}">
 		<div class="rowTitle" th:text="${teamParticipant.key}" style="margin-bottom:20px;">Wicket-Keepers</div>
 		<div class="spaceAround rowContent playerRowHeight">
@@ -32,6 +33,13 @@ background-size: cover;box-shadow: 0 0 20px 5px rgba(0,0,0,.5);
 		</div>
 	</div>
 </div>	
+<div class="spaceAround tall" style="background-image: url(https://myteam11main.s3.ap-south-1.amazonaws.com/images/static/cric1ket_bg.jpg);
+background-size: cover;box-shadow: 0 0 20px 5px rgba(0,0,0,.5);
+    background-repeat: no-repeat;
+    background-position: center center;height: calc(100vh - 142px);border-radius: 20px;" th:if="${!isActive}">
+    <p style="font-size:30px;font-weight: bolder;margin-left:17%;color:white;">Match is till not Started...</p>
+    </div>
+
 </div>
 <div class="col-md-5 col-sm-12">
 <div class="row">
@@ -106,7 +114,7 @@ $(".userInfo").on('click', function(e){
 }
 .rowContent {
     display: flex;
-    justify-content: space-evenly;
+    /* justify-content: space-evenly; */
     align-items: center;
     padding: 8px 0;
 }

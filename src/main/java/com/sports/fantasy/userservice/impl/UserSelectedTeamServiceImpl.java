@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -162,7 +163,7 @@ public class UserSelectedTeamServiceImpl implements UserSelectedTeamService {
     List<GameParticipantScore> gameParticipantScores =
         gameParticipantScoreRepository.getSelectedPArticipantsScore(questionId, participants);
     if (gameParticipantScores != null && !gameParticipantScores.isEmpty()) {
-      Map<String, List<GameParticipantScore>> mapraticipants = new LinkedHashMap<>();
+      Map<String, List<GameParticipantScore>> mapraticipants = new TreeMap<>();
       for (GameParticipantScore gameParticipantScore : gameParticipantScores) {
         if (userSelectedTeam.getCaptainId() != null && gameParticipantScore.getGameParticipants()
             .getId() == userSelectedTeam.getCaptainId()) {

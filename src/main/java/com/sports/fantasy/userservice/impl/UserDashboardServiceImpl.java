@@ -1,13 +1,13 @@
 package com.sports.fantasy.userservice.impl;
 
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
+import com.sports.fantasy.dao.UserTeamDao;
+import com.sports.fantasy.model.UserDashboardTeamParticipants;
 import com.sports.fantasy.model.UserTransactions;
 import com.sports.fantasy.repository.UserAccountRepository;
 import com.sports.fantasy.repository.UserSelectedTeamRepository;
@@ -24,6 +24,9 @@ public class UserDashboardServiceImpl implements UserDashboardService {
 	private UserAccountRepository userAccountRepository;
 	@Autowired
 	private UserTransactionRepository userTransactionRepository;
+	@Autowired
+    private UserTeamDao userTeamDao;
+	
 
 	@Override
 	public Long getCountOfGameEntries(Long userId) {
@@ -55,5 +58,10 @@ public class UserDashboardServiceImpl implements UserDashboardService {
 		Page<UserTransactions> transactionsPage = userTransactionRepository.getRecentTransactionsByUserId(userId,PageRequest.of(0, 2));
 		return transactionsPage.getContent();
 	}
+
+  @Override
+  public List<UserDashboardTeamParticipants> getRecentParticipantsByUserId(Long userId) {
+    return userTeamDao.getRecentParticipantsByUserId(userId);
+  }
 
 }

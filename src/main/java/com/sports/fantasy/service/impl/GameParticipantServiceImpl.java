@@ -2,15 +2,13 @@ package com.sports.fantasy.service.impl;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-
+import java.util.TreeMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
-
 import com.sports.fantasy.domain.QuestionParticipants;
 import com.sports.fantasy.model.GameParticipantPoints;
 import com.sports.fantasy.model.GameParticipants;
@@ -113,7 +111,7 @@ public class GameParticipantServiceImpl implements GameParticipantService {
 	@Override
 	public Map<String, List<GameParticipants>> getAllActiveParticipantsByQuestionId(Long questionId) {
 		List<GameParticipants> gameParticipants = gameParticipantRepository.getAllParticipantsByQuestionId(questionId);
-		Map<String, List<GameParticipants>> mapPameParticipants = new LinkedHashMap<>();
+		Map<String, List<GameParticipants>> mapPameParticipants = new TreeMap<>();
 		if (gameParticipants != null && !gameParticipants.isEmpty()) {
 			for (GameParticipants gameParticipant : gameParticipants) {
 				if (mapPameParticipants.containsKey(gameParticipant.getParticipantType())) { // Means WK, BATS, BOWL, AR
@@ -143,7 +141,7 @@ public class GameParticipantServiceImpl implements GameParticipantService {
 
 	@Override
 	public Map<String, List<GameParticipants>> covertObjectToMap(List<GameParticipants> gameParticipants) {
-		Map<String, List<GameParticipants>> mapPameParticipants = new LinkedHashMap<>();
+		Map<String, List<GameParticipants>> mapPameParticipants = new TreeMap<>();
 		if (gameParticipants != null && !gameParticipants.isEmpty()) {
 			for (GameParticipants gameParticipant : gameParticipants) {
 				if (mapPameParticipants.containsKey(gameParticipant.getParticipantType())) {

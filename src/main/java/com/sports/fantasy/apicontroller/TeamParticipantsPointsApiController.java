@@ -46,10 +46,7 @@ public class TeamParticipantsPointsApiController {
       return "redirect:/signin";
     }
     teamApiService.getAllApiParticipantPointsByQuestionId(questionId);
-    
-    
-    
-    return null;
+    return "redirect:/admin/questionparticipantpoints/"+questionId;
   }
 
 }

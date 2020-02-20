@@ -2,7 +2,6 @@ package com.sports.fantasy.usercontroller;
 
 import java.security.Principal;
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,8 +9,8 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-
 import com.sports.fantasy.model.UserAccount;
+import com.sports.fantasy.model.UserDashboardTeamParticipants;
 import com.sports.fantasy.model.UserInfo;
 import com.sports.fantasy.model.UserTransactions;
 import com.sports.fantasy.securityservice.UserService;
@@ -48,11 +47,8 @@ public class UserController {
     Long winningEntries = userDashboardService.getCountOfWinningEntries(dbUser.getId());
     Double dbWinningAmount = userDashboardService.getSumOfWinningAmount(dbUser.getId());
     String accountStatus = userDashboardService.getAccountStatusByUserId(dbUser.getId());
-    List<UserTransactions> userParticipantTransactions =
-        userDashboardService.getRecentTransactionsByUserId(dbUser.getId());
-
-    // List<UserSelectedParticipants> userSelectedParticipants =
-    // participantService.getRecentParticipantsByUserId(dbUser.getId());
+    List<UserTransactions> userParticipantTransactions = userDashboardService.getRecentTransactionsByUserId(dbUser.getId());
+    List<UserDashboardTeamParticipants> userSelectedParticipants = userDashboardService.getRecentParticipantsByUserId(dbUser.getId());
 
     String accountNumber = "";
     String ifscCode = "";
@@ -89,7 +85,7 @@ public class UserController {
 
 
     model.addAttribute("accountNumber", accountNumber);
-    // model.addAttribute("userSelectedParticipants", userSelectedParticipants);
+    model.addAttribute("userSelectedParticipants", userSelectedParticipants);
     model.addAttribute("userParticipantTransactions", userParticipantTransactions);
     model.addAttribute("ifscCode", ifscCode);
     model.addAttribute("status", status);

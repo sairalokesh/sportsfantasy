@@ -1,7 +1,7 @@
 package com.sports.fantasy.userservice;
 
 import java.util.List;
-
+import com.sports.fantasy.model.UserDashboardTeamParticipants;
 import com.sports.fantasy.model.UserTransactions;
 
 public interface UserDashboardService {
@@ -12,5 +12,6 @@ public interface UserDashboardService {
 	Double getSumOfWinningAmount(Long userId);
 	String getAccountStatusByUserId(Long userId);
 	List<UserTransactions> getRecentTransactionsByUserId(Long userId);
+  List<UserDashboardTeamParticipants> getRecentParticipantsByUserId(Long userId);
 
 }

@@ -1,10 +1,10 @@
 package com.sports.fantasy.util;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.TreeMap;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import org.springframework.util.StringUtils;
@@ -68,7 +68,7 @@ public class DataMapper {
   /* Player Country Count (INDIA, WESTINDIES) */
   public static Map<String, Integer> getGameTypeCounts(
       Map<String, List<GameParticipants>> gameParticipants, SelectedMembers selectedMembers) {
-    Map<String, Integer> gametypecounts = new LinkedHashMap<>();
+    Map<String, Integer> gametypecounts = new TreeMap<>();
     if (gameParticipants != null && gameParticipants.size() > 0) {
       for (Entry<String, List<GameParticipants>> entry : gameParticipants.entrySet()) {
         List<GameParticipants> gameParticipantss = entry.getValue();
@@ -90,7 +90,7 @@ public class DataMapper {
   /* Player Types Count (WK, AR, BOWL, BAT) */
   public static Map<String, Integer> getGamePlayerCounts(
       Map<String, List<GameParticipants>> gameParticipants, SelectedMembers selectedMembers) {
-    Map<String, Integer> playertypecounts = new LinkedHashMap<>();
+    Map<String, Integer> playertypecounts = new TreeMap<>();
     if (gameParticipants != null && gameParticipants.size() > 0) {
       for (Entry<String, List<GameParticipants>> entry : gameParticipants.entrySet()) {
         List<GameParticipants> gameParticipantss = entry.getValue();
@@ -112,7 +112,7 @@ public class DataMapper {
 
   public static Map<String, List<GameParticipants>> getGameParticipants(
       List<GameParticipants> gameParticipants, SelectedParticipants participants) {
-    Map<String, List<GameParticipants>> mapPameParticipants = new LinkedHashMap<>();
+    Map<String, List<GameParticipants>> mapPameParticipants = new TreeMap<>();
     if (gameParticipants != null && !gameParticipants.isEmpty()) {
       for (GameParticipants gameParticipant : gameParticipants) {
         if (participants != null && gameParticipant != null) {

@@ -65,19 +65,21 @@
           <table class="table table-dic table-hover ">
             <tbody th:if="${userSelectedParticipants!=null and !userSelectedParticipants.isEmpty()}">
               <tr th:each="userSelectedParticipant : ${userSelectedParticipants}">
-                <td th:inline="text"><i class="fa fa-quora"></i>[[${userSelectedParticipant.participantQuestions.question}]]</td>
+                <td th:inline="text" style="width: 42%;"><i class="fa fa-quora"></i>[[${userSelectedParticipant.question}]]</td>
+                <td class="text-r" th:inline="text"><i class="fa fa-inr" style="color: var(--gray);font-size: inherit;"></i>[[${userSelectedParticipant.amount}]]</td>
                 <td class="text-r" th:inline="text">
-                <div class="imageorder" th:if="${userSelectedParticipant.participantOne!=null and userSelectedParticipant.participantOne!=''}"><img th:src="@{'/images/'+${userSelectedParticipant.participantOne.paticipantImageName}}" class="imagewidth"/></div>
-                <div class="imageorder" th:if="${userSelectedParticipant.participantTwo!=null and userSelectedParticipant.participantTwo!=''}"><img th:src="@{'/images/'+${userSelectedParticipant.participantTwo.paticipantImageName}}" class="imagewidth"/></div>
-                <div class="imageorder" th:if="${userSelectedParticipant.participantThree!=null and userSelectedParticipant.participantThree!=''}"><img th:src="@{'/images/'+${userSelectedParticipant.participantThree.paticipantImageName}}" class="imagewidth"/></div>
-                <div class="imageorder" th:if="${userSelectedParticipant.participantFour!=null and userSelectedParticipant.participantFour!=''}"><img th:src="@{'/images/'+${userSelectedParticipant.participantFour.paticipantImageName}}" class="imagewidth"/></div>
-                <div class="imageorder" th:if="${userSelectedParticipant.participantFive!=null and userSelectedParticipant.participantFive!=''}"><img th:src="@{'/images/'+${userSelectedParticipant.participantFive.paticipantImageName}}" class="imagewidth"/></div>
-                <div class="imageorder" th:if="${userSelectedParticipant.participantSix!=null and userSelectedParticipant.participantSix!=''}"><img th:src="@{'/images/'+${userSelectedParticipant.participantSix.paticipantImageName}}" class="imagewidth"/></div>
-                <div class="imageorder" th:if="${userSelectedParticipant.participantSeven!=null and userSelectedParticipant.participantSeven!=''}"><img th:src="@{'/images/'+${userSelectedParticipant.participantSeven.paticipantImageName}}" class="imagewidth"/></div>
-                <div class="imageorder" th:if="${userSelectedParticipant.participantEight!=null and userSelectedParticipant.participantEight!=''}"><img th:src="@{'/images/'+${userSelectedParticipant.participantEight.paticipantImageName}}" class="imagewidth"/></div>
-                <div class="imageorder" th:if="${userSelectedParticipant.participantNine!=null and userSelectedParticipant.participantNine!=''}"><img th:src="@{'/images/'+${userSelectedParticipant.participantNine.paticipantImageName}}" class="imagewidth"/></div>
-                <div class="imageorder" th:if="${userSelectedParticipant.participantTen!=null and userSelectedParticipant.participantTen!=''}"><img th:src="@{'/images/'+${userSelectedParticipant.participantTen.paticipantImageName}}" class="imagewidth"/></div>
-                <div class="imageorder" th:if="${userSelectedParticipant.participantEleven!=null and userSelectedParticipant.participantEleven!=''}"><img th:src="@{'/images/'+${userSelectedParticipant.participantEleven.paticipantImageName}}" class="imagewidth"/></div>
+                <div class="imageorder" th:if="${userSelectedParticipant.captainimage!=null and userSelectedParticipant.captainimage!=''}"><img th:src="${userSelectedParticipant.captainimage}" class="imagewidth" th:id="${'captian'+userSelectedParticipant.userselectedteamid}"/></div>
+                <script type="text/javascript" th:inline="javascript">
+					tippy('#captian'+[[${userSelectedParticipant.userselectedteamid}]], {content: '<b>'+[[${userSelectedParticipant.captain + ' (C)'}]]+'</b>',placement: 'top',arrow: true,arrowType: 'round', maxWidth: 4000})
+				</script>
+                <div class="imageorder" th:if="${userSelectedParticipant.vicecaptainimage!=null and userSelectedParticipant.vicecaptainimage!=''}"><img th:src="${userSelectedParticipant.vicecaptainimage}" class="imagewidth" th:id="${'vicecaptian'+userSelectedParticipant.userselectedteamid}"/></div>
+                <script type="text/javascript" th:inline="javascript">
+					tippy('#vicecaptian'+[[${userSelectedParticipant.userselectedteamid}]], {content: '<b>'+[[${userSelectedParticipant.vicecaptain + ' (VC)'}]]+'</b>',placement: 'top',arrow: true,arrowType: 'round', maxWidth: 4000})
+				</script>
+                <div class="imageorder" th:if="${userSelectedParticipant.suppoterimage!=null and userSelectedParticipant.suppoterimage!=''}"><img th:src="${userSelectedParticipant.suppoterimage}" class="imagewidth" th:id="${'suppoter'+userSelectedParticipant.userselectedteamid}"/></div>
+                <script type="text/javascript" th:inline="javascript">
+					tippy('#suppoter'+[[${userSelectedParticipant.userselectedteamid}]], {content: '<b>'+[[${userSelectedParticipant.suppoter + ' (SP)'}]]+'</b>',placement: 'top',arrow: true,arrowType: 'round', maxWidth: 4000})
+				</script>
                 </td>
               </tr>
             </tbody>
@@ -154,7 +156,7 @@ setInterval(updateClock, 1000);
 </script>
 <script type="text/javascript" th:inline="javascript">
 	//<![CDATA[
-	 window.onload = function () {
+	 /* window.onload = function () {
 	    document.addEventListener("contextmenu", function (e) {
 	        e.preventDefault();
 	    }, false);
@@ -184,7 +186,7 @@ setInterval(updateClock, 1000);
 	        e.preventDefault();
 	        return false;
 	    }
-	} 
+	}  */
 	// ]]>
 </script>
 

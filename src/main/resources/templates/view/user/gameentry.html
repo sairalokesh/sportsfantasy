@@ -24,7 +24,9 @@
                              <div class="item">
                                  <ul class="ec-team-matches">
                                      <li>
-                                         <a href="javascript:void(0);"><img th:src="${gameQuestion.teamOneImage!=null && gameQuestion.teamOneImage!=''?gameQuestion.teamOneImage:'https://rangerwear.com/content/images/thumbs/default-image_600.png'}" alt="" style="width:100px;height:100px"/><span th:text="${gameQuestion.teamOne}">Arsenal</span></a>
+                                         <a href="javascript:void(0);">
+                                         <img th:src="${gameQuestion.teamOneImage!=null && gameQuestion.teamOneImage!=''?gameQuestion.teamOneImage:'https://rangerwear.com/content/images/thumbs/default-image_600.png'}" alt="" style="width:100px;height:100px"/>
+                                         <span th:text="${#strings.length(gameQuestion.teamOne)>10?#strings.substring(gameQuestion.teamOne,0,10)+'...':gameQuestion.teamOne}">Arsenal</span></a>
                                      </li>
                                      <li>
                                      	<small th:text="${#dates.dayOfWeekName(gameQuestion.validDate)}">Wednesday</small>
@@ -39,7 +41,8 @@
                                         <small th:text="${#dates.format(gameQuestion.validDate, 'hh:mm aa')}">08:00am</small>
                                     </li>
                                      <li>
-                                         <a href="javascript:void(0);"><img th:src="${gameQuestion.teamTwoImage!=null && gameQuestion.teamTwoImage!=''?gameQuestion.teamTwoImage:'https://rangerwear.com/content/images/thumbs/default-image_600.png'}" alt="" style="width:100px;height:100px"/><span th:text="${gameQuestion.teamTwo}">Premier League</span></a>
+                                         <a href="javascript:void(0);"><img th:src="${gameQuestion.teamTwoImage!=null && gameQuestion.teamTwoImage!=''?gameQuestion.teamTwoImage:'https://rangerwear.com/content/images/thumbs/default-image_600.png'}" alt="" style="width:100px;height:100px"/>
+                                         <span th:text="${#strings.length(gameQuestion.teamTwo)>10?#strings.substring(gameQuestion.teamTwo,0,10)+'...':gameQuestion.teamTwo}">Premier League</span></a>
                                      </li>
                                  </ul>
                                  <div id="ec-Countdown" class="ec-match-countdown is-countdown">
@@ -98,7 +101,7 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
 <script type="text/javascript" th:inline="javascript">
 //<![CDATA[
-	window.onload = function () {
+	/* window.onload = function () {
         document.addEventListener("contextmenu", function (e) {
             e.preventDefault();
         }, false);
@@ -128,7 +131,7 @@
             e.preventDefault();
             return false;
         }
-    }
+    } */
  // ]]>
 	</script>
 </html>

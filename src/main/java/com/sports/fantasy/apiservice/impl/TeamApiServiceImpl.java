@@ -102,7 +102,7 @@ public class TeamApiServiceImpl implements TeamApiService {
       long count = gameParticipantRepository.getParticipantsCountByQuestionId(questionId);
       if (count == 0) {
         HttpResponse<String> response = Unirest.get(
-            "https://cricapi.com/api/fantasySquad?apikey=n9kDOo7oGAamwznKi9MXy1gxpmC3&unique_id="
+            "https://cricapi.com/api/fantasySquad?apikey=quyJMO90QecLkBoY8RtAiMH8Xj52&unique_id="
                 + gameQuestions.getUniqueId())
             .asString();
         if (response.getStatus() == HttpStatus.OK.value()) {

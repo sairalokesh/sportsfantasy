@@ -2,10 +2,10 @@ package com.sports.fantasy.usercontroller;
 
 import java.security.Principal;
 import java.util.Date;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -143,7 +143,7 @@ public class UserGameController {
     List<String> countries = gameParticipantsService.getAllParticipantTypesByQuestionId(questionId); // Means
                                                                                                      // Names
     if (countries != null && !countries.isEmpty()) {
-      Map<String, Integer> gamecountries = new LinkedHashMap<>();
+      Map<String, Integer> gamecountries = new TreeMap<>();
       for (String country : countries) {
         gamecountries.put(country, 0);
       }
@@ -154,7 +154,7 @@ public class UserGameController {
     if (gameParticipants != null && gameParticipants.size() > 0) {
       Set<String> types = gameParticipants.keySet();
       if (types != null && !types.isEmpty()) {
-        Map<String, Integer> typecount = new LinkedHashMap<>(); // Means Wk, BOWL, BATS, AR
+        Map<String, Integer> typecount = new TreeMap<>(); // Means Wk, BOWL, BATS, AR
         for (String type : types) {
           typecount.put(type, 0);
         }
@@ -422,7 +422,7 @@ public class UserGameController {
     if (!LoginUtil.getAuthentication(principal)) {
       return "redirect:/signin";
     }
-    Map<String, List<GameParticipants>> teamParticipants = new LinkedHashMap<>();
+    Map<String, List<GameParticipants>> teamParticipants = new TreeMap<>();
     if(participants!=null && participants.getSelectedParticipants()!=null && !participants.getSelectedParticipants().isEmpty()) {
       List<GameParticipants> gameParticipants = gameParticipantsService.getAllParticipantsByQuestionIdAndParticipantIds(participants.getQuestionId(), participants.getSelectedParticipants());
       if(gameParticipants!=null && !gameParticipants.isEmpty()) {

@@ -7,6 +7,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.StoredProcedureQuery;
 import org.springframework.stereotype.Repository;
 import com.sports.fantasy.dao.UserTeamDao;
+import com.sports.fantasy.model.UserDashboardTeamParticipants;
 import com.sports.fantasy.model.UserTeamParticipants;
 import com.sports.fantasy.model.UsersParticipantsScore;
 
@@ -53,6 +54,16 @@ public class UserTeamDaoImpl implements UserTeamDao {
     storedProcedure.execute();
     List<UsersParticipantsScore> usersParticipantsScores = (List<UsersParticipantsScore>)storedProcedure.getResultList();
     return usersParticipantsScores;
+  }
+
+  @Override
+  public List<UserDashboardTeamParticipants> getRecentParticipantsByUserId(Long userId) {
+    StoredProcedureQuery storedProcedure = entityManager.createStoredProcedureQuery("user_dashboard_team_participants", UserDashboardTeamParticipants.class);
+    storedProcedure.registerStoredProcedureParameter("user_id", Long.class, ParameterMode.IN);
+    storedProcedure.setParameter("user_id", userId);
+    storedProcedure.execute();
+    List<UserDashboardTeamParticipants> userDashboardTeamParticipants = (List<UserDashboardTeamParticipants>) storedProcedure.getResultList();
+    return userDashboardTeamParticipants;
   }
 
 }

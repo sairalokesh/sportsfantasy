@@ -1,6 +1,7 @@
 package com.sports.fantasy.usercontroller;
 
 import java.security.Principal;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -106,20 +107,51 @@ public class UserAllGamesController {
     return "view/user/userrankingscores";
   }
   
+  @GetMapping("/game/{gametype}/amount/{questionId}/completedparticipants/{amountId}")
+  public String completedparticipants(@PathVariable String gametype, @PathVariable Long questionId,
+      @PathVariable Long amountId, Principal principal, Model model) {
+    if (!LoginUtil.getAuthentication(principal)) {
+      return "redirect:/signin";
+    }
+
+    UserInfo user = userService.findByEmail(principal.getName());
+    List<Ranking> rankings =
+        userRankingService.getSelectedParticipantsScore(questionId, amountId, gametype, user);
+    GameQuestions gameQuestion = gameQuestionsService.getCompletedGameQuestionByQuestionId(questionId, gametype);
+    AmountEntries amountEntry = gameAmountService.findByAmountId(amountId);
+    model.addAttribute("participantScores", rankings);
+    model.addAttribute("amountEntry", amountEntry);
+    model.addAttribute("gameQuestion", gameQuestion);
+    return "view/user/userrankingscores";
+  }
+  
   @GetMapping(value="/game/selecteduserparticipantsscore/{teamId}/{userId}/{questionId}/{amountId}")
   public String getuserpointsinfo(@PathVariable Long teamId, @PathVariable Long userId, @PathVariable Long questionId, @PathVariable Long amountId, Principal principal, Model model) {
       if(!LoginUtil.getAuthentication(principal)) {
           return "redirect:/signin";
       }
-      UserSelectedTeam userSelectedTeam = userSelectedTeamService.getSelectedUserTeam(teamId, questionId, amountId, userId);
-      if(userSelectedTeam != null) {
-        Map<String, List<GameParticipantScore>> teamParticipants = userSelectedTeamService.getAllParticipantsScores(userSelectedTeam, questionId);
-        model.addAttribute("teamParticipants", teamParticipants);
+      
+      boolean isActive = true; 
+      UserInfo user = userService.findByEmail(principal.getName());
+      if(user!=null && user.getId()!=null && user.getId() != userId) {
+        GameQuestions gameQuestion = gameQuestionsService.findGameQuestionById(questionId);
+        if(gameQuestion!=null && gameQuestion.getValidDate()!=null && gameQuestion.getValidDate().after(new Date())) {
+          isActive = false;
+        }
       }
-      model.addAttribute("teamId", teamId);
-      model.addAttribute("questionId", questionId);
-      model.addAttribute("amountId", amountId);
-      model.addAttribute("userId", userId);
+      
+      if(isActive) {
+        UserSelectedTeam userSelectedTeam = userSelectedTeamService.getSelectedUserTeam(teamId, questionId, amountId, userId);
+        if(userSelectedTeam != null) {
+          Map<String, List<GameParticipantScore>> teamParticipants = userSelectedTeamService.getAllParticipantsScores(userSelectedTeam, questionId);
+          model.addAttribute("teamParticipants", teamParticipants);
+        }
+        model.addAttribute("teamId", teamId);
+        model.addAttribute("questionId", questionId);
+        model.addAttribute("amountId", amountId);
+        model.addAttribute("userId", userId);
+      }
+      model.addAttribute("isActive", isActive);
       return "view/user/userselectedparticipantpoints";
   }
   

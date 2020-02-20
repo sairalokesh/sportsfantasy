@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -76,7 +77,7 @@ public class UserTempParticipantServiceImpl implements UserTempParticipantServic
   @Override
   public Map<String, List<GameParticipants>> getAllTempParticipantsByQuestionId(Long tempId,
       Long questionId, Long amountId, String gameType, UserInfo user) {
-    Map<String, List<GameParticipants>> mapPameParticipants = new LinkedHashMap<>();
+    Map<String, List<GameParticipants>> mapPameParticipants = new TreeMap<>();
     UserTempParticipants userTempParticipants = userTempParticipantRepository.findByTempData(tempId, questionId, amountId, gameType, user.getId());
     if(userTempParticipants!=null && StringUtils.hasText(userTempParticipants.getParticipants())) {
         List<Long> participantIds = Stream.of(userTempParticipants.getParticipants().split(",")).map(Long::valueOf).collect(Collectors.toList());

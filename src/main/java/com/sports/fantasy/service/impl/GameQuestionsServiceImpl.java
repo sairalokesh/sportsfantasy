@@ -21,102 +21,109 @@ import com.sports.fantasy.util.DateUtil;
 @Service
 @Transactional
 public class GameQuestionsServiceImpl implements GameQuestionsService {
-	
-	@Autowired private GameQuestionsRepository gameQuestionsRepository;
-	
-	@Override
-	public List<GameQuestions> findAllGameQuestions() {
-		return gameQuestionsRepository.findAllGameQuestions();
-	}
-	
-	@Override
-	public GameQuestions saveGameQuestion(GameQuestions gameQuestions) {
-		if(StringUtils.hasText(gameQuestions.getExValidDate())) {
-			Date validDate = DateUtil.stringToDate(gameQuestions.getExValidDate());
-			gameQuestions.setValidDate(validDate);
-		}
-		
-		if(StringUtils.hasText(gameQuestions.getExSpinDate())) {
-			Date spinDate = DateUtil.stringToDate(gameQuestions.getExSpinDate());
-			gameQuestions.setSpinDate(spinDate);
-		}
-		gameQuestions.setCreatedDate(new Date());
-		return gameQuestionsRepository.save(gameQuestions);
-	}
-	
-	@Override
-	public GameQuestions findGameQuestionById(Long id) {
-		GameQuestions gameQuestions = new GameQuestions();
-		Optional<GameQuestions> dbGameQuestions = gameQuestionsRepository.findById(id);
-		if(dbGameQuestions.isPresent()) {
-			gameQuestions = dbGameQuestions.get();
-		}
-		
-		if(gameQuestions!=null && gameQuestions.getValidDate()!=null) {
-			String validDate = DateUtil.dateToString(gameQuestions.getValidDate());
-			gameQuestions.setExValidDate(validDate);
-		}
-		
-		if(gameQuestions!=null && gameQuestions.getSpinDate()!=null) {
-			String spinDate = DateUtil.dateToString(gameQuestions.getSpinDate());
-			gameQuestions.setExSpinDate(spinDate);
-		}
-		
-		if(gameQuestions!=null && gameQuestions.getCreatedDate()!=null) {
-			String createdDate = DateUtil.dateToString(gameQuestions.getCreatedDate());
-			gameQuestions.setExCreatedDate(createdDate);
-		}
-		return gameQuestions;
-	}
-	
-	@Override
-	public GameQuestions updateGameQuestion(GameQuestions gameQuestions) {
-		if(StringUtils.hasText(gameQuestions.getExValidDate())) {
-			Date validDate =  DateUtil.stringToDate(gameQuestions.getExValidDate());
-			gameQuestions.setValidDate(validDate);
-		}
-		
-		if(StringUtils.hasText(gameQuestions.getExSpinDate())) {
-			Date spinDate = DateUtil.stringToDate(gameQuestions.getExSpinDate());
-			gameQuestions.setSpinDate(spinDate);
-		}
-		
-		if(StringUtils.hasText(gameQuestions.getExCreatedDate())) {
-			Date createdDate = DateUtil.stringToDate(gameQuestions.getExCreatedDate());
-			gameQuestions.setCreatedDate(createdDate);
-		}
-		return gameQuestionsRepository.save(gameQuestions);
-	}
-	
-	@Override
-	public List<GameQuestions> findAllGameQuestions(boolean isActive) {
-		return gameQuestionsRepository.findAllGameQuestions(isActive);
-	}
-	
-	@Override
-	public List<GameQuestions> getGameQuestionsByGreaterthanCurrentDate(String gameType) {
-		return gameQuestionsRepository.getGameQuestionsByGreaterthanCurrentDate(gameType, true);
-	}
-	
-	@Override
-	public GameQuestions getGameQuestionByQuestionId(Long questionId, String gameType) {
-		return gameQuestionsRepository.getGameQuestionByQuestionId(questionId, gameType, true);
-	}
+
+  @Autowired
+  private GameQuestionsRepository gameQuestionsRepository;
+
+  @Override
+  public List<GameQuestions> findAllGameQuestions() {
+    return gameQuestionsRepository.findAllGameQuestions();
+  }
+
+  @Override
+  public GameQuestions saveGameQuestion(GameQuestions gameQuestions) {
+    if (StringUtils.hasText(gameQuestions.getExValidDate())) {
+      Date validDate = DateUtil.stringToDate(gameQuestions.getExValidDate());
+      gameQuestions.setValidDate(validDate);
+    }
+
+    if (StringUtils.hasText(gameQuestions.getExSpinDate())) {
+      Date spinDate = DateUtil.stringToDate(gameQuestions.getExSpinDate());
+      gameQuestions.setSpinDate(spinDate);
+    }
+    gameQuestions.setCreatedDate(new Date());
+    return gameQuestionsRepository.save(gameQuestions);
+  }
+
+  @Override
+  public GameQuestions findGameQuestionById(Long id) {
+    GameQuestions gameQuestions = new GameQuestions();
+    Optional<GameQuestions> dbGameQuestions = gameQuestionsRepository.findById(id);
+    if (dbGameQuestions.isPresent()) {
+      gameQuestions = dbGameQuestions.get();
+    }
+
+    if (gameQuestions != null && gameQuestions.getValidDate() != null) {
+      String validDate = DateUtil.dateToString(gameQuestions.getValidDate());
+      gameQuestions.setExValidDate(validDate);
+    }
+
+    if (gameQuestions != null && gameQuestions.getSpinDate() != null) {
+      String spinDate = DateUtil.dateToString(gameQuestions.getSpinDate());
+      gameQuestions.setExSpinDate(spinDate);
+    }
+
+    if (gameQuestions != null && gameQuestions.getCreatedDate() != null) {
+      String createdDate = DateUtil.dateToString(gameQuestions.getCreatedDate());
+      gameQuestions.setExCreatedDate(createdDate);
+    }
+    return gameQuestions;
+  }
+
+  @Override
+  public GameQuestions updateGameQuestion(GameQuestions gameQuestions) {
+    if (StringUtils.hasText(gameQuestions.getExValidDate())) {
+      Date validDate = DateUtil.stringToDate(gameQuestions.getExValidDate());
+      gameQuestions.setValidDate(validDate);
+    }
+
+    if (StringUtils.hasText(gameQuestions.getExSpinDate())) {
+      Date spinDate = DateUtil.stringToDate(gameQuestions.getExSpinDate());
+      gameQuestions.setSpinDate(spinDate);
+    }
+
+    if (StringUtils.hasText(gameQuestions.getExCreatedDate())) {
+      Date createdDate = DateUtil.stringToDate(gameQuestions.getExCreatedDate());
+      gameQuestions.setCreatedDate(createdDate);
+    }
+    return gameQuestionsRepository.save(gameQuestions);
+  }
+
+  @Override
+  public List<GameQuestions> findAllGameQuestions(boolean isActive) {
+    return gameQuestionsRepository.findAllGameQuestions(isActive);
+  }
+
+  @Override
+  public List<GameQuestions> getGameQuestionsByGreaterthanCurrentDate(String gameType) {
+    return gameQuestionsRepository.getGameQuestionsByGreaterthanCurrentDate(gameType, true);
+  }
+
+  @Override
+  public GameQuestions getGameQuestionByQuestionId(Long questionId, String gameType) {
+    return gameQuestionsRepository.getGameQuestionByQuestionId(questionId, gameType, true);
+  }
+
+  @Override
+  public GameQuestions getCompletedGameQuestionByQuestionId(Long questionId, String gameType) {
+    return gameQuestionsRepository.getGameQuestionByQuestionId(questionId, gameType, false);
+  }
 
   @Override
   public void saveApiTeams(List<ApiTeams> teams) throws ParseException {
-    for(ApiTeams team: teams) {
-      if(team.isSquard() || team.isSquad()) {
+    for (ApiTeams team : teams) {
+      if (team.isSquard() || team.isSquad()) {
         DateFormat formatterIST = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
         formatterIST.setTimeZone(TimeZone.getTimeZone("GMT"));
         Date validDate = formatterIST.parse(team.getDateTimeGMT());
         DateFormat formatterUTC = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
         formatterUTC.setTimeZone(TimeZone.getTimeZone("Asia/Kolkata"));
-        if(validDate.after(new Date())) {
+        if (validDate.after(new Date())) {
           GameQuestions gameQuestions = new GameQuestions();
           gameQuestions.setTeamOne(team.getTeamOne().toUpperCase());
           gameQuestions.setTeamTwo(team.getTeamTwo().toUpperCase());
-          String question = team.getTeamOne().toUpperCase()+" V/S " + team.getTeamTwo().toUpperCase();
+          String question =
+              team.getTeamOne().toUpperCase() + " V/S " + team.getTeamTwo().toUpperCase();
           gameQuestions.setQuestion(question);
           gameQuestions.setValidDate(validDate);
           Calendar calendar = Calendar.getInstance();
@@ -136,4 +143,6 @@ public class GameQuestionsServiceImpl implements GameQuestionsService {
       }
     }
   }
+
+
 }
