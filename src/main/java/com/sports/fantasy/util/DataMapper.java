@@ -151,8 +151,7 @@ public class DataMapper {
 
   public static SelectedMembers getSelectedMembers(UserSelectedTeam userSelectedTeam) {
     SelectedMembers selectedMembers = new SelectedMembers();
-    if (StringUtils.hasText(userSelectedTeam.getGameType())
-        && userSelectedTeam.getGameType().equalsIgnoreCase("cricket")) {
+    if (StringUtils.hasText(userSelectedTeam.getGameType()) && userSelectedTeam.getGameType().equalsIgnoreCase("cricket")) {
       List<Long> participants = getGameParticipants(userSelectedTeam, 8);
       participants.add(userSelectedTeam.getCaptainId());
       participants.add(userSelectedTeam.getViceCaptainId());
@@ -228,5 +227,50 @@ public class DataMapper {
       }
     }
     return participants;
+  }
+
+  public static SelectedMembers getRedirectEditTeamSelection(UserTempParticipants dbTempParticipants, UserInfo user) {
+    SelectedMembers selectedMembers = new SelectedMembers();
+    if(dbTempParticipants!=null && StringUtils.hasText(dbTempParticipants.getParticipants())) {
+        List<String> participantIds =  Stream.of(dbTempParticipants.getParticipants().split(",") ).collect( Collectors.toList());
+        if(participantIds!=null && participantIds.size()>0) {
+            List<Long> teamIds =  participantIds.stream().map(p -> Long.parseLong(p)).collect( Collectors.toList());
+            selectedMembers.setSelectedMembers(teamIds);
+        }
+    }
+    
+    if(dbTempParticipants!=null && dbTempParticipants.getAmountId()!=null) {
+        selectedMembers.setAmountId(dbTempParticipants.getAmountId());
+    }
+    
+    if(dbTempParticipants!=null && dbTempParticipants.getQuestionId()!=null) {  
+        selectedMembers.setQuestionId(dbTempParticipants.getQuestionId());
+    }
+    
+    if(dbTempParticipants!=null && dbTempParticipants.getUserTeamId()!=null) {  
+        selectedMembers.setUserTeamId(dbTempParticipants.getUserTeamId());
+    }
+    
+    if(dbTempParticipants!=null && dbTempParticipants.getId()!=null) {  
+        selectedMembers.setUserTempId(dbTempParticipants.getId());
+    }
+    
+    if(dbTempParticipants!=null && StringUtils.hasText(dbTempParticipants.getGameType())) { 
+        selectedMembers.setGameType(dbTempParticipants.getGameType());
+    }
+    
+    if(dbTempParticipants!=null && dbTempParticipants.getCapitanId()!=null) {   
+        selectedMembers.setCapitanId(dbTempParticipants.getCapitanId());
+    }
+    
+    if(dbTempParticipants!=null && dbTempParticipants.getViceCapitanId()!=null) {   
+        selectedMembers.setViceCapitanId(dbTempParticipants.getViceCapitanId());
+    }
+    
+    if(dbTempParticipants!=null && dbTempParticipants.getSuppoterId()!=null) {  
+        selectedMembers.setSuppoterId(dbTempParticipants.getSuppoterId());
+    }
+    
+    return selectedMembers;
   }
 }

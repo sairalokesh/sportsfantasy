@@ -8,6 +8,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -191,11 +192,53 @@ public class UserTeamsEditController {
           UserSelectedTeam dbUserSelectedTeam = userSelectedTeamService.save(selectedTeam);
           if(dbUserSelectedTeam != null) {
             deleteTempUserSelectionParticipants(userTempParticipants);
-            return "redirect:/user/game/"+selectedMembers.getGameType()+"/editparticipant/"+dbUserSelectedTeam.getId()+"/"+selectedMembers.getIndex();
+            attributes.addFlashAttribute("successmessage", "Team Updated Successflly!");
+            return "redirect:/user/game/"+selectedMembers.getGameType()+"/edit";
           }
         }
       }
       return "redirect:/user/game/"+selectedMembers.getGameType()+"/edit";
+  }
+  
+  @GetMapping(value="/game/{gameType}/amount/{questionId}/editselectedparticipants/{amountId}/{userTeamId}/{userTempId}/{index}")
+  public String seelctparticipants(@PathVariable String gameType, @PathVariable Long questionId,@PathVariable Long amountId,
+          @PathVariable Long userTeamId, @PathVariable Long userTempId, @PathVariable Integer index, Model model, Principal principal, HttpSession session) {
+      if(!LoginUtil.getAuthentication(principal)) {
+          return "redirect:/signin";
+      }
+      
+      GameQuestions gameQuestion = gameQuestionsService.getGameQuestionByQuestionId(questionId, gameType);
+      if(gameQuestion.getValidDate().before(new Date())) {
+          return "redirect:/user/game/"+gameType+"/edit";
+      }
+      
+      UserInfo user = userService.findByEmail(principal.getName());
+      UserTempParticipants dbTempParticipants = userTempParticipantService.findCurrentParticipantById(userTempId, questionId, amountId, gameType, user);
+      if(dbTempParticipants!=null && StringUtils.hasText(dbTempParticipants.getParticipants())) {
+          SelectedMembers selectedMembers = DataMapper.getRedirectEditTeamSelection(dbTempParticipants, user);
+          selectedMembers.setIndex(index);
+          AmountEntries amountEntry = gameAmountService.findByAmountId(amountId);
+          Map<String, List<GameParticipants>> gameParticipants = gameParticipantsService.getAllActiveParticipantsByQuestionId(questionId);
+          Map<String, Integer> gametypecounts = DataMapper.getGameTypeCounts(gameParticipants, selectedMembers);
+          if(gametypecounts!=null && gametypecounts.size()>0) {
+              model.addAttribute("gametypecounts", gametypecounts);
+              model.addAttribute("gamecount", gametypecounts.size());
+          }
+          
+          Map<String, Integer> gameplayercounts = DataMapper.getGamePlayerCounts(gameParticipants, selectedMembers);
+          model.addAttribute("typecount", gameplayercounts);
+          model.addAttribute("gameQuestion", gameQuestion);
+          model.addAttribute("amountEntry", amountEntry);
+          model.addAttribute("gameParticipants", gameParticipants);
+          model.addAttribute("selectedMembers", selectedMembers);
+          model.addAttribute("userTeamId", userTeamId);
+          model.addAttribute("gameType", gameType);
+          model.addAttribute("questionId", questionId);
+          model.addAttribute("index", index);
+          return "view/user/editgameParticipants";
+      } else {
+          return "redirect:/user/game/"+gameType+"/edit";
+      }
   }
   
   private void deleteTempUserSelectionParticipants(UserTempParticipants dbTempParticipants) {
