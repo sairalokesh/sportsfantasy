@@ -26,7 +26,7 @@ public class TeamParticipantsPointsApiController {
 
   @ModelAttribute
   public void adminparticipantstitle(Model model) {
-    model.addAttribute("title", "adminparticipantpoints");
+    model.addAttribute("title", "apiadminparticipantpoints");
   }
 
   @GetMapping(value = "/api/questionparticipantpoints")

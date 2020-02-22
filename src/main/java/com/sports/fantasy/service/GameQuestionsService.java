@@ -16,6 +16,7 @@ public interface GameQuestionsService {
   GameQuestions getGameQuestionByQuestionId(Long questionId, String gameType);
   void saveApiTeams(List<ApiTeams> teams)  throws ParseException;
   GameQuestions getCompletedGameQuestionByQuestionId(Long questionId, String gametype);
+  List<GameQuestions> getGameQuestionsByGreaterthanCurrentDatewithLimit(String gameType);
 
 
 

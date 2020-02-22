@@ -1,11 +1,11 @@
 package com.sports.fantasy.repository;
 
 import java.util.List;
-
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
-
 import com.sports.fantasy.model.GameQuestions;
 
 @Repository
@@ -25,4 +25,7 @@ public interface GameQuestionsRepository extends CrudRepository<GameQuestions, L
 
   @Query("Select g from GameQuestions as g where g.uniqueId = ?1")
   GameQuestions findByUniqueId(Long uniqueId);
+
+  @Query("Select g from GameQuestions as g where g.validDate >= now() order by g.validDate asc")
+  Page<GameQuestions> getGameQuestionsByGreaterthanCurrentDatewithLimit(String gameType, Pageable pageable);
 }

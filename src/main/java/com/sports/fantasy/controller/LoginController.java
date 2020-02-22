@@ -9,11 +9,16 @@ import org.springframework.security.web.authentication.logout.SecurityContextLog
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-
+import org.springframework.web.bind.annotation.ModelAttribute;
 import com.sports.fantasy.model.UserInfo;
 
 @Controller
 public class LoginController {
+  
+  @ModelAttribute
+  public void admindashboardtitle(Model model) {
+    model.addAttribute("activetitle", "signin");
+  }
 
 	@GetMapping(value = "/signin")
 	public String signin(Model model) {

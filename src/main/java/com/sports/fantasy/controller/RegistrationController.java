@@ -30,6 +30,11 @@ public class RegistrationController {
 	@Autowired private UserCouponService userCouponService;
 	@Autowired private UserAmountService userAmountService;
 	
+	@ModelAttribute
+    public void admindashboardtitle(Model model) {
+	  model.addAttribute("activetitle", "signup");
+    }
+	
 	@GetMapping(value = "/signup")
 	public String signup(Model model) {
 		model.addAttribute("user", new UserInfo());
