@@ -22,17 +22,17 @@
 				class="nav-link page-scroll nav_item" th:href="@{'/home'}">Home</a></li>
 			<li class="animation" data-animation="fadeInDown"
 				data-animation-delay="1.3s"><a
-				class="nav-link page-scroll nav_item" href="#howtoplay_section">How to Play</a></li>
+				class="nav-link page-scroll nav_item" th:href="${activetitle == 'howtoplay'?'#howtoplay_section':'/howtoplay'}">How to Play</a></li>
 			<li class="animation" data-animation="fadeInDown"
 				data-animation-delay="1.4s"><a
-				class="nav-link page-scroll nav_item" href="#mobile_section">Mobile App</a></li>
+				class="nav-link page-scroll nav_item" th:href="${activetitle == 'mobileapp'?'#mobile_section':'mobileapp'}">Mobile App</a></li>
 			<li class="animation" data-animation="fadeInDown"
 				data-animation-delay="1.5s"><a
-				class="nav-link page-scroll nav_item" href="#point_section">Point System
+				class="nav-link page-scroll nav_item" th:href="${activetitle == 'pointsysytem'?'#point_section':'pointsystem'}" href="">Point System
 					</a></li>
 			<li class="animation" data-animation="fadeInDown"
 				data-animation-delay="1.8s"><a
-				class="nav-link page-scroll nav_item" href="#contact">Contact</a></li>
+				class="nav-link page-scroll nav_item" th:href="${activetitle == 'contact'?'#contact_section':'/contact'}" href="">Contact</a></li>
 		</ul>
 		<ul class="navbar-nav nav_btn align-items-center">
 			<li class="animation active" data-animation="fadeInDown"

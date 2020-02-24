@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<!-- Meta -->
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Cryptocash is Professional Creative Template" />
+<title>Home Page</title>
+<link rel="shortcut icon" type="image/x-icon" href="assets/images/favicon.png">
+<link rel="stylesheet" href="assets/css/animate.css">
+<link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+<link href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/font-awesome.min.css">
+<link rel="stylesheet" href="assets/css/ionicons.min.css">
+<link rel="stylesheet" href="assets/owlcarousel/css/owl.carousel.min.css">
+<link rel="stylesheet" href="assets/owlcarousel/css/owl.theme.default.min.css">
+<link rel="stylesheet" href="assets/css/magnific-popup.css">
+<link rel="stylesheet" href="assets/css/style.css">
+<link rel="stylesheet" href="assets/css/responsive.css">
+<link id="layoutstyle" rel="stylesheet" href="assets/color/theme.css">
+<link rel="stylesheet" th:href="@{/css/gameentry.css}" />
+<style>
+/* width */
+::-webkit-scrollbar {
+	width: 3px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+	box-shadow: inset 0 0 5px grey;
+	border-radius: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+	background: blue !important;
+	border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+	background: blue !important;
+}
+</style>
+</head>
+
+<body class="v_dark" data-spy="scroll" data-offset="110">
+	<header class="header_wrap fixed-top">
+		<div class="container-fluid">
+		  <nav th:replace="fragments/commonmenu :: commonmenu"></nav>
+		</div>
+	</header>
+	<!-- END HEADER -->
+	<!-- START SECTION TOKEN SALE -->
+	<section id="point_section" class="section_token token_sale bg_light_dark"
+		data-z-index="1" data-parallax="scroll"
+		data-image-src="assets/images/token_bg.png" style="padding: 135px 0;">
+		<canvas id="banner_canvas" class="transparent_effect fixed"></canvas>
+		<div class="container">
+			<div class="row align-items-center">
+			<div class="col-lg-5 col-md-12 col-sm-12">
+					<div class="res_md_mt_50 res_sm_mt_30 text-center animation"
+						data-animation="fadeInRight" data-animation-delay="0.2s">
+						<img src="assets/images/player.png"
+							alt="mobile_app3" />
+					</div>
+				</div>
+				<div class="col-lg-7 col-md-12 col-sm-12">
+					<div class="tab_content">
+						<ul
+							class="nav nav-pills tab_nav_s2 tab_color_white justify-content-center"
+							id="pills-tab" role="tablist">
+							<li class="nav-item animation" data-animation="fadeInUp"
+								data-animation-delay="0.5s"><a class="active"
+								data-toggle="tab" href="#tab1">BATTING</a></li>
+							<li class="nav-item animation" data-animation="fadeInUp"
+								data-animation-delay="0.6s"><a data-toggle="tab"
+								href="#tab2">BOWLING </a></li>
+							<li class="nav-item animation" data-animation="fadeInUp"
+								data-animation-delay="0.7s"><a data-toggle="tab"
+								href="#tab3">FIELDING</a></li>
+						</ul>
+						<div class="tab-content half_tab">
+							<div class="tab-pane fade show active" id="tab1" role="tabpanel">
+								<div class="row">
+									<div class="col-md-12">
+										<div id="accordion1" class="faq_content">
+											<div class="card animation" data-animation="fadeInUp"
+												data-animation-delay="0.4s">
+												<div class="card-header" id="headingOne">
+													<h6 class="mb-0">
+														<a data-toggle="collapse" href="#collapseOne"
+															aria-expanded="true" aria-controls="collapseOne">Run<span style="float:right;">+ 1</span></a>
+													</h6>
+												</div>
+											</div>
+											<div class="card animation" data-animation="fadeInUp"
+												data-animation-delay="0.6s">
+												<div class="card-header" id="headingTwo">
+													<h6 class="mb-0">
+														<a class="collapsed" data-toggle="collapse"
+															href="#collapseTwo" aria-expanded="false"
+															aria-controls="collapseTwo">Playing 11<span style="float:right;">+ 3</span></a>
+													</h6>
+												</div>
+											</div>
+											<div class="card animation" data-animation="fadeInUp"
+												data-animation-delay="0.8s">
+												<div class="card-header" id="headingThree">
+													<h6 class="mb-0">
+														<a class="collapsed" data-toggle="collapse"
+															href="#collapseThree" aria-expanded="false"
+															aria-controls="collapseThree">4'S<span style="float:right;">+ 1</span></a>
+													</h6>
+												</div>
+											</div>
+											<div class="card animation" data-animation="fadeInUp"
+												data-animation-delay="1s">
+												<div class="card-header" id="headingFour">
+													<h6 class="mb-0">
+														<a class="collapsed" data-toggle="collapse"
+															href="#collapseFour" aria-expanded="false"
+															aria-controls="collapseFour">6'S<span style="float:right;">+ 2</span></a>
+													</h6>
+												</div>
+											</div>
+											<div class="card animation" data-animation="fadeInUp"
+												data-animation-delay="1.2s">
+												<div class="card-header" id="headingFour">
+													<h6 class="mb-0">
+														<a class="collapsed" data-toggle="collapse"
+															href="#collapseFour" aria-expanded="false"
+															aria-controls="collapseFour">Half-century<span style="float:right;">+ 6</span></a>
+													</h6>
+												</div>
+											</div>
+											<div class="card animation" data-animation="fadeInUp"
+												data-animation-delay="1.4s">
+												<div class="card-header" id="headingFour">
+													<h6 class="mb-0">
+														<a class="collapsed" data-toggle="collapse"
+															href="#collapseFour" aria-expanded="false"
+															aria-controls="collapseFour">Century<span style="float:right;">+ 12</span></a>
+													</h6>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="tab-pane fade" id="tab2" role="tabpanel">
+								<div class="row">
+									<div class="col-md-12">
+										<div id="accordion3" class="faq_content">
+											<div class="card animation" data-animation="fadeInUp"
+												data-animation-delay="0.4s">
+												<div class="card-header" id="headingNine">
+													<h6 class="mb-0">
+														<a data-toggle="collapse" href="#collapseNine"
+															aria-expanded="true" aria-controls="collapseNine">Wicket<span style="float:right;">+ 10</span></a>
+													</h6>
+												</div>
+											</div>
+											<div class="card animation" data-animation="fadeInUp"
+												data-animation-delay="0.6s">
+												<div class="card-header" id="headingTen">
+													<h6 class="mb-0">
+														<a class="collapsed" data-toggle="collapse"
+															href="#collapseTen" aria-expanded="false"
+															aria-controls="collapseTen">Maiden Over<span style="float:right;">+ 5</span></a>
+													</h6>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="tab-pane fade" id="tab3" role="tabpanel">
+								<div class="row">
+									<div class="col-md-12">
+										<div id="accordion5" class="faq_content">
+											<div class="card animation" data-animation="fadeInUp"
+												data-animation-delay="0.4s">
+												<div class="card-header" id="headingSeventeen">
+													<h6 class="mb-0">
+														<a data-toggle="collapse" href="#collapseSeventeen"
+															aria-expanded="true" aria-controls="collapseSeventeen">catch<span style="float:right;">+ 7</span></a>
+													</h6>
+												</div>
+											</div>
+											<div class="card animation" data-animation="fadeInUp"
+												data-animation-delay="0.6s">
+												<div class="card-header" id="headingEighteen">
+													<h6 class="mb-0">
+														<a class="collapsed" data-toggle="collapse"
+															href="#collapseEighteen" aria-expanded="false"
+															aria-controls="collapseEighteen">Stumping<span style="float:right;">+ 6</span></a>
+													</h6>
+												</div>
+											</div>
+											<div class="card animation" data-animation="fadeInUp"
+												data-animation-delay="0.8s">
+												<div class="card-header" id="headingNineteen">
+													<h6 class="mb-0">
+														<a class="collapsed" data-toggle="collapse"
+															href="#collapseNineteen" aria-expanded="false"
+															aria-controls="collapseNineteen">Run-out<span style="float:right;">+ 6</span></a>
+													</h6>
+												</div>
+											</div>
+											<div class="card animation" data-animation="fadeInUp"
+												data-animation-delay="1s">
+												<div class="card-header" id="headingTwenty">
+													<h6 class="mb-0">
+														<a class="collapsed" data-toggle="collapse"
+															href="#collapseTwenty" aria-expanded="false"
+															aria-controls="collapseTwenty">Bowled<span style="float:right;">+ 6</span></a>
+													</h6>
+												</div>
+											</div>
+											<div class="card animation" data-animation="fadeInUp"
+												data-animation-delay="1.2s">
+												<div class="card-header" id="headingTwenty">
+													<h6 class="mb-0">
+														<a class="collapsed" data-toggle="collapse"
+															href="#collapseTwenty" aria-expanded="false"
+															aria-controls="collapseTwenty">LBW<span style="float:right;">+ 6</span></a>
+													</h6>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				
+			</div>
+		</div>
+	</section>
+	<!-- END SECTION TOKEN SALE -->
+
+
+
+	<!-- START FOOTER SECTION -->
+	<footer>
+		<div class="bottom_footer">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-6">
+						<p class="copyright">Copyright &copy; 2020 - 2021 All Rights Reserved.</p>
+					</div>
+					<div class="col-md-6">
+						<ul class="list_none footer_menu">
+							<li><a href="#">Privacy Policy</a></li>
+							<li><a href="#">Terms & Conditions</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</footer>
+	<!-- END FOOTER SECTION -->
+
+
+
+	<script src="assets/js/jquery-1.12.4.min.js"></script>
+	<script src="assets/bootstrap/js/bootstrap.min.js"></script>
+	<script src="assets/owlcarousel/js/owl.carousel.min.js"></script>
+	<script src="assets/js/magnific-popup.min.js"></script>
+	<script src="assets/js/waypoints.min.js"></script>
+	<script src="assets/js/parallax.js"></script>
+	<script src="assets/js/jquery.countdown.min.js"></script>
+	<script src="assets/js/particles.min.js"></script>
+	<script src="assets/js/jquery.dd.min.js"></script>
+	<script src="assets/js/jquery.counterup.min.js"></script>
+	<script src="assets/js/modern_canvas.js"></script>
+	<script src="assets/js/spop.min.js"></script>
+	<script src="assets/js/scripts.js"></script>
+</body>
+</html>

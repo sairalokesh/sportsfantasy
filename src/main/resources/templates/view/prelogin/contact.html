@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<!-- Meta -->
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Contact Us - All Sport Fantasy" />
+<title>Contact - All Sports Fantasy</title>
+<link rel="shortcut icon" type="image/x-icon" href="assets/images/favicon.png">
+<link rel="stylesheet" href="assets/css/animate.css">
+<link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+<link href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/font-awesome.min.css">
+<link rel="stylesheet" href="assets/css/ionicons.min.css">
+<link rel="stylesheet" href="assets/owlcarousel/css/owl.carousel.min.css">
+<link rel="stylesheet" href="assets/owlcarousel/css/owl.theme.default.min.css">
+<link rel="stylesheet" href="assets/css/magnific-popup.css">
+<link rel="stylesheet" href="assets/css/style.css">
+<link rel="stylesheet" href="assets/css/responsive.css">
+<link id="layoutstyle" rel="stylesheet" href="assets/color/theme.css">
+<link rel="stylesheet" th:href="@{/css/gameentry.css}" />
+<style>
+/* width */
+::-webkit-scrollbar {
+	width: 3px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+	box-shadow: inset 0 0 5px grey;
+	border-radius: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+	background: blue !important;
+	border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+	background: blue !important;
+}
+</style>
+</head>
+
+<body class="v_dark" data-spy="scroll" data-offset="110">
+	<header class="header_wrap fixed-top">
+		<div class="container-fluid">
+		  <nav th:replace="fragments/commonmenu :: commonmenu"></nav>
+		</div>
+	</header>
+	<!-- END HEADER -->
+	<!-- START SECTION TOKEN SALE -->
+	<section id="contact_section" class="section_token token_sale bg_light_dark"
+		data-z-index="1" data-parallax="scroll"
+		data-image-src="assets/images/token_bg.png" style="padding: 135px 0;">
+		<canvas id="banner_canvas" class="transparent_effect fixed"></canvas>
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-8 col-md-12 offset-lg-2">
+					<div class="title_default_light title_border text-center">
+						<h4 class="animation" data-animation="fadeInUp"
+							data-animation-delay="0.2s">Get In Touch!</h4>
+					</div>
+				</div>
+			</div>
+			<div class="row align-items-center">
+				<div class="col-lg-8 col-md-12 col-sm-12">
+					<div class="row align-items-center">
+				<div class="col-lg-6 col-md-6">
+					<div class="bg_light_dark  contact_box_s2 animation"
+						data-animation="fadeInLeft" data-animation-delay="0.1s">
+						<div class="contact_title">
+							<h5 class="animation" data-animation="fadeInUp"
+								data-animation-delay="0.2s" style="text-align: center;">Contact With Us</h5>
+						</div>
+						<ul class="list_none contact_info mt-margin">
+							<li class="animation" data-animation="fadeInUp"
+								data-animation-delay="0.4s"><i class="ion-ios-location"></i>
+								<div class="contact_detail">
+									<span>Address</span>
+									<p> Sripradip debgupta, Residency no #193, 1st floor, 12th cross, Devasandra, K.R Puram, Bangalore - 560036.</p>
+								</div></li>
+							<li class="animation" data-animation="fadeInUp"
+								data-animation-delay="0.5s"><i class="ion-android-call"></i>
+								<div class="contact_detail">
+									<span>Phone</span>
+									<p>+91 8050320696</p>
+								</div></li>
+							<li class="animation" data-animation="fadeInUp"
+								data-animation-delay="0.6s"><i class="ion-ios-email"></i>
+								<div class="contact_detail">
+									<span>Email-id</span>
+									<p>lokesh713@gmail.com</p>
+								</div></li>
+						</ul>
+						<div class="contct_follow pt-2 pt-md-4">
+							<span class="text-uppercase animation" data-animation="fadeInUp"
+								data-animation-delay="0.2s">Follow Us</span>
+							<ul class="list_none social_icon">
+								<li class="animation" data-animation="fadeInUp"
+									data-animation-delay="0.4s"><a href="#"><i
+										class=" fa fa-facebook"></i></a></li>
+								<li class="animation" data-animation="fadeInUp"
+									data-animation-delay="0.5s"><a href="#"><i
+										class=" fa fa-twitter"></i></a></li>
+								<li class="animation" data-animation="fadeInUp"
+									data-animation-delay="0.6s"><a href="#"><i
+										class=" fa fa-google-plus"></i></a></li>
+								<li class="animation" data-animation="fadeInUp"
+									data-animation-delay="0.7s"><a href="#"><i
+										class=" fa fa-pinterest"></i></a></li>
+								<li class="animation" data-animation="fadeInUp"
+									data-animation-delay="0.8s"><a href="#"><i
+										class=" fa fa-linkedin"></i></a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-6 col-md-6">
+					<div class="pt-4 pt-md-0 animation" data-animation="fadeInRight"
+						data-animation-delay="0.1s">
+						<form method="post" name="enq" class="field_form">
+							<div class="row">
+								<div class="form-group col-md-12 animation"
+									data-animation="fadeInUp" data-animation-delay="0.4s">
+									<input type="text" required="required"
+										placeholder="Enter Name *" id="first-name"
+										class="form-control" name="name">
+								</div>
+								<div class="form-group col-md-12 animation"
+									data-animation="fadeInUp" data-animation-delay="0.6s">
+									<input type="email" required="required"
+										placeholder="Enter Email *" id="email" class="form-control"
+										name="email">
+								</div>
+								<div class="form-group col-md-12 animation"
+									data-animation="fadeInUp" data-animation-delay="0.8s">
+									<input type="text" required="required"
+										placeholder="Enter Subject" id="subject" class="form-control"
+										name="subject">
+								</div>
+								<div class="form-group col-md-12 animation"
+									data-animation="fadeInUp" data-animation-delay="1s">
+									<textarea required="required" placeholder="Message *"
+										id="description" class="form-control" name="message" rows="2"></textarea>
+								</div>
+								<div class="col-md-12 text-center animation"
+									data-animation="fadeInUp" data-animation-delay="1.2s">
+									<button type="submit" title="Submit Your Message!"
+										class="btn btn-default btn-radius btn-block" id="submitButton"
+										name="submit" value="Submit">
+										Submit <i class="ion-ios-arrow-thin-right"></i>
+									</button>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+				</div>
+				<div class="col-lg-4 col-md-12 col-sm-12">
+					<div class="res_md_mt_50 res_sm_mt_30 text-center animation"
+						data-animation="fadeInRight" data-animation-delay="0.2s" style="margin-top: -100px;">
+						<img src="assets/images/contact.png"
+							alt="mobile_app3" style="width: 100%;"/>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<!-- END SECTION TOKEN SALE -->
+
+
+
+	<!-- START FOOTER SECTION -->
+	<footer>
+		<div class="bottom_footer">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-6">
+						<p class="copyright">Copyright &copy; 2020 - 2021 All Rights Reserved.</p>
+					</div>
+					<div class="col-md-6">
+						<ul class="list_none footer_menu">
+							<li><a href="#">Privacy Policy</a></li>
+							<li><a href="#">Terms & Conditions</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</footer>
+	<!-- END FOOTER SECTION -->
+
+
+
+	<script src="assets/js/jquery-1.12.4.min.js"></script>
+	<script src="assets/bootstrap/js/bootstrap.min.js"></script>
+	<script src="assets/owlcarousel/js/owl.carousel.min.js"></script>
+	<script src="assets/js/magnific-popup.min.js"></script>
+	<script src="assets/js/waypoints.min.js"></script>
+	<script src="assets/js/parallax.js"></script>
+	<script src="assets/js/jquery.countdown.min.js"></script>
+	<script src="assets/js/particles.min.js"></script>
+	<script src="assets/js/jquery.dd.min.js"></script>
+	<script src="assets/js/jquery.counterup.min.js"></script>
+	<script src="assets/js/modern_canvas.js"></script>
+	<script src="assets/js/spop.min.js"></script>
+	<script src="assets/js/scripts.js"></script>
+</body>
+</html>
