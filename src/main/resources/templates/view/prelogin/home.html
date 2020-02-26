@@ -1,24 +1,22 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
-<!-- Meta -->
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="Cryptocash is Professional Creative Template" />
-<title>Home Page</title>
-<link rel="shortcut icon" type="image/x-icon" href="assets/images/favicon.png">
-<link rel="stylesheet" href="assets/css/animate.css">
-<link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+<meta name="description" content="All Sports Fantasy is sports fantasy game" />
+<title>Home Page - All Sports Fantasy</title>
+<link rel="shortcut icon" type="image/x-icon" th:href="@{/assets/images/favicon.png}" />
+<link rel="stylesheet" th:href="@{/assets/css/animate.css}" />
+<link rel="stylesheet" th:href="@{/assets/bootstrap/css/bootstrap.min.css}" />
 <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/font-awesome.min.css">
-<link rel="stylesheet" href="assets/css/ionicons.min.css">
-<link rel="stylesheet" href="assets/owlcarousel/css/owl.carousel.min.css">
-<link rel="stylesheet" href="assets/owlcarousel/css/owl.theme.default.min.css">
-<link rel="stylesheet" href="assets/css/magnific-popup.css">
-<link rel="stylesheet" href="assets/css/style.css">
-<link rel="stylesheet" href="assets/css/responsive.css">
+<link rel="stylesheet" th:href="@{/assets/css/font-awesome.min.css}" />
+<link rel="stylesheet" th:href="@{/assets/css/ionicons.min.css}" />
+<link rel="stylesheet" th:href="@{/assets/owlcarousel/css/owl.carousel.min.css}" />
+<link rel="stylesheet" th:href="@{/assets/owlcarousel/css/owl.theme.default.min.css}" />
+<link rel="stylesheet" th:href="@{/assets/css/magnific-popup.css}" />
+<link rel="stylesheet" th:href="@{/assets/css/style.css}" />
+<link rel="stylesheet" th:href="@{/assets/css/responsive.css}" />
 <link rel="stylesheet" th:href="@{/css/gameentry.css}" />
 <style>
 /* width */
@@ -74,12 +72,12 @@
 							class="transparent_bg tk_counter_inner m-lg-0 banner_token text-center px-0 animation"
 							data-animation="fadeIn" data-animation-delay="1.4s"
 							style="max-width: 516px;">
-							<h5 class="animation presale_txt text-white"
+							<h5 class="animation presale_txt text-white match-align"
 								data-animation="fadeInUp" data-animation-delay="1.3s"
-								th:text="${gameQuestion.question}" style="margin-left: -67px;"></h5>
+								th:text="${gameQuestion.question}"></h5>
 							<div
-								class="tk_countdown_time transparent_bg box_shadow_none border counter_medium animation"
-								data-animation="fadeInUp" style="margin-left: -67px;"
+								class="tk_countdown_time transparent_bg box_shadow_none border counter_medium animation match-align"
+								data-animation="fadeInUp"
 								data-animation-delay="1.2s"
 								th:attr="data-time=${gameQuestion.validDate}"></div>
 							<script type="text/javascript" th:inline="javascript">
@@ -114,12 +112,12 @@
 					<div class="banner_image_right res_md_mb_50 res_xs_mb_30 animation"
 						data-animation-delay="1.5s" data-animation="fadeInRight">
 						<img alt="banner_vector2"
-							src="https://cdn.clipart.email/cf94b528afd0d2c2aaae18fb1f0c4c6d_cricket-png-clipart-png-mart_1042-805.png"
+							th:src="@{/assets/images/home.png}"
 							style="margin-top: -65px;"/> <img alt="banner_vector2"
-							src="assets/images/balls.png"
+							th:src="@{/assets/images/balls.png}"
 							style="margin-top: -326px; margin-left: -185px;"/>
 							<img alt="banner_vector2"
-							src="assets/images/cricket.gif"
+							th:src="@{/assets/images/cricket.gif}"
 							style="margin-top: -236px;margin-left: -43px;"/>
 					</div>
 				</div>
@@ -176,7 +174,7 @@
 								<div class="item">
 									<ul class="ec-team-matches">
 										<li><a href="javascript:void(0);"> <img
-												th:src="${gameQuestion.teamOneImage!=null && gameQuestion.teamOneImage!=''?gameQuestion.teamOneImage:'https://rangerwear.com/content/images/thumbs/default-image_600.png'}"
+												th:src="${gameQuestion.teamOneImage!=null && gameQuestion.teamOneImage!=''?gameQuestion.teamOneImage:'/assets/images/no-image.png'}"
 												alt="" style="width: 100px; height: 100px" /> <span
 												th:text="${#strings.length(gameQuestion.teamOne)>10?#strings.substring(gameQuestion.teamOne,0,10)+'...':gameQuestion.teamOne}">Arsenal</span></a>
 										</li>
@@ -197,7 +195,7 @@
 											th:text="${#dates.format(gameQuestion.validDate, 'hh:mm aa')}">08:00am</small>
 										</li>
 										<li><a href="javascript:void(0);"><img
-												th:src="${gameQuestion.teamTwoImage!=null && gameQuestion.teamTwoImage!=''?gameQuestion.teamTwoImage:'https://rangerwear.com/content/images/thumbs/default-image_600.png'}"
+												th:src="${gameQuestion.teamTwoImage!=null && gameQuestion.teamTwoImage!=''?gameQuestion.teamTwoImage:'/assets/images/no-image.png'}"
 												alt="" style="width: 100px; height: 100px" /> <span
 												th:text="${#strings.length(gameQuestion.teamTwo)>10?#strings.substring(gameQuestion.teamTwo,0,10)+'...':gameQuestion.teamTwo}">Premier
 													League</span></a></li>
@@ -292,7 +290,7 @@
 							data-animation="fadeIn" data-animation-delay="1s">
 							<div class="tk_counter_inner">
 								<img alt="banner_vector2"
-							src="assets/images/teams.png"
+							th:src="@{/assets/images/teams.png}"
 							>
 								
 							</div>
@@ -355,7 +353,7 @@
 				<div class="col-lg-5 col-md-12 col-sm-12">
 					<div class="res_md_mt_50 res_sm_mt_30 text-center animation"
 						data-animation="fadeInRight" data-animation-delay="0.2s">
-						<img src="assets/images/output-onlinepngtools.png"
+						<img th:src="@{/assets/images/output-onlinepngtools.png}"
 							alt="mobile_app3" />
 					</div>
 				</div>
@@ -380,8 +378,8 @@
 			<div class="col-lg-5 col-md-12 col-sm-12">
 					<div class="res_md_mt_50 res_sm_mt_30 text-center animation"
 						data-animation="fadeInRight" data-animation-delay="0.2s">
-						<img src="assets/images/loading-img.gif" alt="mobile_app3" style="margin-left: 37px;width: 75px;margin-bottom: -42px"/>
-						<img src="assets/images/player.png" alt="mobile_app3" />
+						<img th:src="@{/assets/images/loading-img.gif}" alt="mobile_app3" style="margin-left: 37px;width: 75px;margin-bottom: -42px"/>
+						<img th:src="@{/assets/images/player.png}" alt="mobile_app3" />
 					</div>
 				</div>
 				<div class="col-lg-7 col-md-12 col-sm-12">
@@ -667,14 +665,18 @@
 				</div>
 				<div class="col-lg-4 col-md-12 col-sm-12">
 					<div class="res_md_mt_50 res_sm_mt_30 text-center animation"
-						data-animation="fadeInRight" data-animation-delay="0.2s" style="margin-top: -100px;">
-						<img src="assets/images/contact.png"
+						data-animation="fadeInRight" data-animation-delay="0.2s">
+						<img th:src="@{/assets/images/contact.png}"
 							alt="mobile_app3" style="width: 100%;"/>
 					</div>
 				</div>
 			</div>
 		
 		</div>
+		<div class="waveWrapper">
+	        <div class="wave waveTop"></div>
+	        <div class="wave waveMiddle"></div>
+    	</div>
 	</section>
 	<!-- END SECTION CONTACT -->
 
@@ -696,22 +698,18 @@
 			</div>
 		</div>
 	</footer>
-	<!-- END FOOTER SECTION -->
-
-
-
-	<script src="assets/js/jquery-1.12.4.min.js"></script>
-	<script src="assets/bootstrap/js/bootstrap.min.js"></script>
-	<script src="assets/owlcarousel/js/owl.carousel.min.js"></script>
-	<script src="assets/js/magnific-popup.min.js"></script>
-	<script src="assets/js/waypoints.min.js"></script>
-	<script src="assets/js/parallax.js"></script>
-	<script src="assets/js/jquery.countdown.min.js"></script>
-	<script src="assets/js/particles.min.js"></script>
-	<script src="assets/js/jquery.dd.min.js"></script>
-	<script src="assets/js/jquery.counterup.min.js"></script>
-	<script src="assets/js/modern_canvas.js"></script>
-	<script src="assets/js/spop.min.js"></script>
-	<script src="assets/js/scripts.js"></script>
+	<script th:src="@{/assets/js/jquery-1.12.4.min.js}"></script>
+	<script th:src="@{/assets/bootstrap/js/bootstrap.min.js}"></script>
+	<script th:src="@{/assets/owlcarousel/js/owl.carousel.min.js}"></script>
+	<script th:src="@{/assets/js/magnific-popup.min.js}"></script>
+	<script th:src="@{/assets/js/waypoints.min.js}"></script>
+	<script th:src="@{/assets/js/parallax.js}"></script>
+	<script th:src="@{/assets/js/jquery.countdown.min.js}"></script>
+	<script th:src="@{/assets/js/particles.min.js}"></script>
+	<script th:src="@{/assets/js/jquery.dd.min.js}"></script>
+	<script th:src="@{/assets/js/jquery.counterup.min.js}"></script>
+	<script th:src="@{/assets/js/modern_canvas.js}"></script>
+	<script th:src="@{/assets/js/spop.min.js}"></script>
+	<script th:src="@{/assets/js/scripts.js}"></script>
 </body>
 </html>

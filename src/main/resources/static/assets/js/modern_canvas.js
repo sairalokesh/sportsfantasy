@@ -7,7 +7,7 @@
 					function() {
 						var w = window.innerWidth, h = window.innerHeight, canvas = document
 								.getElementById('banner_canvas'), ctx = canvas
-								.getContext('2d'), rate = 60, arc = 200, time, count, size = 7, speed = 20, parts = new Array, colors = [
+								.getContext('2d'), rate = 60, arc = 200, time, count, size = 7, speed = 10, parts = new Array, colors = [
 								'#FFC56E', '#FF6CC6', '#4241B8', '#F69040',
 								'#0EADC9' ];
 						var mouse = {

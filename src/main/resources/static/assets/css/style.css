@@ -806,7 +806,11 @@ keyframes rounded { 0% {
 opacity
 
 
+
+
 :
+
+
 
 
 1;
@@ -816,52 +820,80 @@ opacity
 opacity
 
 
+
+
 :
+
+
 
 
 0;
 -webkit-transform
 
 
+
+
 :
 
+
  
+
 
 scale
 
 
+
+
 (1
 .2
+
+
 
 
 );
 -moz-transform
 
 
+
+
 :
 
+
  
+
 
 scale
 
 
+
+
 (1
 .2
+
+
 
 
 );
 transform
 
 
+
+
 :
 
+
  
+
 
 scale
 
 
+
+
 (1
 .2
+
+
 
 
 );
@@ -876,116 +908,202 @@ scale
 }
 
 .btn
+
+
 .active
+
+
 .focus
 ,
 .btn
+
+
 .active
+
+
 :focus
 ,
 .btn
+
+
 .active
+
+
 :hover
 ,
 .btn
+
+
 :active
+
+
 :focus
 ,
 .btn
+
+
 :active
+
+
 :hover
 ,
 .btn
+
+
 .active
 ,
 .btn
+
+
 :active
 ,
 .btn
+
+
 .focus
+
+
 :active
 ,
 .btn
+
+
 :focus
 ,
 .btn
+
+
 .active
+
+
 :not
+
  
-(
-:disabled
- 
-)
-:not
- 
-(
-.disabled
- 
-),
-.btn
-:active
-:not
- 
+
 (
 :disabled
 
-	
+ 
+
 )
 :not
+
  
+
 (
 .disabled
+
  
+
+),
+.btn
+
+
+:active
+
+
+:not
+
+ 
+
+(
+:disabled
+
+
+	
+
+)
+:not
+
+ 
+
+(
+.disabled
+
+ 
+
 )
 {
 background-image
+
+
 :
+
  
+
 -webkit-linear-gradient
-(left
+
+
+(
+left
 ,
 #ff67cb
+
  
+
 0%,
 #ffcc67
+
  
+
 51%,
 #ff67cb
-);
 
-	
+
+);
 background-image
+
+
 :
+
  
+
 linear-gradient
-(to
+
+
+(
+to
+
  
+
 right
 ,
 #ff67cb
+
  
+
 0%,
 #ffcc67
+
  
+
 51%,
 #ff67cb
+
+
 );
-
-	
 box-shadow
-:
- 
-none
-;
 
-	
+
+:
+
+ 
+
+none
+
+
+;
 outline
+
+
 :
+
  
+
 none
+
+
 ;
-
-
 }
 .btn-default {
 	background-size: 200% auto;
@@ -1008,123 +1126,213 @@ none
 }
 
 .btn-default
+
+
 .active
+
+
 .focus
 ,
 .btn-default
+
+
 .active
+
+
 :focus
 ,
 .btn-default
+
+
 .active
+
+
 :hover
 ,
 .btn-default
+
+
 :active
+
+
 :focus
 ,
 .btn-default
+
+
 :active
+
+
 :hover
 ,
 .btn-default
+
+
 .active
 ,
 .btn-default
+
+
 :active
 ,
 .btn-default
+
+
 .focus
+
+
 :active
 ,
 .btn-default
+
+
 :focus
 ,
 .btn
+
+
 .active
+
+
 :not
+
  
-(
-:disabled
- 
-)
-:not
- 
-(
-.disabled
- 
-),
-.btn
-:active
-:not
- 
+
 (
 :disabled
 
-	
+ 
+
 )
 :not
+
  
+
 (
 .disabled
+
  
+
+),
+.btn
+
+
+:active
+
+
+:not
+
+ 
+
+(
+:disabled
+
+
+	
+
+)
+:not
+
+ 
+
+(
+.disabled
+
+ 
+
 )
 {
 background-image
+
+
 :
+
  
+
 -webkit-linear-gradient
-(left
+
+
+(
+left
 ,
 #ffcc67
+
  
+
 0%,
 #ff67cb
+
  
+
 51%,
 #ffcc67
-);
 
-	
+
+);
 background-image
+
+
 :
+
  
+
 linear-gradient
-(to
+
+
+(
+to
+
  
+
 right
 ,
 #ffcc67
+
  
+
 0%,
 #ff67cb
+
  
+
 51%,
 #ffcc67
+
+
 );
-
-	
 box-shadow
-:
- 
-none
-;
 
-	
+
+:
+
+ 
+
+none
+
+
+;
 color
+
+
 :
+
  
+
 #fff
-;
 
-	
+
+;
 outline
+
+
 :
+
  
+
 none
+
+
 ;
-
-
 }
 .btn-border {
 	background-image: -webkit-linear-gradient(left, #ffcc67 0%, #ff67cb 99%);
@@ -1203,106 +1411,196 @@ none
 }
 
 .btn-primary
+
+
 :hover
 ,
 .btn-primary
+
+
 .active
+
+
 .focus
 ,
 .btn-primary
+
+
 .active
+
+
 :focus
 ,
 .btn-primary
+
+
 .active
+
+
 :hover
 ,
 .btn-primary
+
+
 :active
+
+
 :focus
 ,
 .btn-primary
+
+
 :active
+
+
 :hover
 ,
 .btn-primary
+
+
 .active
 ,
 .btn-primary
+
+
 :active
 ,
 .btn-primary
+
+
 .focus
+
+
 :active
 ,
 .btn-primary
+
+
 :focus
 ,
 .btn-primary
+
+
 .active
+
+
 :focus
+
+
 :not
+
  
+
 (
 :disabled
+
  
+
 )
 :not
+
  
+
 (
 .disabled
 
-	
-),
-.btn-primary
-:active
-:focus
-:not
- 
-(
-:disabled
- 
-)
-:not
- 
-(
-.disabled
- 
-),
-.btn-primary
-.active
-:not
- 
-(
-:disabled
- 
-)
-:not
- 
-(
-.disabled
- 
-),
-.btn-primary
-:active
-:not
 
 	
+
+),
+.btn-primary
+
+
+:active
+
+
+:focus
+
+
+:not
+
+ 
+
 (
 :disabled
+
  
+
 )
 :not
+
  
+
 (
 .disabled
+
  
+
+),
+.btn-primary
+
+
+.active
+
+
+:not
+
+ 
+
+(
+:disabled
+
+ 
+
+)
+:not
+
+ 
+
+(
+.disabled
+
+ 
+
+),
+.btn-primary
+
+
+:active
+
+
+:not
+
+
+	
+
+(
+:disabled
+
+ 
+
+)
+:not
+
+ 
+
+(
+.disabled
+
+ 
+
 )
 {
 background
+
+
 :
+
  
+
 rgba
+
+
 (0
 ,
 0,
@@ -1310,31 +1608,43 @@ rgba
 0)
 !
 important
-;
 
-	
+
+;
 box-shadow
+
+
 :
+
  
+
 none
-;
 
-	
+
+;
 color
-:
- 
-#5957cd
-;
 
-	
-padding-left
+
 :
+
  
+
+#5957cd
+
+
+;
+padding-left
+
+
+:
+
+ 
+
 30
 px
+
+
 ;
-
-
 }
 .btn-info {
 	background: #5957cd none repeat scroll 0 0;
@@ -1344,183 +1654,317 @@ px
 }
 
 .btn-info
+
+
 :hover
 ,
 .btn-info
+
+
 .active
 ,
 .btn-info
+
+
 :focus
 ,
 .btn-info
+
+
 .active
+
+
 :not
 
+
 	
+
 (
 :disabled
+
  
+
 )
 :not
+
  
+
 (
 .disabled
+
  
+
 ),
 .btn-info
+
+
 :active
+
+
 :not
+
  
+
 (
 :disabled
+
  
+
 )
 :not
+
  
+
 (
 .disabled
 
+
 	
+
 ),
 .btn-info
+
+
 .active
+
+
 :focus
-:not
- 
-(
-:disabled
- 
-)
-:not
- 
-(
-.disabled
- 
-),
-.btn-info
-:active
-:focus
+
+
 :not
 
-	
+ 
+
 (
 :disabled
+
  
+
 )
 :not
+
  
+
 (
 .disabled
+
  
+
+),
+.btn-info
+
+
+:active
+
+
+:focus
+
+
+:not
+
+
+	
+
+(
+:disabled
+
+ 
+
+)
+:not
+
+ 
+
+(
+.disabled
+
+ 
+
 )
 {
 background
+
+
 :
+
  
+
 #4241b8
-;
 
-	
+
+;
 box-shadow
+
+
 :
+
  
+
 none
+
+
 ;
-
-
 }
 .box_shadow
 ,
 .box_shadow
+
+
 :hover
 ,
 .box_shadow
+
+
 .active
 ,
 .box_shadow
+
+
 :focus
 ,
 .box_shadow
+
+
 .active
+
+
 :focus
-:not
- 
-(
-:disabled
- 
-)
-:not
- 
-(
-.disabled
- 
-),
-.box_shadow
-:active
-:focus
+
+
 :not
 
-	
+ 
+
 (
 :disabled
+
  
-)
-:not
- 
-(
-.disabled
- 
-),
-.box_shadow
-.active
-:not
- 
-(
-:disabled
- 
+
 )
 :not
 
-	
+ 
+
 (
 .disabled
+
  
+
 ),
 .box_shadow
+
+
 :active
+
+
+:focus
+
+
 :not
- 
+
+
+	
+
 (
 :disabled
+
  
+
 )
 :not
+
  
+
 (
 .disabled
+
  
+
+),
+.box_shadow
+
+
+.active
+
+
+:not
+
+ 
+
+(
+:disabled
+
+ 
+
+)
+:not
+
+
+	
+
+(
+.disabled
+
+ 
+
+),
+.box_shadow
+
+
+:active
+
+
+:not
+
+ 
+
+(
+:disabled
+
+ 
+
+)
+:not
+
+ 
+
+(
+.disabled
+
+ 
+
 )
 {
 box-shadow
+
+
 :
+
  
+
 0
 5
 px
+
  
+
 20
 px
+
  
+
 rgba
+
+
 (0
 ,
 0,
 0,
 0
 .25
+
+
 );
-
-
 }
 .btn-border-white {
 	border: 2px solid #ffffff;
@@ -1528,95 +1972,167 @@ rgba
 }
 
 .btn-border-white
+
+
 :hover
 ,
 .btn-border-white
+
+
 .active
+
+
 .focus
 ,
 .btn-border-white
+
+
 .active
+
+
 :focus
 ,
 .btn-border-white
+
+
 .active
+
+
 :hover
 ,
 .btn-border-white
+
+
 :active
+
+
 :focus
 ,
 .btn-border-white
+
+
 :active
+
+
 :hover
 ,
 .btn-border-white
+
+
 .active
 ,
 .btn-border-white
+
+
 :active
 ,
 .btn-border-white
+
+
 .focus
+
+
 :active
 ,
 .btn-border-white
+
+
 :focus
 ,
 .btn
+
+
 .btn-border-white
+
+
 .active
+
+
 :not
+
  
+
 (
 :disabled
+
  
+
 )
 :not
 
+
 	
+
 (
 .disabled
+
  
+
 ),
 .btn
+
+
 .btn-border-white
+
+
 :active
+
+
 :not
+
  
+
 (
 :disabled
+
  
+
 )
 :not
+
  
+
 (
 .disabled
 
+
 	
+
 )
 {
 background-color
+
+
 :
+
  
+
 #ffffff
-;
 
-	
+
+;
 background-image
+
+
 :
+
  
+
 none
-;
 
-	
+
+;
 color
+
+
 :
+
  
+
 #000000
+
+
 ;
-
-
 }
 .btn-white, button.btn-white {
 	background: rgba(255, 255, 255, 0.20);
@@ -1624,86 +2140,152 @@ color
 }
 
 .btn-white
+
+
 :hover
 ,
 .btn-white
+
+
 .active
+
+
 .focus
 ,
 .btn-white
+
+
 .active
+
+
 :focus
 ,
 .btn-white
+
+
 .active
+
+
 :hover
 ,
 .btn-white
+
+
 :active
+
+
 :focus
 ,
 .btn-white
+
+
 :active
+
+
 :hover
 ,
 .btn-white
+
+
 .active
 ,
 .btn-white
+
+
 :active
 ,
 .btn-white
+
+
 .focus
+
+
 :active
 ,
 .btn-white
+
+
 :focus
 ,
 .btn
+
+
 .btn-white
+
+
 .active
+
+
 :not
+
  
+
 (
 :disabled
+
  
+
 )
 :not
+
  
+
 (
 .disabled
 
+
 	
+
 ),
 .btn
+
+
 .btn-white
+
+
 :active
+
+
 :not
+
  
+
 (
 :disabled
+
  
+
 )
 :not
+
  
+
 (
 .disabled
+
  
+
 )
 {
 background
+
+
 :
+
  
+
 rgba
+
+
 (255
 ,
 255,
 255,
 0
 .20
+
+
 );
-
-
 }
 .scrollup {
 	border-radius: 4px;
@@ -1780,182 +2362,330 @@ to {
 }
 
 .v_blue
+
  
+
 .btn-info
+
+
 :hover
 ,
 .v_blue
+
  
+
 .btn-info
+
+
 .active
 ,
 .v_blue
+
  
+
 .btn-info
+
+
 :focus
 ,
 .v_blue
+
  
+
 .btn-info
+
+
 .active
-:not
- 
-(
-:disabled
- 
-)
-:not
- 
-(
-.disabled
- 
-),
-.v_blue
- 
-.btn-info
-:active
+
+
 :not
 
-	
+ 
+
 (
 :disabled
+
  
+
 )
 :not
+
  
+
 (
 .disabled
+
  
+
 ),
 .v_blue
+
  
+
 .btn-info
+
+
+:active
+
+
+:not
+
+
+	
+
+(
+:disabled
+
+ 
+
+)
+:not
+
+ 
+
+(
+.disabled
+
+ 
+
+),
+.v_blue
+
+ 
+
+.btn-info
+
+
 .active
+
+
 :focus
+
+
 :not
+
  
+
 (
 :disabled
 
+
 	
+
 )
 :not
+
  
+
 (
 .disabled
+
  
+
 ),
 .v_blue
+
  
+
 .btn-info
+
+
 :active
+
+
 :focus
+
+
 :not
+
  
+
 (
 :disabled
+
  
+
 )
 :not
 
+
 	
+
 (
 .disabled
+
  
+
 ),
 .v_navy_blue
+
  
+
 .btn-info
+
+
 :hover
 ,
 .v_navy_blue
+
  
+
 .btn-info
+
+
 .active
 ,
 .v_navy_blue
+
  
+
 .btn-info
+
+
 :focus
 ,
 .v_navy_blue
+
  
+
 .btn-info
+
+
 .active
+
+
 :not
+
  
+
 (
 :disabled
 
+
 	
+
 )
 :not
+
  
+
 (
 .disabled
+
  
+
 ),
 .v_navy_blue
+
  
+
 .btn-info
+
+
 :active
+
+
 :not
+
  
+
 (
 :disabled
+
  
+
 )
 :not
 
+
 	
+
 (
 .disabled
+
  
+
 ),
 .v_navy_blue
+
  
+
 .btn-info
+
+
 .active
+
+
 :focus
+
+
 :not
+
  
+
 (
 :disabled
+
  
+
 )
 :not
 
+
 	
+
 (
 .disabled
+
  
+
 ),
 .v_navy_blue
+
  
+
 .btn-info
+
+
 :active
+
+
 :focus
+
+
 :not
+
  
+
 (
 :disabled
+
  
+
 )
 :not
 
+
 	
+
 (
 .disabled
+
  
+
 )
 {
 background-color
+
+
 :
+
  
+
 #0b267d
+
+
 ;
-
-
 }
 .v_dark .btn-border::after {
 	background-color: #0c0e27;
@@ -1966,182 +2696,330 @@ background-color
 }
 
 .v_dark
+
  
+
 .btn-info
+
+
 :hover
 ,
 .v_dark
+
  
+
 .btn-info
+
+
 .active
 ,
 .v_dark
+
  
+
 .btn-info
+
+
 :focus
 ,
 .v_dark
+
  
+
 .btn-info
+
+
 .active
-:not
- 
-(
-:disabled
- 
-)
-:not
- 
-(
-.disabled
- 
-),
-.v_dark
- 
-.btn-info
-:active
+
+
 :not
 
-	
+ 
+
 (
 :disabled
+
  
+
 )
 :not
+
  
+
 (
 .disabled
+
  
+
 ),
 .v_dark
+
  
+
 .btn-info
+
+
+:active
+
+
+:not
+
+
+	
+
+(
+:disabled
+
+ 
+
+)
+:not
+
+ 
+
+(
+.disabled
+
+ 
+
+),
+.v_dark
+
+ 
+
+.btn-info
+
+
 .active
+
+
 :focus
+
+
 :not
+
  
+
 (
 :disabled
 
+
 	
+
 )
 :not
+
  
+
 (
 .disabled
+
  
+
 ),
 .v_dark
+
  
+
 .btn-info
+
+
 :active
+
+
 :focus
+
+
 :not
+
  
+
 (
 :disabled
+
  
+
 )
 :not
 
+
 	
+
 (
 .disabled
+
  
+
 ),
 .v_light_dark
+
  
+
 .btn-info
+
+
 :hover
 ,
 .v_light_dark
+
  
+
 .btn-info
+
+
 .active
 ,
 .v_light_dark
+
  
+
 .btn-info
+
+
 :focus
 ,
 .v_light_dark
+
  
+
 .btn-info
+
+
 .active
+
+
 :not
+
  
+
 (
 :disabled
 
+
 	
+
 )
 :not
+
  
+
 (
 .disabled
+
  
+
 ),
 .v_light_dark
+
  
+
 .btn-info
+
+
 :active
+
+
 :not
+
  
+
 (
 :disabled
+
  
+
 )
 :not
 
+
 	
+
 (
 .disabled
+
  
+
 ),
 .v_light_dark
+
  
+
 .btn-info
+
+
 .active
+
+
 :focus
+
+
 :not
+
  
+
 (
 :disabled
+
  
+
 )
 :not
 
+
 	
+
 (
 .disabled
+
  
+
 ),
 .v_light_dark
+
  
+
 .btn-info
+
+
 :active
+
+
 :focus
+
+
 :not
+
  
+
 (
 :disabled
+
  
+
 )
 :not
 
+
 	
+
 (
 .disabled
+
  
+
 )
 {
 background-color
+
+
 :
+
  
+
 #161d3e
+
+
 ;
-
-
 }
 .v_navy_blue .btn-border::after {
 	background-color: #052d85;
@@ -2165,116 +3043,210 @@ background-color
 }
 
 .v_light_purple
+
  
+
 .btn-white
+
+
 :hover
 ,
 .v_light_purple
+
  
+
 .btn-white
+
+
 .active
+
+
 .focus
 ,
 .v_light_purple
+
  
+
 .btn-white
+
+
 .active
+
+
 :focus
 ,
 .v_light_purple
+
  
+
 .btn-white
+
+
 .active
+
+
 :hover
 ,
 .v_light_purple
+
  
+
 .btn-white
+
+
 :active
+
+
 :focus
 ,
 .v_light_purple
+
  
+
 .btn-white
+
+
 :active
+
+
 :hover
 ,
 .v_light_purple
+
  
+
 .btn-white
+
+
 .active
 ,
 .v_light_purple
+
  
+
 .btn-white
+
+
 :active
 ,
 .v_light_purple
+
  
+
 .btn-white
+
+
 .focus
+
+
 :active
 ,
 .v_light_purple
+
  
+
 .btn-white
+
+
 :focus
 ,
 .v_light_purple
+
  
+
 .btn
+
+
 .btn-white
+
+
 .active
+
+
 :not
+
  
+
 (
 :disabled
+
  
+
 )
 :not
+
  
+
 (
 .disabled
+
  
+
 ),
 .v_light_purple
+
  
+
 .btn
+
+
 .btn-white
+
+
 :active
+
+
 :not
+
  
+
 (
 :disabled
+
  
+
 )
 :not
+
  
+
 (
 .disabled
+
  
+
 )
 {
 background
+
+
 :
+
  
+
 rgba
+
+
 (255
 ,
 255,
 255,
 0
 .20
+
+
 );
-
-	
 color
+
+
 :
+
  
+
 #00fdfa
+
+
 ;
-
-
 }
 header {
 	height: 110px;
@@ -2937,15 +3909,23 @@ keyframes move_wave { 0% {
 transform
 
 
+
+
 :
 
+
  
+
 
 translateX
 
 
+
+
 (-25%)
 translateZ
+
+
 
 
 (0)
@@ -2955,15 +3935,23 @@ translateZ
 transform
 
 
+
+
 :
 
+
  
+
 
 translateX
 
 
+
+
 (-50%)
 translateZ
+
+
 
 
 (0)
@@ -2979,23 +3967,35 @@ keyframes move_wave_reverse { 0% {
 transform
 
 
+
+
 :
+
 
  
 
+
 translateX
+
+
 
 
 (25%)
 translateZ
 
 
+
+
 (0)
 scaleY
 
 
+
+
 (0
 .55
+
+
 
 
 )
@@ -3005,19 +4005,29 @@ scaleY
 transform
 
 
+
+
 :
+
 
  
 
+
 translateX
+
+
 
 
 (50%)
 translateZ
 
 
+
+
 (0)
 scaleY
+
+
 
 
 (1)
@@ -3256,29 +4266,45 @@ scaleY
 -webkit-transform
 
 
+
+
 :scale
+
+
 
 
 (
 .5
+
+
 
 
 );
 transform
 
 
+
+
 :scale
+
+
 
 
 (
 .5
 
 
+
+
 );
 opacity
 
 
+
+
 :
+
+
 
 
 1;
@@ -3288,21 +4314,33 @@ opacity
 -webkit-transform
 
 
+
+
 :scale(1)
+
+
 
 
 ;
 transform
 
 
+
+
 :scale(1)
+
+
 
 
 ;
 opacity
 
 
+
+
 :
+
+
 
 
 0;
@@ -3320,29 +4358,45 @@ opacity
 -moz-transform
 
 
+
+
 :scale
+
+
 
 
 (
 .5
+
+
 
 
 );
 transform
 
 
+
+
 :scale
+
+
 
 
 (
 .5
 
 
+
+
 );
 opacity
 
 
+
+
 :
+
+
 
 
 1;
@@ -3352,21 +4406,33 @@ opacity
 -moz-transform
 
 
+
+
 :scale(1)
+
+
 
 
 ;
 transform
 
 
+
+
 :scale(1)
+
+
 
 
 ;
 opacity
 
 
+
+
 :
+
+
 
 
 0;
@@ -3384,29 +4450,45 @@ opacity
 -o-transform
 
 
+
+
 :scale
+
+
 
 
 (
 .5
+
+
 
 
 );
 transform
 
 
+
+
 :scale
+
+
 
 
 (
 .5
 
 
+
+
 );
 opacity
 
 
+
+
 :
+
+
 
 
 1;
@@ -3416,21 +4498,33 @@ opacity
 -o-transform
 
 
+
+
 :scale(1)
+
+
 
 
 ;
 transform
 
 
+
+
 :scale(1)
+
+
 
 
 ;
 opacity
 
 
+
+
 :
+
+
 
 
 0;
@@ -3448,29 +4542,45 @@ keyframes ripple { 0% {
 transform
 
 
+
+
 :scale
+
+
 
 
 (
 .5
+
+
 
 
 );
 transform
 
 
+
+
 :scale
+
+
 
 
 (
 .5
 
 
+
+
 );
 opacity
 
 
+
+
 :
+
+
 
 
 1;
@@ -3480,21 +4590,33 @@ opacity
 transform
 
 
+
+
 :scale(1)
+
+
 
 
 ;
 transform
 
 
+
+
 :scale(1)
+
+
 
 
 ;
 opacity
 
 
+
+
 :
+
+
 
 
 0;
@@ -3689,137 +4811,253 @@ opacity
 }
 
 .about_shape
+
  
+
 .btn-primary
+
+
 :hover
 ,
 .about_shape
+
  
+
 .btn-primary
+
+
 .active
+
+
 .focus
 ,
 .about_shape
+
  
+
 .btn-primary
+
+
 .active
+
+
 :focus
 ,
 .about_shape
+
  
+
 .btn-primary
+
+
 .active
+
+
 :hover
 ,
 .about_shape
+
  
+
 .btn-primary
+
+
 :active
+
+
 :focus
 ,
 .about_shape
+
  
+
 .btn-primary
+
+
 :active
+
+
 :hover
 ,
 .about_shape
+
  
+
 .btn-primary
+
+
 .active
 ,
 .about_shape
+
  
+
 .btn-primary
+
+
 :active
 ,
 .about_shape
+
  
+
 .btn-primary
+
+
 .focus
+
+
 :active
 ,
 .about_shape
+
  
+
 .btn-primary
+
+
 :focus
 ,
 .about_shape
+
  
+
 .btn-primary
+
+
 .active
+
+
 :focus
+
+
 :not
+
  
+
 (
 :disabled
+
  
+
 )
 :not
+
  
+
 (
 .disabled
 
+
 	
+
 ),
 .about_shape
+
  
+
 .btn-primary
+
+
 :active
+
+
 :focus
+
+
 :not
+
  
+
 (
 :disabled
+
  
+
 )
 :not
+
  
+
 (
 .disabled
 
+
 	
+
 ),
 .about_shape
+
  
+
 .btn-primary
+
+
 .active
+
+
 :not
+
  
+
 (
 :disabled
+
  
+
 )
 :not
+
  
+
 (
 .disabled
+
  
+
 ),
 .about_shape
+
  
+
 .btn-primary
+
+
 :active
+
+
 :not
+
  
+
 (
 :disabled
+
  
+
 )
 :not
+
  
+
 (
 .disabled
+
  
+
 )
 {
 color
+
+
 :
+
  
+
 #fff
+
+
 ;
-
-
 }
 .about_shape .btn span::after, .btn.text-white span::after {
 	border-color: #fff;
@@ -3832,131 +5070,249 @@ color
 }
 
 .v_light_purple
+
  
+
 .highlight_txt
 ,
 .text-purple
 ,
 .text-purple
+
+
 .btn-primary
+
+
 :hover
 ,
 .text-purple
+
+
 .btn-primary
+
+
 .active
+
+
 .focus
 ,
 .text-purple
+
+
 .btn-primary
+
+
 .active
+
+
 :focus
 ,
 .text-purple
+
+
 .btn-primary
+
+
 .active
+
+
 :hover
 ,
 .text-purple
+
+
 .btn-primary
+
+
 :active
+
+
 :focus
 ,
 .text-purple
+
+
 .btn-primary
+
+
 :active
+
+
 :hover
 ,
 .text-purple
+
+
 .btn-primary
+
+
 .active
 ,
 .text-purple
+
+
 .btn-primary
+
+
 :active
 ,
 .text-purple
+
+
 .btn-primary
+
+
 .focus
+
+
 :active
 ,
 .text-purple
+
+
 .btn-primary
+
+
 :focus
 ,
 .text-purple
+
+
 .btn-primary
+
+
 .active
+
+
 :focus
+
+
 :not
 
+
 	
+
 (
 :disabled
+
  
+
 )
 :not
+
  
+
 (
 .disabled
+
  
+
 ),
 .text-purple
+
+
 .btn-primary
+
+
 :active
+
+
 :focus
+
+
 :not
 
+
 	
+
 (
 :disabled
+
  
+
 )
 :not
+
  
+
 (
 .disabled
+
  
+
 ),
 .text-purple
+
+
 .btn-primary
+
+
 .active
+
+
 :not
+
  
+
 (
 :disabled
 
+
 	
+
 )
 :not
+
  
+
 (
 .disabled
+
  
+
 ),
 .text-purple
+
+
 .btn-primary
+
+
 :active
+
+
 :not
+
  
+
 (
 :disabled
+
  
+
 )
 :not
 
+
 	
+
 (
 .disabled
+
  
+
 )
 {
 color
+
+
 :
+
  
+
 #6000b5
+
+
 ;
-
-
 }
 .btn.text-purple span::after {
 	border-color: #6000b5;
@@ -6267,17 +7623,20 @@ color
 	position: absolute;
 	right: 15px;
 	top: 14px; */
+	
 }
 
 .faq_content .card-header a.collapsed:after {
 	/* content: "\f123";
 	color: #5957cd; */
+	
 }
 
 .faq_content .card-header a::before {
 	/* content: "Q.";
 	font-weight: 600;
 	margin-right: 5px; */
+	
 }
 
 .card-body::before {
@@ -7598,183 +8957,331 @@ button.btn-white:hover {
 }
 
 .v_blue_light
+
  
+
 .btn-info
+
+
 :hover
 ,
 .v_blue_light
+
  
+
 .btn-info
+
+
 .active
 ,
 .v_blue_light
+
  
+
 .btn-info
+
+
 :focus
 ,
 .v_blue_light
+
  
+
 .btn-info
+
+
 .active
+
+
 :not
+
  
+
 (
 :disabled
 
+
 	
+
 )
 :not
+
  
+
 (
 .disabled
+
  
+
 ),
 .v_blue_light
+
  
+
 .btn-info
+
+
 :active
+
+
 :not
+
  
+
 (
 :disabled
+
  
+
 )
 :not
 
+
 	
+
 (
 .disabled
+
  
+
 ),
 .v_blue_light
+
  
+
 .btn-info
+
+
 .active
+
+
 :focus
+
+
 :not
+
  
+
 (
 :disabled
+
  
+
 )
 :not
 
+
 	
+
 (
 .disabled
+
  
+
 ),
 .v_blue_light
+
  
+
 .btn-info
+
+
 :active
+
+
 :focus
+
+
 :not
+
  
+
 (
 :disabled
+
  
+
 )
 :not
 
+
 	
+
 (
 .disabled
+
  
+
 ),
 .v_royal_blue
+
  
+
 .btn-info
+
+
 :hover
 ,
 .v_royal_blue
+
  
+
 .btn-info
+
+
 .active
 ,
 .v_royal_blue
+
  
+
 .btn-info
+
+
 :focus
 ,
 .v_royal_blue
+
  
+
 .btn-info
+
+
 .active
+
+
 :not
+
  
+
 (
 :disabled
 
+
 	
+
 )
 :not
+
  
+
 (
 .disabled
+
  
+
 ),
 .v_royal_blue
+
  
+
 .btn-info
+
+
 :active
+
+
 :not
+
  
+
 (
 :disabled
+
  
+
 )
 :not
 
+
 	
+
 (
 .disabled
+
  
+
 ),
 .v_royal_blue
+
  
+
 .btn-info
+
+
 .active
+
+
 :focus
+
+
 :not
+
  
+
 (
 :disabled
+
  
+
 )
 :not
 
+
 	
+
 (
 .disabled
+
  
+
 ),
 .v_royal_blue
+
  
+
 .btn-info
+
+
 :active
+
+
 :focus
+
+
 :not
+
  
+
 (
 :disabled
+
  
+
 )
 :not
 
+
 	
+
 (
 .disabled
+
  
+
 )
 {
 background-color
+
+
 :
+
  
+
 #071890
+
+
 ;
-
-
 }
 .v_blue_light .social_icon li a {
 	color: #193dc0;
@@ -8002,7 +9509,11 @@ keyframes rounded { 0% {
 opacity
 
 
+
+
 :
+
+
 
 
 1;
@@ -8012,52 +9523,80 @@ opacity
 opacity
 
 
+
+
 :
+
+
 
 
 0;
 -moz-transform
 
 
+
+
 :
 
+
  
+
 
 scale
 
 
+
+
 (1
 .2
+
+
 
 
 );
 -webkit-transform
 
 
+
+
 :
 
+
  
+
 
 scale
 
 
+
+
 (1
 .2
+
+
 
 
 );
 transform
 
 
+
+
 :
 
+
  
+
 
 scale
 
 
+
+
 (1
 .2
+
+
 
 
 );
@@ -9044,4 +10583,20 @@ scale
 
 span.statcounter {
 	display: none;
+}
+
+.match-align {
+	margin-left: -67px;
+}
+
+.sinup-title {
+	font-size: 29px;
+	color: white;
+	position: absolute;
+	bottom: 44px;
+	right: 176px;
+	padding-left: 20px;
+	padding-right: 20px;
+	-ms-transform: rotate(-7deg);
+	transform: rotate(-7deg);
 }
