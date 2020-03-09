@@ -33,7 +33,7 @@
  <div class="row">
   <div class="col-md-12 col-sm-12">
 	<div th:class="'radiobtn  animated '+${gameQuestion.questionEffect}">
-		<a th:href="@{'/user/game/'+${gameType}+'/amount/'+${questionId}+'/participants/'+${amountId}+'/selectedparticipantroles/'+${tempId}}" style="text-decoration:none;">
+		<a th:href="@{'/user/game/'+${gameType}+'/amount/'+${questionId}+'/participants/'+${amountId}+'/selectedparticipantroles/'+${userTempId}}" style="text-decoration:none;">
 		<label>
 		<img src="https://icon-library.net/images/back-arrow-icon/back-arrow-icon-15.jpg" style="width:19px;"/>
 		<span th:text="${gameQuestion.question}" style="margin-left: 10px;vertical-align: middle;"></span> 
@@ -164,7 +164,6 @@ $.ajax({
      },
      error : function(e) {
     	 $("#appendplayers").html(e.responseText);
-    	// console.log("error", e.responseText);
      }
  });
 }	

@@ -8,8 +8,10 @@ import javax.persistence.StoredProcedureQuery;
 import org.springframework.stereotype.Repository;
 import com.sports.fantasy.dao.UserTeamDao;
 import com.sports.fantasy.model.UserDashboardTeamParticipants;
+import com.sports.fantasy.model.UserSelectedTeamsScore;
 import com.sports.fantasy.model.UserTeamParticipants;
 import com.sports.fantasy.model.UsersParticipantsScore;
+import com.sports.fantasy.model.UsersSelectedParticipnatsScore;
 
 @Repository
 @SuppressWarnings("unchecked")
@@ -64,6 +66,39 @@ public class UserTeamDaoImpl implements UserTeamDao {
     storedProcedure.execute();
     List<UserDashboardTeamParticipants> userDashboardTeamParticipants = (List<UserDashboardTeamParticipants>) storedProcedure.getResultList();
     return userDashboardTeamParticipants;
+  }
+
+  @Override
+  public List<UserSelectedTeamsScore> findUsersSeletedTeamsScoreByQuestionIdAndAmountId(
+      Long questionId, Long amountId, String gametype) {
+    StoredProcedureQuery storedProcedure = entityManager.createStoredProcedureQuery("users_selected_teams_score", UserSelectedTeamsScore.class);
+    // set parameters
+    storedProcedure.registerStoredProcedureParameter("question_id", Long.class, ParameterMode.IN);
+    storedProcedure.registerStoredProcedureParameter("amount_id", Long.class, ParameterMode.IN);
+    storedProcedure.registerStoredProcedureParameter("game_type", String.class, ParameterMode.IN);
+    
+    storedProcedure.setParameter("question_id", questionId);
+    storedProcedure.setParameter("amount_id", amountId);
+    storedProcedure.setParameter("game_type", gametype);
+    
+    // execute SP
+    storedProcedure.execute();
+    List<UserSelectedTeamsScore> userSelectedTeamsScores = (List<UserSelectedTeamsScore>)storedProcedure.getResultList();
+    return userSelectedTeamsScores;
+  }
+
+  @Override
+  public List<UsersSelectedParticipnatsScore> getAllParticipantsScoreByQuestionId(Long questionId) {
+    StoredProcedureQuery storedProcedure = entityManager.createStoredProcedureQuery("users_selected_participnats_score", UsersSelectedParticipnatsScore.class);
+    
+    // set parameters
+    storedProcedure.registerStoredProcedureParameter("question_id", Long.class, ParameterMode.IN);
+    storedProcedure.setParameter("question_id", questionId);
+    
+    // execute SP
+    storedProcedure.execute();
+    List<UsersSelectedParticipnatsScore> userSelectedTeamsScores = (List<UsersSelectedParticipnatsScore>)storedProcedure.getResultList();
+    return userSelectedTeamsScores;
   }
 
 }

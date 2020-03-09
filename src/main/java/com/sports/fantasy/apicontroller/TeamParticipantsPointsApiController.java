@@ -34,7 +34,7 @@ public class TeamParticipantsPointsApiController {
     if (!LoginUtil.getAuthentication(principal)) {
       return "redirect:/signin";
     }
-    List<GameQuestions> gameQuestions = gameQuestionsService.findAllGameQuestions(true);
+    List<GameQuestions> gameQuestions = gameQuestionsService.findAllActivaGameQuestions(true);
     model.addAttribute("gameQuestions", gameQuestions);
     return "view/admin/apiquestionparticipantpoints";
   }

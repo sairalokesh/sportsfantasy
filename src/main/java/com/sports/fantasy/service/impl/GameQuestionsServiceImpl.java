@@ -154,4 +154,9 @@ public class GameQuestionsServiceImpl implements GameQuestionsService {
     Page<GameQuestions> gameQuestions = gameQuestionsRepository.getGameQuestionsByGreaterthanCurrentDatewithLimit(gameType,PageRequest.of(0, 6));
     return gameQuestions.getContent();
   }
+
+  @Override
+  public List<GameQuestions> findAllActivaGameQuestions(boolean isActive) {
+    return gameQuestionsRepository.findAllActivaGameQuestions(isActive);
+  }
 }

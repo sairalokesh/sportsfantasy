@@ -47,9 +47,14 @@ public class UserAddCashController {
     if (!LoginUtil.getAuthentication(principal)) {
       return "redirect:/signin";
     }
+    
+    UserInfo dbUser = userService.findByEmail(principal.getName());
+    if (dbUser!=null && !dbUser.getRole().equalsIgnoreCase("USER")) {
+      return "redirect:/accessdenied";
+    }
 
     UserAmount userAmount = new UserAmount();
-    UserInfo dbUser = userService.findByEmail(principal.getName());
+    
     if (dbUser != null && dbUser.getId() != null) {
       userAmount = userAmountService.getUserAmount(dbUser.getId());
       List<CuponCodeUsers> cuponCodeUsers = userCouponService.getAllUtilizerUsers(dbUser.getId());
@@ -66,18 +71,21 @@ public class UserAddCashController {
   }
 
   @GetMapping(value = "/saveUserPhoneNumber")
-  public @ResponseBody Response saveuserphoneNumber(@RequestParam String phoneNumber,
-      Principal principal, Model model, RedirectAttributes attributes) {
+  public @ResponseBody Response saveuserphoneNumber(@RequestParam String phoneNumber, Principal principal, Model model, RedirectAttributes attributes) {
     if (!LoginUtil.getAuthentication(principal)) {
       return new Response(301, "Login Required");
     }
-
+    
+    UserInfo dbUser = userService.findByEmail(principal.getName());
+    if (dbUser!=null && !dbUser.getRole().equalsIgnoreCase("USER")) {
+      return new Response(301, "Access Denied");
+    }
+    
     UserInfo usermobile = userService.findByPhoneNumber(phoneNumber);
     if (usermobile != null) {
       return new Response(401, "Phone Number is Already exist.");
     }
 
-    UserInfo dbUser = userService.findByEmail(principal.getName());
     dbUser.setPhoneNumber(phoneNumber);
     UserInfo updateUser = userService.update(dbUser);
     if (updateUser != null) {
@@ -87,20 +95,31 @@ public class UserAddCashController {
   }
 
   @GetMapping(value = "/adduseramount")
-  public String addamount(Model model) {
+  public String addamount(Model model, Principal principal) {
+    if (!LoginUtil.getAuthentication(principal)) {
+      return "redirect:/signin";
+    }
+    
+    UserInfo dbUser = userService.findByEmail(principal.getName());
+    if (dbUser!=null && !dbUser.getRole().equalsIgnoreCase("USER")) {
+      return "redirect:/accessdenied";
+    }
     UserAmount userAmount = new UserAmount();
     model.addAttribute("userAmount", userAmount);
     return "view/user/adduseramount";
   }
 
   @PostMapping(value = "/saveuseramount")
-  public String saveuseramount(@ModelAttribute UserAmount userAmount, Model model,
-      Principal principal) throws NoSuchAlgorithmException, InvalidKeyException {
+  public String saveuseramount(@ModelAttribute UserAmount userAmount, Model model, Principal principal) throws NoSuchAlgorithmException, InvalidKeyException {
     if (!LoginUtil.getAuthentication(principal)) {
       return "redirect:/signin";
     }
+    UserInfo user = userService.findByEmail(principal.getName());
+    if (user!=null && !user.getRole().equalsIgnoreCase("USER")) {
+      return "redirect:/accessdenied";
+    }
+    
     if (userAmount != null) {
-      UserInfo user = userService.findByEmail(principal.getName());
       if (user != null) {
         userAmount.setUser(user);
         userAmountService.addAmount(userAmount, user, "user/useramountpaymentresponse", model);
@@ -124,8 +143,5 @@ public class UserAddCashController {
       } else {
           return null;
       }
-  }   
-
-
-
+  }
 }

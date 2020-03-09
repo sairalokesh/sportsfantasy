@@ -43,51 +43,44 @@ import com.sports.fantasy.util.LoginUtil;
 @RequestMapping(value = "/user")
 public class UserGameController {
 
-  @Autowired
-  private GameQuestionsService gameQuestionsService;
-  @Autowired
-  private GameAmountService gameAmountService;
-  @Autowired
-  private GameParticipantService gameParticipantsService;
-  @Autowired
-  private UserService userService;
-  @Autowired
-  private UserAmountService userAmountService;
-  @Autowired
-  private UserTempParticipantService userTempParticipantService;
-  @Autowired
-  private UserSelectedTeamService userSelectedTeamService;
-  @Autowired
-  private UserCouponService userCouponService;
+  @Autowired private GameQuestionsService gameQuestionsService;
+  @Autowired private GameAmountService gameAmountService;
+  @Autowired private GameParticipantService gameParticipantsService;
+  @Autowired private UserService userService;
+  @Autowired private UserAmountService userAmountService;
+  @Autowired private UserTempParticipantService userTempParticipantService;
+  @Autowired private UserSelectedTeamService userSelectedTeamService;
+  @Autowired private UserCouponService userCouponService;
 
   @ModelAttribute
   public void admindashboardtitle(Model model) {
     model.addAttribute("title", "usergameentrypages");
   }
 
-
+  /* User Enter Games Based on Game Type & Choose the greater than current date */
   @GetMapping(value = "/game/{gameType}/entry")
   public String gameentry(@PathVariable String gameType, Model model, Principal principal) {
     if (!LoginUtil.getAuthentication(principal)) {
       return "redirect:/signin";
     }
-    List<GameQuestions> gameQuestions =
-        gameQuestionsService.getGameQuestionsByGreaterthanCurrentDate(gameType);
+    List<GameQuestions> gameQuestions = gameQuestionsService.getGameQuestionsByGreaterthanCurrentDate(gameType);
     model.addAttribute("gameQuestions", gameQuestions);
     model.addAttribute("gameType", gameType);
     return "view/user/gameentry";
   }
 
   @GetMapping(value = "/game/{gameType}/amount/{questionId}")
-  public String selectamount(@PathVariable String gameType, @PathVariable Long questionId,
-      Model model, Principal principal) {
+  public String selectamount(@PathVariable String gameType, @PathVariable Long questionId, Model model, Principal principal) {
     if (!LoginUtil.getAuthentication(principal)) {
       return "redirect:/signin";
     }
 
     UserInfo userInfo = userService.findByEmail(principal.getName());
-    GameQuestions gameQuestion =
-        gameQuestionsService.getGameQuestionByQuestionId(questionId, gameType);
+    if (userInfo!=null && !userInfo.getRole().equalsIgnoreCase("USER")) {
+      return "redirect:/accessdenied";
+    }
+    
+    GameQuestions gameQuestion = gameQuestionsService.getGameQuestionByQuestionId(questionId, gameType);
     if (gameQuestion.getValidDate().before(new Date())) {
       return "redirect:/user/game/" + gameType + "/entry";
     }
@@ -111,9 +104,18 @@ public class UserGameController {
     UserAmount amount = userAmountService.getUserAmount(user.getId());
     if (amount != null && amountEntry != null) {
       double bonusAmount = 0.00;
-      if (amount.getBonusAmount() >= 10) {
-        bonusAmount = 10.00;
+      if(Double.parseDouble(amountEntry.getAmount()) >=10 && Double.parseDouble(amountEntry.getAmount()) < 20) {
+        bonusAmount = amount.getBonusAmount() >= 1 ? 1.00 : 0.00;
+      } else if(Double.parseDouble(amountEntry.getAmount()) >=20 && Double.parseDouble(amountEntry.getAmount()) < 30) {
+        bonusAmount = amount.getBonusAmount() >= 3 ? 3.00 : amount.getBonusAmount();
+      } else if(Double.parseDouble(amountEntry.getAmount()) >=30 && Double.parseDouble(amountEntry.getAmount()) < 50) {
+        bonusAmount = amount.getBonusAmount() >= 5 ? 5.00 : amount.getBonusAmount();
+      } else if(Double.parseDouble(amountEntry.getAmount()) >=50 && Double.parseDouble(amountEntry.getAmount()) < 1000) {
+        bonusAmount = amount.getBonusAmount() >= 10 ? 10.00 : amount.getBonusAmount();
+      } else if(Double.parseDouble(amountEntry.getAmount()) >=1000) {
+        bonusAmount = amount.getBonusAmount() >= 15 ? 15.00 : amount.getBonusAmount();
       }
+      
       double cashamount = Double.parseDouble(amountEntry.getAmount()) - bonusAmount;
       if (amount.getAddedAmount() >= cashamount) {
         return false;
@@ -126,22 +128,24 @@ public class UserGameController {
   }
 
   @GetMapping(value = "/game/{gameType}/amount/{questionId}/participants/{amountId}")
-  public String seelctparticipants(@PathVariable String gameType, @PathVariable Long questionId,
-      @PathVariable Long amountId, Model model, Principal principal) {
+  public String seelctparticipants(@PathVariable String gameType, @PathVariable Long questionId, @PathVariable Long amountId, Model model, Principal principal) {
     if (!LoginUtil.getAuthentication(principal)) {
       return "redirect:/signin";
     }
+    
+    UserInfo userInfo = userService.findByEmail(principal.getName());
+    if (userInfo!=null && !userInfo.getRole().equalsIgnoreCase("USER")) {
+      return "redirect:/accessdenied";
+    }
 
-    GameQuestions gameQuestion =
-        gameQuestionsService.getGameQuestionByQuestionId(questionId, gameType);
+    GameQuestions gameQuestion = gameQuestionsService.getGameQuestionByQuestionId(questionId, gameType);
     if (gameQuestion.getValidDate().before(new Date())) {
       return "redirect:/user/game/" + gameType + "/entry";
     }
+    
     AmountEntries amountEntry = gameAmountService.findByAmountId(amountId);
-    Map<String, List<GameParticipants>> gameParticipants =
-        gameParticipantsService.getAllActiveParticipantsByQuestionId(questionId);
-    List<String> countries = gameParticipantsService.getAllParticipantTypesByQuestionId(questionId); // Means
-                                                                                                     // Names
+    Map<String, List<GameParticipants>> gameParticipants = gameParticipantsService.getAllActiveParticipantsByQuestionId(questionId);
+    List<String> countries = gameParticipantsService.getAllParticipantTypesByQuestionId(questionId); // Means Countries
     if (countries != null && !countries.isEmpty()) {
       Map<String, Integer> gamecountries = new TreeMap<>();
       for (String country : countries) {
@@ -154,7 +158,7 @@ public class UserGameController {
     if (gameParticipants != null && gameParticipants.size() > 0) {
       Set<String> types = gameParticipants.keySet();
       if (types != null && !types.isEmpty()) {
-        Map<String, Integer> typecount = new TreeMap<>(); // Means Wk, BOWL, BATS, AR
+        Map<String, Integer> typecount = new TreeMap<>(); // Means WK, BOWL, BAT, AR
         for (String type : types) {
           typecount.put(type, 0);
         }
@@ -173,21 +177,22 @@ public class UserGameController {
   }
 
   @PostMapping(value = "/sendcapitanselection")
-  public String sendcapitanselection(@ModelAttribute SelectedMembers selectedMembers, Model model,
-      Principal principal) {
+  public String sendcapitanselection(@ModelAttribute SelectedMembers selectedMembers, Model model, Principal principal) {
     if (!LoginUtil.getAuthentication(principal)) {
       return "redirect:/signin";
     }
+    
+    UserInfo user = userService.findByEmail(principal.getName());
+    if (user!=null && !user.getRole().equalsIgnoreCase("USER")) {
+      return "redirect:/accessdenied";
+    }
 
-    GameQuestions gameQuestion = gameQuestionsService.getGameQuestionByQuestionId(
-        selectedMembers.getQuestionId(), selectedMembers.getGameType());
+    GameQuestions gameQuestion = gameQuestionsService.getGameQuestionByQuestionId(selectedMembers.getQuestionId(), selectedMembers.getGameType());
     if (gameQuestion.getValidDate().before(new Date())) {
       return "redirect:/user/game/" + selectedMembers.getGameType() + "/entry";
     }
 
-    UserInfo user = userService.findByEmail(principal.getName());
-    UserTempParticipants dbUserTempParticipants =
-        userTempParticipantService.save(selectedMembers, user);
+    UserTempParticipants dbUserTempParticipants = userTempParticipantService.save(selectedMembers, user);
     if (dbUserTempParticipants != null && dbUserTempParticipants.getId() != null) {
       return "redirect:/user/game/" + selectedMembers.getGameType() + "/amount/"
           + dbUserTempParticipants.getQuestionId() + "/participants/"
@@ -198,28 +203,26 @@ public class UserGameController {
     return "redirect:/user/game/" + selectedMembers.getGameType() + "/entry";
   }
 
-  @GetMapping(
-      value = "/game/{gameType}/amount/{questionId}/participants/{amountId}/selectedparticipantroles/{tempId}")
-  public String selectedparticipantroles(@PathVariable String gameType,
-      @PathVariable Long questionId, @PathVariable Long amountId, @PathVariable Long tempId,
-      Model model, Principal principal) {
+  @GetMapping(value = "/game/{gameType}/amount/{questionId}/participants/{amountId}/selectedparticipantroles/{userTempId}")
+  public String selectedparticipantroles(@PathVariable String gameType, @PathVariable Long questionId, @PathVariable Long amountId, @PathVariable Long userTempId, Model model, Principal principal) {
     if (!LoginUtil.getAuthentication(principal)) {
       return "redirect:/signin";
     }
+    
+    UserInfo user = userService.findByEmail(principal.getName());
+    if (user!=null && !user.getRole().equalsIgnoreCase("USER")) {
+      return "redirect:/accessdenied";
+    }
 
-    GameQuestions gameQuestion =
-        gameQuestionsService.getGameQuestionByQuestionId(questionId, gameType);
+    GameQuestions gameQuestion = gameQuestionsService.getGameQuestionByQuestionId(questionId, gameType);
     if (gameQuestion.getValidDate().before(new Date())) {
       return "redirect:/user/game/" + gameType + "/entry";
     }
 
-    UserInfo user = userService.findByEmail(principal.getName());
     AmountEntries amountEntry = gameAmountService.findByAmountId(amountId);
 
-    Map<String, List<GameParticipants>> gameParticipants = userTempParticipantService
-        .getAllTempParticipantsByQuestionId(tempId, questionId, amountId, gameType, user);
-    SelectedMembers selectedMembers =
-        userTempParticipantService.findById(tempId, questionId, amountId, gameType, user);
+    Map<String, List<GameParticipants>> gameParticipants = userTempParticipantService.getAllTempParticipantsByQuestionId(userTempId, questionId, amountId, gameType, user);
+    SelectedMembers selectedMembers = userTempParticipantService.findById(userTempId, questionId, amountId, gameType, user);
 
     model.addAttribute("gameQuestion", gameQuestion);
     model.addAttribute("gameParticipants", gameParticipants);
@@ -228,31 +231,29 @@ public class UserGameController {
     model.addAttribute("amountEntry", amountEntry);
     model.addAttribute("questionId", questionId);
     model.addAttribute("amountId", amountId);
-    model.addAttribute("tempId", tempId);
+    model.addAttribute("userTempId", userTempId);
     return "view/user/selectedparticipantroles";
   }
 
   @PostMapping(value = "/userteamcreation")
-  public String userpayment(@ModelAttribute SelectedMembers selectedMembers, Model model,
-      HttpSession session, Principal principal) throws Exception {
+  public String userpayment(@ModelAttribute SelectedMembers selectedMembers, Model model, HttpSession session, Principal principal) throws Exception {
     if (!LoginUtil.getAuthentication(principal)) {
       return "redirect:/signin";
     }
+    
+    UserInfo user = userService.findByEmail(principal.getName());
+    if (user!=null && !user.getRole().equalsIgnoreCase("USER")) {
+      return "redirect:/accessdenied";
+    }
 
-    GameQuestions gameQuestion = gameQuestionsService.getGameQuestionByQuestionId(
-        selectedMembers.getQuestionId(), selectedMembers.getGameType());
+    GameQuestions gameQuestion = gameQuestionsService.getGameQuestionByQuestionId(selectedMembers.getQuestionId(), selectedMembers.getGameType());
     if (gameQuestion.getValidDate().before(new Date())) {
       return "redirect:/user/game/" + selectedMembers.getGameType() + "/entry";
     }
 
-    UserInfo user = userService.findByEmail(principal.getName());
-    UserTempParticipants userTempParticipants =
-        userTempParticipantService.findCurrentParticipantById(selectedMembers.getUserTempId(),
-            selectedMembers.getQuestionId(), selectedMembers.getAmountId(),
-            selectedMembers.getGameType(), user);
+    UserTempParticipants userTempParticipants = userTempParticipantService.findCurrentParticipantById(selectedMembers.getUserTempId(), selectedMembers.getQuestionId(), selectedMembers.getAmountId(), selectedMembers.getGameType(), user);
     if (userTempParticipants != null) {
-      UserTempParticipants updatedUserTempParticipants =
-          userTempParticipantService.update(selectedMembers, userTempParticipants);
+      UserTempParticipants updatedUserTempParticipants = userTempParticipantService.update(selectedMembers, userTempParticipants);
       if (updatedUserTempParticipants != null && updatedUserTempParticipants.getId() != null) {
         return "redirect:/user/game/" + selectedMembers.getGameType() + "/amount/"
             + selectedMembers.getQuestionId() + "/participants/" + selectedMembers.getAmountId()
@@ -263,26 +264,36 @@ public class UserGameController {
   }
 
   @GetMapping(
-      value = "/game/{gameType}/amount/{questionId}/participants/{amountId}/confirmpayment/{tempId}")
-  public String confirmpayment(@PathVariable String gameType, @PathVariable Long questionId,
-      @PathVariable Long amountId, @PathVariable Long tempId, Model model, Principal principal) {
+      value = "/game/{gameType}/amount/{questionId}/participants/{amountId}/confirmpayment/{userTempId}")
+  public String confirmpayment(@PathVariable String gameType, @PathVariable Long questionId, @PathVariable Long amountId, @PathVariable Long userTempId, Model model, Principal principal) {
     if (!LoginUtil.getAuthentication(principal)) {
       return "redirect:/signin";
     }
+    
+    UserInfo user = userService.findByEmail(principal.getName());
+    if (user!=null && !user.getRole().equalsIgnoreCase("USER")) {
+      return "redirect:/accessdenied";
+    }
 
-    GameQuestions gameQuestion =
-        gameQuestionsService.getGameQuestionByQuestionId(questionId, gameType);
+    GameQuestions gameQuestion = gameQuestionsService.getGameQuestionByQuestionId(questionId, gameType);
     if (gameQuestion.getValidDate().before(new Date())) {
       return "redirect:/user/game/" + gameType + "/entry";
     }
 
-    UserInfo user = userService.findByEmail(principal.getName());
     AmountEntries amountEntry = gameAmountService.findByAmountId(amountId);
     UserAmount amount = userAmountService.getUserAmount(user.getId());
     if (amount != null && amountEntry != null) {
       double bonusAmount = 0.00;
-      if (amount.getBonusAmount() >= 10) {
-        bonusAmount = 10.00;
+      if(Double.parseDouble(amountEntry.getAmount()) >=10 && Double.parseDouble(amountEntry.getAmount()) < 20) {
+        bonusAmount = amount.getBonusAmount() >= 1 ? 1.00 : 0.00;
+      } else if(Double.parseDouble(amountEntry.getAmount()) >=20 && Double.parseDouble(amountEntry.getAmount()) < 30) {
+        bonusAmount = amount.getBonusAmount() >= 3 ? 3.00 : amount.getBonusAmount();
+      } else if(Double.parseDouble(amountEntry.getAmount()) >=30 && Double.parseDouble(amountEntry.getAmount()) < 50) {
+        bonusAmount = amount.getBonusAmount() >= 5 ? 5.00 : amount.getBonusAmount();
+      } else if(Double.parseDouble(amountEntry.getAmount()) >=50 && Double.parseDouble(amountEntry.getAmount()) < 1000) {
+        bonusAmount = amount.getBonusAmount() >= 10 ? 10.00 : amount.getBonusAmount();
+      } else if(Double.parseDouble(amountEntry.getAmount()) >=1000) {
+        bonusAmount = amount.getBonusAmount() >= 15 ? 15.00 : amount.getBonusAmount();
       }
       double cashamount = Double.parseDouble(amountEntry.getAmount()) - bonusAmount;
       if (amount.getAddedAmount() >= cashamount) {
@@ -290,15 +301,14 @@ public class UserGameController {
         model.addAttribute("cashAmount", cashamount);
       } else {
         return "redirect:/user/game/" + gameType + "/amount/" + questionId + "/participants/"
-            + amountId + "/selectedparticipantroles/" + tempId;
+            + amountId + "/selectedparticipantroles/" + userTempId;
       }
     } else {
       return "redirect:/user/game/" + gameType + "/amount/" + questionId + "/participants/"
-          + amountId + "/selectedparticipantroles/" + tempId;
+          + amountId + "/selectedparticipantroles/" + userTempId;
     }
 
-    SelectedMembers selectedMembers =
-        userTempParticipantService.findById(tempId, questionId, amountId, gameType, user);
+    SelectedMembers selectedMembers = userTempParticipantService.findById(userTempId, questionId, amountId, gameType, user);
 
     model.addAttribute("gameQuestion", gameQuestion);
     model.addAttribute("amountEntry", amountEntry);
@@ -306,38 +316,52 @@ public class UserGameController {
     model.addAttribute("gameType", gameType);
     model.addAttribute("questionId", questionId);
     model.addAttribute("amountId", amountId);
-    model.addAttribute("tempId", tempId);
+    model.addAttribute("userTempId", userTempId);
     return "view/user/paymentconfirmation";
   }
 
   @PostMapping(value = "/userpaymentconfirmation")
-  public String createfinalteam(@ModelAttribute SelectedMembers selectedMembers, Model model,
-      HttpSession session, Principal principal) {
+  public String createfinalteam(@ModelAttribute SelectedMembers selectedMembers, Model model, HttpSession session, Principal principal) {
     if (!LoginUtil.getAuthentication(principal)) {
       return "redirect:/signin";
     }
-
+    
     UserInfo user = userService.findByEmail(principal.getName());
-    UserTempParticipants userTempParticipants =
-        userTempParticipantService.findCurrentParticipantById(selectedMembers.getUserTempId(),
-            selectedMembers.getQuestionId(), selectedMembers.getAmountId(),
-            selectedMembers.getGameType(), user);
+    if (user!=null && !user.getRole().equalsIgnoreCase("USER")) {
+      return "redirect:/accessdenied";
+    }
+    
+    GameQuestions gameQuestion = gameQuestionsService.getGameQuestionByQuestionId(selectedMembers.getQuestionId(), selectedMembers.getGameType());
+    if (gameQuestion.getValidDate().before(new Date())) {
+      return "redirect:/user/game/" + selectedMembers.getGameType() + "/entry";
+    }
 
-    if (userTempParticipants != null && user != null
-        && user.getId() == userTempParticipants.getUserId()) {
-      UserSelectedTeam selectedTeam =
-          userSelectedTeamService.getUserSelectTeam(userTempParticipants);
-      UserSelectedTeam dbUserSelectedTeam = userSelectedTeamService.save(selectedTeam);
-      if (dbUserSelectedTeam != null && dbUserSelectedTeam.getId() != null) {
-        UserAmount amount = userAmountService.getUserAmount(user.getId());
-        double bonusAmount = 0.00;
-        if (amount.getBonusAmount() >= 10) {
-          bonusAmount = 10.00;
-        }
-        AmountEntries amountEntries =
-            gameAmountService.findByAmountId(selectedMembers.getAmountId());
-        double cashamount = Double.parseDouble(amountEntries.getAmount()) - bonusAmount;
-        if (amount.getAddedAmount() >= cashamount) {
+    UserTempParticipants userTempParticipants = userTempParticipantService.findCurrentParticipantById(selectedMembers.getUserTempId(), selectedMembers.getQuestionId(), selectedMembers.getAmountId(), selectedMembers.getGameType(), user);
+
+    if (userTempParticipants != null && user != null && user.getId() == userTempParticipants.getUserId()) {
+      UserAmount amount = userAmountService.getUserAmount(user.getId());
+      AmountEntries amountEntry = gameAmountService.findByAmountId(selectedMembers.getAmountId());
+      
+      double bonusAmount = 0.00;
+      if(Double.parseDouble(amountEntry.getAmount()) >=10 && Double.parseDouble(amountEntry.getAmount()) < 20) {
+        bonusAmount = amount.getBonusAmount() >= 1 ? 1.00 : 0.00;
+      } else if(Double.parseDouble(amountEntry.getAmount()) >=20 && Double.parseDouble(amountEntry.getAmount()) < 30) {
+        bonusAmount = amount.getBonusAmount() >= 3 ? 3.00 : amount.getBonusAmount();
+      } else if(Double.parseDouble(amountEntry.getAmount()) >=30 && Double.parseDouble(amountEntry.getAmount()) < 50) {
+        bonusAmount = amount.getBonusAmount() >= 5 ? 5.00 : amount.getBonusAmount();
+      } else if(Double.parseDouble(amountEntry.getAmount()) >=50 && Double.parseDouble(amountEntry.getAmount()) < 1000) {
+        bonusAmount = amount.getBonusAmount() >= 10 ? 10.00 : amount.getBonusAmount();
+      } else if(Double.parseDouble(amountEntry.getAmount()) >=1000) {
+        bonusAmount = amount.getBonusAmount() >= 15 ? 15.00 : amount.getBonusAmount();
+      }
+      
+      double cashamount = Double.parseDouble(amountEntry.getAmount()) - bonusAmount;
+      if (amount.getAddedAmount() >= cashamount) {
+        UserSelectedTeam selectedTeam =  userSelectedTeamService.getUserSelectTeam(userTempParticipants);
+        selectedTeam.setBonusAmount(bonusAmount);
+        selectedTeam.setAddedAmount(cashamount);
+        UserSelectedTeam dbUserSelectedTeam = userSelectedTeamService.save(selectedTeam);
+        if (dbUserSelectedTeam != null && dbUserSelectedTeam.getId() != null) {
           double bonusRemainigAmount = amount.getBonusAmount() - bonusAmount;
           double addedRemainigAmount = amount.getAddedAmount() - cashamount;
           amount.setBonusAmount(bonusRemainigAmount);
@@ -346,8 +370,7 @@ public class UserGameController {
           if (dbUserAmount != null) {
             CuponCodeUsers codeUsers = userCouponService.getUserByUtilizerId(user.getId());
             if (codeUsers != null) {
-              UserAmount userAmount =
-                  userAmountService.getUserAmount(codeUsers.getCreatorUser().getId());
+              UserAmount userAmount = userAmountService.getUserAmount(codeUsers.getCreatorUser().getId());
               if (userAmount != null) {
                 double bonusAddedAmount = userAmount.getBonusAmount() + 10;
                 userAmount.setBonusAmount(bonusAddedAmount);
@@ -362,6 +385,7 @@ public class UserGameController {
         }
       }
     }
+    deleteTempUserSelectionParticipants(userTempParticipants);
     return "redirect:/user/game/" + selectedMembers.getGameType() + "/entry";
   }
 
@@ -371,39 +395,35 @@ public class UserGameController {
     }
   }
 
-  @GetMapping(
-      value = "/game/{gameType}/amount/{questionId}/selectedparticipants/{amountId}/{userTempId}")
-  public String seelctparticipants(@PathVariable String gameType, @PathVariable Long questionId,
-      @PathVariable Long amountId, @PathVariable Long userTempId, Model model, Principal principal,
-      HttpSession session) {
+  @GetMapping(value = "/game/{gameType}/amount/{questionId}/selectedparticipants/{amountId}/{userTempId}")
+  public String seelctparticipants(@PathVariable String gameType, @PathVariable Long questionId, @PathVariable Long amountId, @PathVariable Long userTempId, Model model, Principal principal) {
     if (!LoginUtil.getAuthentication(principal)) {
       return "redirect:/signin";
     }
+    
+    UserInfo user = userService.findByEmail(principal.getName());
+    if (user!=null && !user.getRole().equalsIgnoreCase("USER")) {
+      return "redirect:/accessdenied";
+    }
 
-    GameQuestions gameQuestion =
-        gameQuestionsService.getGameQuestionByQuestionId(questionId, gameType);
+    GameQuestions gameQuestion = gameQuestionsService.getGameQuestionByQuestionId(questionId, gameType);
     if (gameQuestion.getValidDate().before(new Date())) {
       return "redirect:/user/game/" + gameType + "/entry";
     }
 
-    UserInfo user = userService.findByEmail(principal.getName());
+    
     AmountEntries amountEntry = gameAmountService.findByAmountId(amountId);
-    UserTempParticipants dbTempParticipants = userTempParticipantService
-        .findCurrentParticipantById(userTempId, questionId, amountId, gameType, user);
+    UserTempParticipants dbTempParticipants = userTempParticipantService.findCurrentParticipantById(userTempId, questionId, amountId, gameType, user);
     if (dbTempParticipants != null && StringUtils.hasText(dbTempParticipants.getParticipants())) {
-      SelectedMembers selectedMembers =
-          DataMapper.getRedirectTeamSelection(dbTempParticipants, user);
-      Map<String, List<GameParticipants>> gameParticipants =
-          gameParticipantsService.getAllActiveParticipantsByQuestionId(questionId);
-      Map<String, Integer> gametypecounts =
-          DataMapper.getGameTypeCounts(gameParticipants, selectedMembers);
+      SelectedMembers selectedMembers = DataMapper.getRedirectTeamSelection(dbTempParticipants, user);
+      Map<String, List<GameParticipants>> gameParticipants = gameParticipantsService.getAllActiveParticipantsByQuestionId(questionId);
+      Map<String, Integer> gametypecounts = DataMapper.getGameTypeCounts(gameParticipants, selectedMembers);
       if (gametypecounts != null && gametypecounts.size() > 0) {
         model.addAttribute("gametypecounts", gametypecounts);
         model.addAttribute("gamecount", gametypecounts.size());
       }
 
-      Map<String, Integer> gameplayercounts =
-          DataMapper.getGamePlayerCounts(gameParticipants, selectedMembers);
+      Map<String, Integer> gameplayercounts = DataMapper.getGamePlayerCounts(gameParticipants, selectedMembers);
       model.addAttribute("typecount", gameplayercounts);
       model.addAttribute("gameQuestion", gameQuestion);
       model.addAttribute("amountEntry", amountEntry);
@@ -430,6 +450,15 @@ public class UserGameController {
         model.addAttribute("teamParticipants", teamParticipants);
       }
     }
+    List<String> countries = gameParticipantsService.getAllParticipantTypesByQuestionId(participants.getQuestionId()); // Means Countries
+    if (countries != null && !countries.isEmpty()) {
+      String lastCountry = "";
+      for (String country : countries) {
+        lastCountry = country;
+      }
+      model.addAttribute("lastCountry", lastCountry);
+    }
+    
     model.addAttribute("teamParticipants", teamParticipants);
     return "view/user/teamParticipants";
   }

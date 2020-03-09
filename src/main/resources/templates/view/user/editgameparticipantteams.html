@@ -9,6 +9,21 @@
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"/>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css"/>
 <link rel="stylesheet" th:href="@{/css/gameentry.css}"/>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+<style>
+@media (min-width: 576px) {
+.modal-dialog {
+    max-width: 514px;
+    margin: 1.75rem auto;
+    margin-top:200px;
+}
+}
+</style>
+
 </head>
 <body style="background: url(http://0effortthemes.com/soccerclubv2/images/background/innerpageBg.jpg);">
 <nav th:replace="fragments/usermenu :: usermenu"></nav>
@@ -76,7 +91,8 @@
                                         </a>
                                      </li>
                                  </ul>
-                                <a th:href="${'/user/game/'+gameType+'/editparticipant/'+teamParticipant.userselectedteamid+'/'+index}" class="btn btn-primary ec-ticket-button" style="margin-top: 0px;">Edit Team</a>
+                                <a th:href="${'/user/game/'+gameType+'/editparticipant/'+teamParticipant.userselectedteamid+'/'+index}" class="btn btn-primary" style="margin-top: 0px;width: 49%;">Edit Team</a>
+                                <a href="javascript:void(0)" class="btn btn-danger deleteteam" th:attr="data-userteamid=${teamParticipant.userselectedteamid}" style="margin-top: 0px;width: 50%;">Delete Team</a>
                              </div>
                             
                          </div>
@@ -98,10 +114,62 @@
       </div>
     </div>
   </div>
+  
+  <div class="modal fade" id="myDeleteModal" role="dialog" data-backdrop="static" data-keyboard="false">
+<div class="modal-dialog">
+  <div class="modal-content">
+    <div class="modal-body">
+      <p style="font-size:100%" id="showdeletemessage"></p>
+    </div>
+    <div class="modal-footer" style="text-align:center;display: block;">
+        <button type="button" class="btn btn-danger confirmdelete" data-dismiss="modal">YES</button>
+        <button type="button" class="btn btn-success" data-dismiss="modal">NO</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="myConfirmDelete" role="dialog" data-backdrop="static" data-keyboard="false">
+<div class="modal-dialog">
+  <div class="modal-content">
+    <div class="modal-body">
+      <p style="font-size:100%" id="confirmdeletemessage"></p>
+    </div>
+    <div class="modal-footer" style="text-align:center;display: block;">
+        <button type="button" class="btn btn-danger suredelete" data-dismiss="modal">OK</button>
+        <button type="button" class="btn btn-success" data-dismiss="modal">NO</button>
+      </div>
+    </div>
+  </div>
+</div>
+  
+  
+  
+  
 </body>
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+
+<script type="text/javascript" th:inline="javascript">
+var userTeamId;
+$(".deleteteam").on("click", function(e) {
+	userTeamId = $(this).data('userteamid');
+	$("#showdeletemessage").html("Are you sure, you want to delete this team from the participant")	
+	$("#myDeleteModal").modal("show");
+});
+
+$(".confirmdelete").on("click", function(e) {
+	$("#confirmdeletemessage").html("It will charge 1 ruppee to delete this team from the participant")	
+	$("#myConfirmDelete").modal("show");
+});
+$(".suredelete").on("click", function(e) {
+	$.get("/user/game/deleteuserteam/" + userTeamId, function(data) {
+		if(data == 'success') {
+			location.reload(true);
+		}
+		console.log(data);
+	});
+});
+</script>
+
 <script type="text/javascript" th:inline="javascript">
 //<![CDATA[
 	
@@ -111,7 +179,7 @@ $(function() {
 		window.location.href="/user/game/"+playType+"/edit";
 	})
 })	
-	window.onload = function () {
+/* 	window.onload = function () {
         document.addEventListener("contextmenu", function (e) {
             e.preventDefault();
         }, false);
@@ -141,7 +209,7 @@ $(function() {
             e.preventDefault();
             return false;
         }
-    }
+    } */
  // ]]>
 	</script>
 </html>

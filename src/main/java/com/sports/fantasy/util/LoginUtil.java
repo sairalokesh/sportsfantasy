@@ -12,7 +12,6 @@ public class LoginUtil {
 		} else {
 			return false;
 		}
-
 	}
 
 }

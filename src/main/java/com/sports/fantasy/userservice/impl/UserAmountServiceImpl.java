@@ -86,8 +86,7 @@ public class UserAmountServiceImpl implements UserAmountService {
       Mac sha256HMAC = Mac.getInstance("HmacSHA256");
       SecretKeySpec secretkeyspec = new SecretKeySpec(secretKey.getBytes(), "HmacSHA256");
       sha256HMAC.init(secretkeyspec);
-      String signature =
-          Base64.getEncoder().encodeToString(sha256HMAC.doFinal(data.toString().getBytes()));
+      String signature = Base64.getEncoder().encodeToString(sha256HMAC.doFinal(data.toString().getBytes()));
       model.addAttribute("appId", appId);
       model.addAttribute("orderId", orderId);
       model.addAttribute("orderAmount", userAmount.getAddedAmount() + "");

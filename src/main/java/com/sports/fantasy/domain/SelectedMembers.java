@@ -17,6 +17,7 @@ public class SelectedMembers {
   private String message;
   private Integer index;
   private Long userTeamId;
+  private Long userId;
 
   public SelectedMembers() {
     super();
@@ -124,4 +125,14 @@ public class SelectedMembers {
   public void setUserTeamId(Long userTeamId) {
     this.userTeamId = userTeamId;
   }
+
+  public Long getUserId() {
+    return userId;
+  }
+
+  public void setUserId(Long userId) {
+    this.userId = userId;
+  }
+
+
 }

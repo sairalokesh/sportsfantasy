@@ -12,11 +12,13 @@ public interface GameQuestionsService {
   GameQuestions findGameQuestionById(Long id);
   GameQuestions updateGameQuestion(GameQuestions gameQuestions);
   List<GameQuestions> findAllGameQuestions(boolean isActive);
+  
   List<GameQuestions> getGameQuestionsByGreaterthanCurrentDate(String gameType);
   GameQuestions getGameQuestionByQuestionId(Long questionId, String gameType);
   void saveApiTeams(List<ApiTeams> teams)  throws ParseException;
   GameQuestions getCompletedGameQuestionByQuestionId(Long questionId, String gametype);
   List<GameQuestions> getGameQuestionsByGreaterthanCurrentDatewithLimit(String gameType);
+  List<GameQuestions> findAllActivaGameQuestions(boolean isActive);
 
 
 

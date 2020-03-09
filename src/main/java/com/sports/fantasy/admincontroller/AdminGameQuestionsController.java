@@ -34,7 +34,7 @@ public class AdminGameQuestionsController {
 		if(!LoginUtil.getAuthentication(principal)) {
 			return "redirect:/signin";
 		}
-		List<GameQuestions> gameQuestions = gameQuestionsService.findAllGameQuestions();
+		List<GameQuestions> gameQuestions = gameQuestionsService.findAllGameQuestions(true);
 		model.addAttribute("gameQuestion", new GameQuestions());
 		model.addAttribute("gameQuestions", gameQuestions);
 		model.addAttribute("isAdd", true);
@@ -47,7 +47,7 @@ public class AdminGameQuestionsController {
 		if(!LoginUtil.getAuthentication(principal)) {
 			return "redirect:/signin";
 		}
-		List<GameQuestions> gameQuestions = gameQuestionsService.findAllGameQuestions();
+		List<GameQuestions> gameQuestions = gameQuestionsService.findAllGameQuestions(true);
 		model.addAttribute("gameQuestion", new GameQuestions());
 		model.addAttribute("gameQuestions", gameQuestions);
 		model.addAttribute("isAdd", true);
@@ -75,7 +75,7 @@ public class AdminGameQuestionsController {
 		if(!LoginUtil.getAuthentication(principal)) {
 			return "redirect:/signin";
 		}
-		List<GameQuestions> gameQuestions = gameQuestionsService.findAllGameQuestions();
+		List<GameQuestions> gameQuestions = gameQuestionsService.findAllGameQuestions(true);
 		GameQuestions gameQuestion = gameQuestionsService.findGameQuestionById(id);
 		model.addAttribute("gameQuestions", gameQuestions);
 		model.addAttribute("gameQuestion", gameQuestion);

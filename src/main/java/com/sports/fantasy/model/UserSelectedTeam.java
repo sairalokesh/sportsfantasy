@@ -81,6 +81,12 @@ public class UserSelectedTeam {
   @Column(name = "game_type")
   private String gameType;
 
+  @Column(name = "bonus_amount")
+  private double bonusAmount = 0.00;
+
+  @Column(name = "added_amount")
+  private double addedAmount = 0.00;
+
   public Long getId() {
     return id;
   }
@@ -240,4 +246,22 @@ public class UserSelectedTeam {
   public void setGameType(String gameType) {
     this.gameType = gameType;
   }
+
+  public double getBonusAmount() {
+    return bonusAmount;
+  }
+
+  public void setBonusAmount(double bonusAmount) {
+    this.bonusAmount = bonusAmount;
+  }
+
+  public double getAddedAmount() {
+    return addedAmount;
+  }
+
+  public void setAddedAmount(double addedAmount) {
+    this.addedAmount = addedAmount;
+  }
+
+
 }

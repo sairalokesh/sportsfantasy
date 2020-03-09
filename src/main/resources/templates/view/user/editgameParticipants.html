@@ -117,13 +117,15 @@
       	<div class="col-md-12 col-sm-12 col-xs-12 tbl-content" th:each="gameparticipant : ${participant.value}">
       	<div class="inputGroup" th:attr="data-id=${participant.key}, data-name=${gameparticipant.participantGameType}">
       		<a href="javascript:void(0)" class="close"></a>
-      		<a href="javascript:void(0)" class="close"><img src="http://www.clker.com/cliparts/k/T/w/u/G/S/transparent-yellow-checkmark-md.png" width="30" th:if="${gameparticipant.availability != null and gameparticipant.availability == 'YES'}"/></a>
-      		<a href="javascript:void(0)" class="close"><img src="http://www.clker.com/cliparts/8/0/1/9/1195445329999867155jean_victor_balin_cross.svg.med.png" width="30" th:if="${gameparticipant.availability != null and gameparticipant.availability == 'NO'}"/></a>
+      		<!-- <a href="javascript:void(0)" class="close"><img src="http://www.clker.com/cliparts/k/T/w/u/G/S/transparent-yellow-checkmark-md.png" width="30" th:if="${gameparticipant.availability != null and gameparticipant.availability == 'YES'}"/></a>
+      		<a href="javascript:void(0)" class="close"><img src="http://www.clker.com/cliparts/8/0/1/9/1195445329999867155jean_victor_balin_cross.svg.med.png" width="30" th:if="${gameparticipant.availability != null and gameparticipant.availability == 'NO'}"/></a> -->
             <input type="checkbox" th:value="${gameparticipant.id}" th:field="*{selectedMembers}" th:checked="${#sets.contains(selectedMembers.selectedMembers,gameparticipant.id)}"/>
             <label for="option">
             <div class="row">
 	            <div class="col-md-3 col-sm-3 col-xs-3">
 	            <img th:src="${gameparticipant.participantImage}" style="width:80px; height:80px;border-radius: 50%;" class="image"/>
+	             <span class="profile-status online" th:if="${gameparticipant.availability != null and gameparticipant.availability == 'YES'}"></span>
+	            <span class="profile-status offline" th:if="${gameparticipant.availability != null and gameparticipant.availability == 'NO'}"></span>
 	            </div>
 	            <div class="col-md-9 col-sm-9 col-xs-9" style="margin-top:5px;">
 	             <p style="margin-top: 14px;margin: 9px 0px 2px 8px;font-weight: bolder;" th:text="${gameparticipant.participantName}"></p>

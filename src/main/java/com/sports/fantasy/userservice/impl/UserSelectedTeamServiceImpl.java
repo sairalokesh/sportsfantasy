@@ -107,14 +107,12 @@ public class UserSelectedTeamServiceImpl implements UserSelectedTeamService {
   }
 
   @Override
-  public List<SelectedTeam> getTeamSelectedEditParticipants(Long userId, String gameType,
-      boolean isActive) {
+  public List<SelectedTeam> getTeamSelectedEditParticipants(Long userId, String gameType, boolean isActive) {
     return userSelectedTeamRepository.getTeamSelectedEditParticipants(userId, gameType, isActive);
   }
 
   @Override
-  public List<UserTeamParticipants> getTeamsEditParticipants(Long questionId, Long amountId,
-      Long userId) {
+  public List<UserTeamParticipants> getTeamsEditParticipants(Long questionId, Long amountId, Long userId) {
     return userTeamDao.getTeamsEditParticipants(questionId, amountId, userId);
   }
 
@@ -209,6 +207,11 @@ public class UserSelectedTeamServiceImpl implements UserSelectedTeamService {
     userPoints.setGameParticipantPoints(gameParticipantPoints);
     userPoints.setGameParticipantScore(gameParticipantScore);
     return userPoints;
+  }
+
+  @Override
+  public void deleteUserTeam(Long userTeamId) {
+    userSelectedTeamRepository.deleteById(userTeamId);
   }
 
 }

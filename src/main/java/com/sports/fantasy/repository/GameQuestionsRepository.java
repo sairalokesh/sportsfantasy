@@ -28,4 +28,7 @@ public interface GameQuestionsRepository extends CrudRepository<GameQuestions, L
 
   @Query("Select g from GameQuestions as g where g.validDate >= now() order by g.validDate asc")
   Page<GameQuestions> getGameQuestionsByGreaterthanCurrentDatewithLimit(String gameType, Pageable pageable);
+
+  @Query("Select g from GameQuestions as g where g.active = ?1 and g.validDate <= now() and g.spinDate >= now() order by g.validDate asc")
+  List<GameQuestions> findAllActivaGameQuestions(boolean isActive);
 }

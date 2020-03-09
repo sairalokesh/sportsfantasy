@@ -1,8 +1,7 @@
 <div class="spaceAround tall">
 	<div class="teamPreviewRowWrapper" th:each="teamParticipant,iter : ${teamParticipants}">
-		<div class="rowTitle" th:text="${teamParticipant.key}">Wicket-Keepers</div>
+		<div class="rowTitle" th:text="${teamParticipant.key}" style="margin-bottom:10px;">Wicket-Keepers</div>
 		<div class="spaceAround rowContent playerRowHeight">
-		
 			<div class="spaceAround rowContent playerRowHeight" th:each="gameparticipant : ${teamParticipant.value}">
 				<div class="js--field-player fieldPlayerMain">
 					<div class="playerImageProfile">
@@ -14,13 +13,13 @@
 						</div>
 					</div>
 					<div class="playerTitleContainer">
-						<div class="fieldPlayerTitle awayTeamPlayerTitle" th:text="${gameparticipant.participantName}">J Buttler</div>
+						<div th:class="${gameparticipant.participantGameType == lastCountry ? 'fieldPlayerTitle awayTeamPlayerTitle' : 'fieldPlayerTitle homeTeamPlayerTitle'}" th:text="${gameparticipant.participantName}">J Buttler</div>
 					</div>
+					<div class="playerPoints" style="font-size: 10px;" th:text="${gameparticipant.participantGameType}"></div>
 				</div>
 			</div>
 		</div>
 	</div>
-	
 </div>
 <style>
 .spaceAround {
@@ -99,6 +98,12 @@
     color: #282828;
     background-color: #fff;
 }
+
+.homeTeamPlayerTitle {
+  background-color: #282828;
+  color: #fff;
+}
+
 .playerPoints {
     white-space: nowrap;
     color: #fff;

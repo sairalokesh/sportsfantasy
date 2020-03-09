@@ -53,8 +53,11 @@ public class UserAllGamesController {
     }
 
     UserInfo user = userService.findByEmail(principal.getName());
-    List<SelectedTeam> selectedTeams =
-        userSelectedTeamService.getTeamSelectedEditParticipants(user.getId(), gametype, true);
+    if (user!=null && !user.getRole().equalsIgnoreCase("USER")) {
+      return "redirect:/accessdenied";
+    }
+    
+    List<SelectedTeam> selectedTeams = userSelectedTeamService.getTeamSelectedEditParticipants(user.getId(), gametype, true);
     model.addAttribute("selectedTeams", selectedTeams);
     model.addAttribute("gameType", gametype);
     return "view/user/upcominggames";
@@ -67,8 +70,11 @@ public class UserAllGamesController {
     }
 
     UserInfo user = userService.findByEmail(principal.getName());
-    List<SelectedTeam> selectedTeams =
-        userSelectedTeamService.getTeamSelectedLiveParticipants(user.getId(), gametype, true);
+    if (user!=null && !user.getRole().equalsIgnoreCase("USER")) {
+      return "redirect:/accessdenied";
+    }
+    
+    List<SelectedTeam> selectedTeams = userSelectedTeamService.getTeamSelectedLiveParticipants(user.getId(), gametype, true);
     model.addAttribute("selectedTeams", selectedTeams);
     model.addAttribute("gameType", gametype);
     return "view/user/livegames";
@@ -81,25 +87,28 @@ public class UserAllGamesController {
     }
 
     UserInfo user = userService.findByEmail(principal.getName());
-    List<SelectedTeam> selectedTeams =
-        userSelectedTeamService.getTeamSelectedCompletedParticipants(user.getId(), gametype, false);
+    if (user!=null && !user.getRole().equalsIgnoreCase("USER")) {
+      return "redirect:/accessdenied";
+    }
+    
+    List<SelectedTeam> selectedTeams = userSelectedTeamService.getTeamSelectedCompletedParticipants(user.getId(), gametype, false);
     model.addAttribute("selectedTeams", selectedTeams);
     model.addAttribute("gameType", gametype);
     return "view/user/completedgames";
   }
 
   @GetMapping("/game/{gametype}/amount/{questionId}/participants/{amountId}")
-  public String getParticipantScores(@PathVariable String gametype, @PathVariable Long questionId,
-      @PathVariable Long amountId, Principal principal, Model model) {
+  public String getParticipantScores(@PathVariable String gametype, @PathVariable Long questionId, @PathVariable Long amountId, Principal principal, Model model) {
     if (!LoginUtil.getAuthentication(principal)) {
       return "redirect:/signin";
     }
 
     UserInfo user = userService.findByEmail(principal.getName());
-    List<Ranking> rankings =
-        userRankingService.getSelectedParticipantsScore(questionId, amountId, gametype, user);
-    GameQuestions gameQuestion =
-        gameQuestionsService.getGameQuestionByQuestionId(questionId, gametype);
+    if (user!=null && !user.getRole().equalsIgnoreCase("USER")) {
+      return "redirect:/accessdenied";
+    }
+    List<Ranking> rankings = userRankingService.getSelectedParticipantsScore(questionId, amountId, gametype, user);
+    GameQuestions gameQuestion = gameQuestionsService.getGameQuestionByQuestionId(questionId, gametype);
     AmountEntries amountEntry = gameAmountService.findByAmountId(amountId);
     model.addAttribute("participantScores", rankings);
     model.addAttribute("amountEntry", amountEntry);
@@ -115,8 +124,11 @@ public class UserAllGamesController {
     }
 
     UserInfo user = userService.findByEmail(principal.getName());
-    List<Ranking> rankings =
-        userRankingService.getSelectedParticipantsScore(questionId, amountId, gametype, user);
+    if (user!=null && !user.getRole().equalsIgnoreCase("USER")) {
+      return "redirect:/accessdenied";
+    }
+    
+    List<Ranking> rankings = userRankingService.getSelectedParticipantsScore(questionId, amountId, gametype, user);
     GameQuestions gameQuestion = gameQuestionsService.getCompletedGameQuestionByQuestionId(questionId, gametype);
     AmountEntries amountEntry = gameAmountService.findByAmountId(amountId);
     model.addAttribute("participantScores", rankings);
@@ -133,6 +145,9 @@ public class UserAllGamesController {
       
       boolean isActive = true; 
       UserInfo user = userService.findByEmail(principal.getName());
+      if (user!=null && !user.getRole().equalsIgnoreCase("USER")) {
+        return "redirect:/accessdenied";
+      }
       if(user!=null && user.getId()!=null && user.getId() != userId) {
         GameQuestions gameQuestion = gameQuestionsService.findGameQuestionById(questionId);
         if(gameQuestion!=null && gameQuestion.getValidDate()!=null && gameQuestion.getValidDate().after(new Date())) {

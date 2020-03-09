@@ -21,8 +21,7 @@ public interface GameParticipantRepository extends CrudRepository<GameParticipan
   void deleteQuestionParticipants(Collection<Long> participantIds, Long questionId);
 
   @Query("select p from GameParticipants as p where p.gameQuestions.id = ?1 and p.id in (?2)")
-  List<GameParticipants> getAllParticipantsByQuestionIdAndParticipantsIds(Long questionId,
-      List<Long> participantIds);
+  List<GameParticipants> getAllParticipantsByQuestionIdAndParticipantsIds(Long questionId, List<Long> participantIds);
 
   @Query("select distinct p.participantGameType from GameParticipants as p where p.gameQuestions.id = ?1")
   List<String> getAllParticipantTypesByQuestionId(Long questionId);

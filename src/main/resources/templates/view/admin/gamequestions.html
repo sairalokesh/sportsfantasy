@@ -127,7 +127,8 @@
 		<thead>
 			<tr>
 				<th style="text-align:center;">Team One</th>
-				<th style="text-align:center;">Team Two</th>		
+				<th style="text-align:center;">Team Two</th>	
+				<th style="text-align:center;">Match Date</th>	
 				<th style="text-align:center;">Effect</th>
 				<th style="text-align:center;">Choices</th>
 				<th style="text-align:center;">Is Active</th>
@@ -138,6 +139,7 @@
 			<tr th:each="gameQuestion : ${gameQuestions}">
 				<td th:text="${gameQuestion.teamOne}" style="text-align:center;"></td>
 				<td th:text="${gameQuestion.teamTwo}" style="text-align:center;"></td>
+				<td th:text="${#dates.format(gameQuestion.validDate, 'dd-MM-yyyy hh:mm aa')}" style="text-align:center;"></td>
 				<td th:text="${gameQuestion.questionEffect}" style="text-align:center;"></td>
 				<td th:text="${gameQuestion.choices}" style="text-align:center;"></td>
 				<td th:text="${gameQuestion.active?'Yes':'No'}" style="text-align:center;"></td>

@@ -90,19 +90,20 @@
 <div class="row">
   	<div class="col-md-5 col-sm-12 col-xs-12 ">
 	  <label id="selectedMembers-error" class="inputError radiobtn" for="selectedMembers" style="padding: 0px;">&nbsp;</label>
+	  <!-- Country Count -->
 	   <div class="row">
-	  <div class="col-md-12 col-sm-12">
-		<div class="radiobtn">
-			<a href="javascript:void(0);" style="text-decoration:none;">
-				<label style="background: #28a74524;color: #ffff;border: 2px solid #28a74524;">
-					<span th:inline="text" th:each="gametypecount, iter : ${gametypecounts}">
-						<span>[[${gametypecount.key}]] : </span><span th:id="${gametypecount.key}+'CN'"></span><span th:if="${gamecount &gt; (iter.index + 1)}"> / </span> 
-					</span>
-					<span style="float:right;" th:inline="text"><span>Selected Members : </span><span id="selectedmembers"></span> / [[${gameQuestion.choices}]] </span>
-				</label>
-			</a>
-		</div>
-	  </div>
+		  <div class="col-md-12 col-sm-12">
+			<div class="radiobtn">
+				<a href="javascript:void(0);" style="text-decoration:none;">
+					<label style="background: #28a74524;color: #ffff;border: 2px solid #28a74524;">
+						<span th:inline="text" th:each="gametypecount, iter : ${gametypecounts}">
+							<span>[[${gametypecount.key}]] : </span><span th:id="${gametypecount.key}+'CN'"></span><span th:if="${gamecount &gt; (iter.index + 1)}"> / </span> 
+						</span>
+						<span style="float:right;" th:inline="text"><span>Selected Members : </span><span id="selectedmembers"></span> / [[${gameQuestion.choices}]] </span>
+					</label>
+				</a>
+			</div>
+		  </div>
 	</div>
 	
     <nav>
@@ -116,14 +117,13 @@
         <div class="row marginalign" style="overflow-x: auto;height: calc(100vh - 366px);">
       	<div class="col-md-12 col-sm-12 col-xs-12 tbl-content" th:each="gameparticipant : ${participant.value}">
       	<div class="inputGroup" th:attr="data-id=${participant.key}, data-name=${gameparticipant.participantGameType}">
-      		<a href="javascript:void(0)" class="close"><img src="http://www.clker.com/cliparts/k/T/w/u/G/S/transparent-yellow-checkmark-md.png" width="30" th:if="${gameparticipant.availability != null and gameparticipant.availability == 'YES'}"/></a>
-      		<a href="javascript:void(0)" class="close"><img src="http://www.clker.com/cliparts/8/0/1/9/1195445329999867155jean_victor_balin_cross.svg.med.png" width="30" th:if="${gameparticipant.availability != null and gameparticipant.availability == 'NO'}"/></a>
-      		
             <input type="checkbox" th:value="${gameparticipant.id}" th:field="*{selectedMembers}" th:checked="${#sets.contains(selectedMembers.selectedMembers,gameparticipant.id)}"/>
             <label for="option">
             <div class="row">
 	            <div class="col-md-3 col-sm-3 col-xs-3">
 	            <img th:src="${gameparticipant.participantImage}" style="width:80px; height:80px;border-radius: 50%;" class="image"/>
+	            <span class="profile-status online" th:if="${gameparticipant.availability != null and gameparticipant.availability == 'YES'}"></span>
+	            <span class="profile-status offline" th:if="${gameparticipant.availability != null and gameparticipant.availability == 'NO'}"></span>
 	            </div>
 	            <div class="col-md-9 col-sm-9 col-xs-9" style="margin-top:5px;">
 	             <p style="margin-top: 14px;margin: 9px 0px 2px 8px;font-weight: bolder;" th:text="${gameparticipant.participantName}"></p>
@@ -152,6 +152,7 @@
  <input type="hidden" th:field="*{viceCapitanId}" name="viceCapitanId"/>
  <input type="hidden" th:field="*{suppoterId}" name="suppoterId"/>
  <input type="hidden" th:field="*{userTempId}" name="userTempId"/>
+ 
  <div class="row footer">
  <div class="col-md-12 col-sm-12 animated fadeInRightBig" style="text-align: center;margin-top:10px;">
      <button type="submit" class="btn btn-primary" onClick="scrolltop()">CONTINUE</button><br/><br/>
@@ -205,7 +206,7 @@
 var gameQuestion = [[${gameQuestion}]];
 var memeberslength = [[${selectedMembers.selectedMembers}]].length;
 var typecount = [[${typecount}]];
-var gametypecounts = [[${gametypecounts}]];
+var gametypecounts = [[${gametypecounts}]]; // Countries Count
 var playType = [[${gameType}]];
 var dataparticipants = [[${selectedMembers.selectedMembers}]];
 var selectedcaptain = [[${selectedMembers.capitanId}]];
@@ -353,7 +354,6 @@ $.ajax({
      },
      error : function(e) {
     	 $("#appendplayers").html(e.responseText);
-    	// console.log("error", e.responseText);
      }
  });
 }
@@ -362,7 +362,7 @@ $.ajax({
 </script>
 <script type="text/javascript" th:inline="javascript">
 //<![CDATA[
-	 window.onload = function () {
+window.onload = function () {
 	    document.addEventListener("contextmenu", function (e) {
 	        e.preventDefault();
 	    }, false);

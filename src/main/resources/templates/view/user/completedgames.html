@@ -35,8 +35,10 @@
                          <div class="ec-nextmatch">
                              <div class="item">
                                  <ul class="ec-team-matches" style="margin-bottom: 0px;">
-                                     <li>
-                                         <a href="javascript:void(0);"><img th:src="${selectedTeam.teamOneImage}" alt=""/><span th:text="${selectedTeam.teamOne}">Arsenal</span></a>
+                                    <li>
+                                         <a href="javascript:void(0);">
+                                         <img th:src="${selectedTeam.teamOneImage!=null && selectedTeam.teamOneImage!=''?selectedTeam.teamOneImage:'https://rangerwear.com/content/images/thumbs/default-image_600.png'}" alt="" style="width:100px;height:100px"/>
+                                         <span th:text="${#strings.length(selectedTeam.teamOne)>10?#strings.substring(selectedTeam.teamOne,0,10)+'...':selectedTeam.teamOne}">Arsenal</span></a>
                                      </li>
                                      <li>
                                      	<small th:text="${#dates.dayOfWeekName(selectedTeam.validDate)}">Thursday</small>
@@ -51,7 +53,8 @@
                                         <small th:text="${#dates.format(selectedTeam.validDate, 'hh:mm aa')}">15:00pm</small>
                                     </li>
                                      <li>
-                                         <a href="javascript:void(0);"><img th:src="${selectedTeam.teamTwoImage}" alt=""/><span th:text="${selectedTeam.teamTwo}">Premier League</span></a>
+                                         <a href="javascript:void(0);"><img th:src="${selectedTeam.teamTwoImage!=null && selectedTeam.teamTwoImage!=''?selectedTeam.teamTwoImage:'https://rangerwear.com/content/images/thumbs/default-image_600.png'}" alt="" style="width:100px;height:100px"/>
+                                         <span th:text="${#strings.length(selectedTeam.teamTwo)>10?#strings.substring(selectedTeam.teamTwo,0,10)+'...':selectedTeam.teamTwo}">Premier League</span></a>
                                      </li>
                                  </ul>
                                  <div id="ec-Countdown" class="ec-match-countdown is-countdown">

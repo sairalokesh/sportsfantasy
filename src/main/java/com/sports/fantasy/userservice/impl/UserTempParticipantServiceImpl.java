@@ -2,7 +2,6 @@ package com.sports.fantasy.userservice.impl;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -75,17 +74,14 @@ public class UserTempParticipantServiceImpl implements UserTempParticipantServic
   }
 
   @Override
-  public Map<String, List<GameParticipants>> getAllTempParticipantsByQuestionId(Long tempId,
-      Long questionId, Long amountId, String gameType, UserInfo user) {
+  public Map<String, List<GameParticipants>> getAllTempParticipantsByQuestionId(Long userTempId, Long questionId, Long amountId, String gameType, UserInfo user) {
     Map<String, List<GameParticipants>> mapPameParticipants = new TreeMap<>();
-    UserTempParticipants userTempParticipants = userTempParticipantRepository.findByTempData(tempId, questionId, amountId, gameType, user.getId());
+    UserTempParticipants userTempParticipants = userTempParticipantRepository.findByTempData(userTempId, questionId, amountId, gameType, user.getId());
     if(userTempParticipants!=null && StringUtils.hasText(userTempParticipants.getParticipants())) {
         List<Long> participantIds = Stream.of(userTempParticipants.getParticipants().split(",")).map(Long::valueOf).collect(Collectors.toList());
         if(participantIds!=null && !participantIds.isEmpty()) {
-          
             List<GameParticipants> gameParticipants = gameParticipantRepository.getAllParticipantsByQuestionIdAndParticipantsIds(userTempParticipants.getQuestionId(), participantIds);
             if(gameParticipants!=null && !gameParticipants.isEmpty()) {
-              
                 for(GameParticipants gameParticipant: gameParticipants) {
                     if(userTempParticipants.getCapitanId()!=null && gameParticipant.getId().equals(userTempParticipants.getCapitanId())) {
                         gameParticipant.setCapitanId(userTempParticipants.getCapitanId());
@@ -114,8 +110,8 @@ public class UserTempParticipantServiceImpl implements UserTempParticipantServic
   }
 
   @Override
-  public SelectedMembers findById(Long tempId, Long questionId, Long amountId, String gameType, UserInfo user) {
-    UserTempParticipants participants = userTempParticipantRepository.findByTempData(tempId, questionId, amountId, gameType, user.getId());
+  public SelectedMembers findById(Long userTempId, Long questionId, Long amountId, String gameType, UserInfo user) {
+    UserTempParticipants participants = userTempParticipantRepository.findByTempData(userTempId, questionId, amountId, gameType, user.getId());
     SelectedMembers selectedMembers = new SelectedMembers(questionId, amountId, gameType);
     if(participants!=null) {
         if(participants.getParticipants()!=null && participants.getParticipants()!= "") {
@@ -142,8 +138,8 @@ public class UserTempParticipantServiceImpl implements UserTempParticipantServic
   }
 
   @Override
-  public UserTempParticipants findCurrentParticipantById(Long tempId, Long questionId, Long amountId, String gameType, UserInfo user) {
-    return userTempParticipantRepository.findByTempData(tempId, questionId, amountId, gameType, user.getId());
+  public UserTempParticipants findCurrentParticipantById(Long userTempId, Long questionId, Long amountId, String gameType, UserInfo user) {
+    return userTempParticipantRepository.findByTempData(userTempId, questionId, amountId, gameType, user.getId());
   }
 
   @Override
