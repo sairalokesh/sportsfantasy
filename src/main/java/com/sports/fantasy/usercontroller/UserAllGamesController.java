@@ -113,6 +113,9 @@ public class UserAllGamesController {
     model.addAttribute("participantScores", rankings);
     model.addAttribute("amountEntry", amountEntry);
     model.addAttribute("gameQuestion", gameQuestion);
+    model.addAttribute("gametype", gametype);
+    model.addAttribute("questionId", questionId);
+    model.addAttribute("amountId", amountId);
     return "view/user/userrankingscores";
   }
   
@@ -134,6 +137,9 @@ public class UserAllGamesController {
     model.addAttribute("participantScores", rankings);
     model.addAttribute("amountEntry", amountEntry);
     model.addAttribute("gameQuestion", gameQuestion);
+    model.addAttribute("gametype", gametype);
+    model.addAttribute("questionId", questionId);
+    model.addAttribute("amountId", amountId);
     return "view/user/userrankingscores";
   }
   
