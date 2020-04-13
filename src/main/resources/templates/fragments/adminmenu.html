@@ -8,7 +8,7 @@
 	<div class="collapse navbar-collapse" id="navbarCollapse">
 		<ul class="navbar-nav mr-auto">
 			<li class="nav-item" th:classappend="${title == 'admindashboard' ? 'active' : ''}"><a class="nav-link" th:href="@{'/admin/dashboard'}">Dashboard</a></li>
-			<li class="nav-item" th:classappend="${title == 'amountentries' ? 'active' : ''}"><a class="nav-link" th:href="@{'/admin/amountentries'}">Amount Entries</a></li>
+			<li class="nav-item" th:classappend="${title == 'amountentries' ? 'active' : ''}"><a class="nav-link" th:href="@{'/admin/amountentries'}">Amount</a></li>
 			<li class="nav-item" th:classappend="${title == 'adminquestion' ? 'active' : ''}"><a class="nav-link" th:href="@{'/admin/questions'}">Questions</a></li>
 			<li class="nav-item" th:classappend="${title == 'adminparticipants' ? 'active' : ''}"><a class="nav-link" th:href="@{'/admin/questionparticipants'}">Participants</a></li>
 			<li class="nav-item" th:classappend="${title == 'adminparticipantpoints' ? 'active' : ''}"><a class="nav-link" th:href="@{'/admin/questionparticipantpoints'}">Participant Points</a></li>
@@ -16,6 +16,9 @@
 			<!-- <li class="nav-item" th:classappend="${title == 'adminplayers' ? 'active' : ''}"><a class="nav-link" th:href="@{'/admin/getplayers'}">Players</a></li> -->
 			<li class="nav-item" th:classappend="${title == 'adminpp' ? 'active' : ''}"><a class="nav-link" th:href="@{'/admin/api/questionparticipants'}">PP</a></li>
 			<li class="nav-item" th:classappend="${title == 'apiadminparticipantpoints' ? 'active' : ''}"><a class="nav-link" th:href="@{'/admin/api/questionparticipantpoints'}">PS</a></li>
+			<li class="nav-item" th:classappend="${title == 'adminaccount' ? 'active' : ''}"><a class="nav-link" th:href="@{'/admin/getpendingaccounts'}">Account</a></li>
+			<li class="nav-item" th:classappend="${title == 'adminwithdraws' ? 'active' : ''}"><a class="nav-link" th:href="@{'/admin/withdraws'}">Withdraws</a></li>
+			<li class="nav-item" th:classappend="${title == 'adminmoney' ? 'active' : ''}"><a class="nav-link" th:href="@{'/admin/gamemoney'}">Money</a></li>
 		</ul>
 		<ul class="navbar-nav">
 			<li class="nav-item"><a class="nav-link" th:href="@{'/admin/profile'}">profile</a></li>

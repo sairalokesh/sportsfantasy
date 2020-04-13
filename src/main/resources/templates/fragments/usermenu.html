@@ -1,7 +1,10 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark" th:fragment="usermenu">
-  <a th:href="@{'/user/dashboard'}" class="navbar-brand">All Sports Fantasy</a>
+  <a th:href="@{'/user/dashboard'}" class="navbar-brand"><img
+		class="logo_light"
+		th:src="@{/assets/images/ajax_loading.gif}"
+		alt="logo" style="width: 33px; margin-right: 9px;" />All Sports Fantasy</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>

@@ -33,7 +33,7 @@
 }
  </style>
 </head>
-<body style="background: url(http://0effortthemes.com/soccerclubv2/images/background/innerpageBg.jpg);">
+<body style="background: url(/genders/innerpageBg.jpg);">
 <nav th:replace="fragments/usermenu :: usermenu"></nav>
  <div class="ec-main-wrapper">
      <div class="ec-main-content">
@@ -48,7 +48,7 @@
                                  <ul class="ec-team-matches">
                                      <li>
                                          <a href="javascript:void(0);">
-                                         <img th:src="${gameQuestion.teamOneImage!=null && gameQuestion.teamOneImage!=''?gameQuestion.teamOneImage:'https://rangerwear.com/content/images/thumbs/default-image_600.png'}" alt="" style="width:100px;height:100px"/>
+                                         <img th:src="${gameQuestion.teamOneImage!=null && gameQuestion.teamOneImage!=''?gameQuestion.teamOneImage:'/genders/default-image_600.png'}" alt="" style="width:100px;height:100px"/>
                                          <span th:text="${#strings.length(gameQuestion.teamOne)>10?#strings.substring(gameQuestion.teamOne,0,10)+'...':gameQuestion.teamOne}">Arsenal</span></a>
                                      </li>
                                      <li>
@@ -64,7 +64,7 @@
                                         <small th:text="${#dates.format(gameQuestion.validDate, 'hh:mm aa')}">08:00am</small>
                                     </li>
                                      <li>
-                                         <a href="javascript:void(0);"><img th:src="${gameQuestion.teamTwoImage!=null && gameQuestion.teamTwoImage!=''?gameQuestion.teamTwoImage:'https://rangerwear.com/content/images/thumbs/default-image_600.png'}" alt="" style="width:100px;height:100px"/>
+                                         <a href="javascript:void(0);"><img th:src="${gameQuestion.teamTwoImage!=null && gameQuestion.teamTwoImage!=''?gameQuestion.teamTwoImage:'/genders/default-image_600.png'}" alt="" style="width:100px;height:100px"/>
                                          <span th:text="${#strings.length(gameQuestion.teamTwo)>10?#strings.substring(gameQuestion.teamTwo,0,10)+'...':gameQuestion.teamTwo}">Premier League</span></a>
                                      </li>
                                  </ul>

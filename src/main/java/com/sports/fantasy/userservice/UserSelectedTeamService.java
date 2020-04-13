@@ -23,5 +23,7 @@ public interface UserSelectedTeamService {
   public Map<String, List<GameParticipantScore>> getAllParticipantsScores(UserSelectedTeam userSelectedTeam, Long questionId);
   public UserPoints getSelectedParticipantScores(UserSelectedTeam userSelectedTeam, Long participantId, Long questionId);
   public void deleteUserTeam(Long userTeamId);
+  public Long getUsersCount(String gameType, Long questionId, Long amountId);
+  public Long getSelectedUserCount(String gameType, Long questionId, Long amountId, Long userId);
 
 }

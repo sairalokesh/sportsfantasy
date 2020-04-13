@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1"/>
+ <meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Game Participants - All Sports Fantasy</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round"/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"/>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"/>
+<link rel="stylesheet" th:href="@{/css/participant.css}"/>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="https://code.jquery.com/ui/1.11.0/jquery-ui.min.js"></script>
+
+</head>
+<body>
+<nav th:replace="fragments/adminmenu :: adminmenu"></nav>
+<div class="container-fluid"><br/><br/><br/>
+<div class="alert alert-danger alert-dismissible fade show" role="alert" th:if="${errormessage!='' and errormessage!=null}">
+	<span th:text="${errormessage}"></span>
+	<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		<span aria-hidden="true">&times;</span>
+	</button>
+</div>
+<div class="alert alert-success alert-dismissible fade show" role="alert" th:if="${successmessage!='' and successmessage!=null}">
+	<span th:text="${successmessage}"></span>
+	<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		<span aria-hidden="true">&times;</span>
+	</button>
+</div>
+<div class="table-wrapper">
+	<div class="table-title">
+		<div class="row">
+			<div class="col-sm-6">
+				<h2>
+					<b>Game Questions</b>
+				</h2>
+			</div>
+
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-12">
+		<form th:action="@{'/admin/getmoney'}" method="get" id="usermoney" th:object="${money}">
+			<div class="row">
+				<div class="col-md-4">
+					<div class="form-group">
+						<label for="participantEffect">Participant Amount:</label> 
+						<select class="form-control" id="amount" name="amount" th:field="*{amount}"> 
+						 <option value="">Select Amount</option>
+						 <option th:each="amountEntry : ${amountEntries}" th:value="${amountEntry.amount}" th:text="'₹ '+${#numbers.formatDecimal(amountEntry.amount, 1, 'COMMA', 2, 'POINT')}"></option>
+						</select>
+					</div>
+				</div>
+				<div class="col-md-4">
+					<div class="form-group">
+						<label for="participantEffect">Participant Persons:</label> 
+						<select class="form-control" id="person" name="persons" th:field="*{persons}"> 
+						 <option value="">Select Persons</option>
+						 <option th:each="person : ${persons}" th:value="${person}" th:text="${person}"></option>
+						</select>
+					</div>
+				</div>
+				<div class="col-md-4">
+					<div class="form-group">
+						<label for="participantEffect"></label>
+						<button type="submit" class="btn btn-primary" style="margin-top: 5px;width: 100%;">Submit</button>
+					</div>
+				</div>
+			</div>
+			</form>
+				
+			<form th:action="@{'/admin/updateGameMoney'}" method="post" th:object="${gameMoneyData}">
+			<div class="row">
+			<div class="col-md-1">
+			<div class="form-group">
+			 <label for="nominatedCount">&nbsp;</label> 
+			 <button class="btn btn-success add-more form-control" type="button"><i class="glyphicon glyphicon-plus"></i> Add</button>
+			</div>
+			</div>
+			</div>
+			
+			<div class="row">
+				<div class="col-md-3">
+				<div class="form-group" style="text-align: center;">
+					<label for="from">From</label> 
+				</div>
+				</div>
+				
+				<div class="col-md-3">
+				<div class="form-group" style="text-align: center;">
+					<label for="to">To</label> 
+				</div>
+				</div>
+				
+				<div class="col-md-3">
+				<div class="form-group" style="text-align: center;">
+					<label for="amount">Amount</label> 
+				</div>
+				</div>
+				
+				<div class="col-md-3">
+				<div class="form-group">
+				 <label for="action">&nbsp;</label> 
+				</div>
+				</div>
+			
+			</div>
+			<div class="after-add-more"></div>
+			<div class="row removedata" th:each="gameMoneyRange, itemStat: ${gameMoneyData.gameMoneyRanges}">
+			<div class="col-md-3">
+				<div class="form-group">
+					<input type="text" class="form-control" id="personFrom" th:field="*{gameMoneyRanges[__${itemStat.index}__].personFrom}"/>
+				</div>
+				</div>
+				
+				<div class="col-md-3">
+				<div class="form-group">
+					<input type="text" class="form-control" id="personTo" th:field="*{gameMoneyRanges[__${itemStat.index}__].personTo}"/>
+				</div>
+				</div>
+				
+				<div class="col-md-3">
+				<div class="form-group">
+					<input type="text" class="form-control" id="amount" th:field="*{gameMoneyRanges[__${itemStat.index}__].amount}"/>
+				</div>
+				</div>
+				
+				<div class="col-md-3">
+				<div class="form-group">
+				 <button class="btn btn-danger remove form-control" type="button"><i class="glyphicon glyphicon-remove"></i> remove</button>
+				</div>
+				</div>
+				<input type="hidden" class="form-control" id="id" th:field="*{gameMoneyRanges[__${itemStat.index}__].id}"/>
+				<input type="hidden" class="form-control" id="gameMoney" th:field="*{gameMoneyRanges[__${itemStat.index}__].gameMoney}"/>
+			</div>
+			<div class="col-md-1">
+			<div class="form-group">
+			<input type="hidden" class="form-control" id="amount" th:field="*{amount}"/>
+			<input type="hidden" class="form-control" id="persons" th:field="*{persons}"/>
+			<button type="submit" class="btn btn-primary" th:text="${'Submit'}">Submit</button>
+			</div>
+			</div>
+		</form>
+	</div>
+</div>
+</div>
+</div>
+</body>
+<script type="text/javascript" th:inline="javascript">
+//<![CDATA[	
+$(document).ready(function() {
+	var i = [[${gameMoneyData.gameMoneyRanges}]].length - 1;
+    $(".add-more").click(function(e){ 
+    	e.preventDefault();
+		i++;
+		var html = '<div class="row removedata"><div class="col-md-3"><div class="form-group"><input type="text" class="form-control" id="personFrom" name="gameMoneyRanges['+i+'].personFrom"/></div></div><div class="col-md-3"><div class="form-group"><input type="text" class="form-control" id="personTo" name="gameMoneyRanges['+i+'].personTo"/></div></div><div class="col-md-3"><div class="form-group"><input type="text" class="form-control" id="amount" name="gameMoneyRanges['+i+'].amount"/></div></div> <div class="col-md-3"><div class="form-group"><button class="btn btn-danger remove form-control" type="button"><i class="glyphicon glyphicon-remove"></i> remove</button></div></div></div>';
+		$(".after-add-more").append(html);
+    });
+
+    $("body").on("click",".remove",function(){ 
+        $(this).parents(".removedata").remove();
+    });
+  });
+
+	// ]]>
+</script>
+</html>

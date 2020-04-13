@@ -74,13 +74,13 @@ public class UserController {
 
     String winningAmount = "0.00";
     if (dbWinningAmount != null && dbWinningAmount > 0) {
-      winningAmount = PatternFormatUtil.getFormattedAmount(dbWinningAmount);
+      winningAmount = dbWinningAmount.toString(); /*PatternFormatUtil.getFormattedAmount(dbWinningAmount);*/
     }
 
 
     String entriesAmount = "0.00";
     if (dbEntriesAmount != null && dbEntriesAmount > 0) {
-      entriesAmount = PatternFormatUtil.getFormattedAmount(dbEntriesAmount);
+      entriesAmount = dbEntriesAmount.toString(); /*PatternFormatUtil.getFormattedAmount(dbEntriesAmount);*/
     }
 
 

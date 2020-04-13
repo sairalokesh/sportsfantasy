@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1"/>
+ <meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Game Questions - All Sports Fantasy</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round"/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"/>
+<link rel="shortcut icon" type="image/png" th:href="@{/pages/images/icon/favicon.png}" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" />
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css"/>
+<link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.bootstrap4.min.css"/>
+<link rel="stylesheet" th:href="@{/css/participant.css}"/>
+</head>
+<body>
+<nav th:replace="fragments/adminmenu :: adminmenu"></nav>
+<div class="container-fluid"><br/><br/><br/>
+<div class="alert alert-danger alert-dismissible fade show" role="alert" th:if="${errormessage!='' and errormessage!=null}">
+	<span th:text="${errormessage}"></span>
+	<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		<span aria-hidden="true">&times;</span>
+	</button>
+</div>
+<div class="alert alert-success alert-dismissible fade show" role="alert" th:if="${successmessage!='' and successmessage!=null}">
+	<span th:text="${successmessage}"></span>
+	<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		<span aria-hidden="true">&times;</span>
+	</button>
+</div>
+
+<div class="table-wrapper">
+	<div class="table-title">
+		<div class="row">
+			<div class="col-sm-6">
+				<h2>
+					<b>Withdraws</b>
+				</h2>
+			</div>
+		</div>
+	</div>
+	<table id="example" class="table table-striped table-bordered dt-responsive nowrap" style="width:100%">
+		<thead>
+			<tr>
+				<th style="text-align:center;" width="33%">User Name</th>
+				<th style="text-align:center;" width="33%">Amount</th>	
+				<th style="text-align:center;" width="33%">Actions</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="userWithdrawAmount : ${userWithdrawAmounts}">
+				<td th:text="${userWithdrawAmount.user.firstName + ' ' + userWithdrawAmount.user.lastName}" style="text-align:center;" width="33%"></td>
+				<td th:text="'₹ '+${#numbers.formatDecimal(userWithdrawAmount.amount, 1, 'COMMA', 2, 'POINT')}" style="text-align:center;" width="33%"></td>
+				<td style="text-align:center;" width="33%"><a th:href="@{'/admin/process/withdraw/'+${userWithdrawAmount.id}}"><img th:src="'/genders/checkmark.png'" style="width: 20px;"/></a></td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+</div>
+    
+</body>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script	src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+<script	src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+<script	src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.min.js"></script>
+<script	src="https://cdn.jsdelivr.net/npm/jquery-validation-bootstrap-tooltip@0.10.2/jquery-validate.bootstrap-tooltip.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
+<script src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
+<script src="https://cdn.datatables.net/responsive/2.2.3/js/responsive.bootstrap4.min.js"></script>
+<script type="text/javascript" th:inline="javascript">
+$(document).ready(function() {
+	$('#example').DataTable({
+		"aaSorting" : [ [ 0, "desc" ] ],
+	});
+});
+</script>
+</html>

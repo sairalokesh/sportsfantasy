@@ -36,5 +36,11 @@ public interface UserSelectedTeamRepository extends CrudRepository<UserSelectedT
 
   @Query("select ust from UserSelectedTeam as ust where ust.id = ?1 and ust.gameQuestions.id = ?2 and ust.amountEntries.id = ?3 and ust.user.id = ?4")
   UserSelectedTeam getSelectedUserTeam(Long teamId, Long questionId, Long amountId, Long userId);
+
+  @Query("select count(p.id) from UserSelectedTeam as p where p.gameType = ?1 and p.gameQuestions.id = ?2 and p.amountEntries.id = ?3")
+  Long getUsersCount(String gameType, Long questionId, Long amountId);
+
+  @Query("select count(p.id) from UserSelectedTeam as p where p.gameType = ?1 and p.gameQuestions.id = ?2 and p.amountEntries.id = ?3 and p.user.id = ?4")
+  Long getSelectedUserCount(String gameType, Long questionId, Long amountId, Long userId);
   
 }

@@ -21,6 +21,7 @@ import com.sports.fantasy.domain.SelectedTeam;
 import com.sports.fantasy.model.AmountEntries;
 import com.sports.fantasy.model.GameParticipants;
 import com.sports.fantasy.model.GameQuestions;
+import com.sports.fantasy.model.MatchPayments;
 import com.sports.fantasy.model.UserAmount;
 import com.sports.fantasy.model.UserInfo;
 import com.sports.fantasy.model.UserSelectedTeam;
@@ -33,6 +34,7 @@ import com.sports.fantasy.service.GameQuestionsService;
 import com.sports.fantasy.userservice.UserAmountService;
 import com.sports.fantasy.userservice.UserSelectedTeamService;
 import com.sports.fantasy.userservice.UserTempParticipantService;
+import com.sports.fantasy.userservice.UserTransactionService;
 import com.sports.fantasy.util.DataMapper;
 import com.sports.fantasy.util.LoginUtil;
 
@@ -54,6 +56,7 @@ public class UserTeamsEditController {
   private UserTempParticipantService userTempParticipantService;
   @Autowired
   private UserAmountService userAmountService;
+  @Autowired private UserTransactionService userTransactionService;
 
   @ModelAttribute
   public void admindashboardtitle(Model model) {
@@ -97,6 +100,16 @@ public class UserTeamsEditController {
         UserAmount dbUserAmount = userAmountService.updateUserAmount(amount);
         if (dbUserAmount != null) {
           userSelectedTeamService.deleteUserTeam(userTeamId);
+          if (userSelectedTeam.getAmountEntries() != null && !userSelectedTeam.getAmountEntries().getAmount().equals("0.0") && !userSelectedTeam.getAmountEntries().getAmount().equals("0.00")) {
+            MatchPayments matchPayments = new MatchPayments();
+            matchPayments.setAddedAmount(userSelectedTeam.getAddedAmount() - 1);
+            matchPayments.setAmountType("CREDITED");
+            matchPayments.setBonusAmount(userSelectedTeam.getBonusAmount());
+            matchPayments.setMatchName(userSelectedTeam.getGameQuestions().getQuestion());
+            matchPayments.setTransactionDate(new Date());
+            matchPayments.setUser(user);
+            userTransactionService.saveMatchPayment(matchPayments);
+          }
           return "success";
         }
       }

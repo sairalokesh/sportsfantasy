@@ -214,4 +214,14 @@ public class UserSelectedTeamServiceImpl implements UserSelectedTeamService {
     userSelectedTeamRepository.deleteById(userTeamId);
   }
 
+  @Override
+  public Long getUsersCount(String gameType, Long questionId, Long amountId) {
+    return userSelectedTeamRepository.getUsersCount(gameType, questionId, amountId);
+  }
+
+  @Override
+  public Long getSelectedUserCount(String gameType, Long questionId, Long amountId, Long userId) {
+    return userSelectedTeamRepository.getSelectedUserCount(gameType, questionId, amountId, userId);
+  }
+
 }

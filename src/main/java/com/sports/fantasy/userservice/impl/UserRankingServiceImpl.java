@@ -54,8 +54,9 @@ public class UserRankingServiceImpl implements UserRankingService {
             }).collect(Collectors.toList());
             
             if(ranking!=null && !ranking.isEmpty()) {
-                ranking.removeAll(Collections.singletonList(null));
-                userRank.addAll(ranking);
+                 ranking.removeAll(Collections.singletonList(null));
+                 List<Ranking> sortedRanking =  ranking.stream().limit(100).collect(Collectors.toList());
+                userRank.addAll(sortedRanking);
             }
           }
         }

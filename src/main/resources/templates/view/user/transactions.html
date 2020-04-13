@@ -12,6 +12,29 @@
 <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css"/>
 <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.bootstrap4.min.css"/>
 <link rel="stylesheet" th:href="@{/css/bossselect.css}"/>
+<style>
+ /* width */
+::-webkit-scrollbar {
+  width: 3px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px grey; 
+  border-radius: 10px;
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: blue!important; 
+  border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: blue!important; 
+}
+ </style>
 </head>
 <body>
 <nav th:replace="fragments/usermenu :: usermenu"></nav>
@@ -20,8 +43,9 @@
   <div class="col-md-12 col-sm-12 ">
     <nav>
       <div class="nav nav-tabs nav-fill navactive" id="nav-tab" role="tablist">
-        <a class="nav-item nav-link active" id="nav-home-tab" th:href="@{'/user/transactions'}" role="tab" aria-controls="nav-home" aria-selected="true">Payment</a>
-        <a class="nav-item nav-link" id="nav-profile-tab" th:href="@{'/user/withdraws'}" role="tab" aria-controls="nav-profile" aria-selected="false">Winning</a>
+        <a class="nav-item nav-link active" id="nav-home-tab" th:href="@{'/user/transactions'}" role="tab" aria-controls="nav-home" aria-selected="true">Deposits</a>
+        <a class="nav-item nav-link" id="nav-payment-tab" th:href="@{'/user/matchpayments'}" role="tab" aria-controls="nav-home" aria-selected="true">Match Payments</a>
+        <a class="nav-item nav-link" id="nav-profile-tab" th:href="@{'/user/withdraws'}" role="tab" aria-controls="nav-profile" aria-selected="false">WithDraws</a>
       </div>
     </nav>
     <div class="tab-content py-3 px-3 px-sm-0" id="nav-tabContent">

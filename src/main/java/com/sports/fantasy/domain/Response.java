@@ -10,6 +10,9 @@ public class Response implements Serializable {
   private Integer status;
   private String message;
   private Long userId;
+  private boolean enabled;
+  private Long teamCount;
+  private boolean login;
 
   public Response() {
     super();
@@ -43,5 +46,29 @@ public class Response implements Serializable {
 
   public void setUserId(Long userId) {
     this.userId = userId;
+  }
+
+  public boolean isEnabled() {
+    return enabled;
+  }
+
+  public void setEnabled(boolean enabled) {
+    this.enabled = enabled;
+  }
+
+  public Long getTeamCount() {
+    return teamCount;
+  }
+
+  public void setTeamCount(Long teamCount) {
+    this.teamCount = teamCount;
+  }
+
+  public boolean isLogin() {
+    return login;
+  }
+
+  public void setLogin(boolean login) {
+    this.login = login;
   }
 }

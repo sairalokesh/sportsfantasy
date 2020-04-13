@@ -13,7 +13,29 @@
 .inputError {
 color:red;
 }
-</style>
+
+ /* width */
+::-webkit-scrollbar {
+  width: 3px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px grey; 
+  border-radius: 10px;
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: blue!important; 
+  border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: blue!important; 
+}
+ </style>
 </head>
 <body style="background: url(http://0effortthemes.com/soccerclubv2/images/background/innerpageBg.jpg);">
 <nav th:replace="fragments/usermenu :: usermenu"></nav>
@@ -54,7 +76,10 @@ color:red;
 <div class="row">
 <div th:class="'col-md-4 col-sm-12  animated '+${amountEntry.effect}" th:each="amountEntry : ${amountEntries}" style="margin-top:10px;">
     <div class="card text-center">
-      <div class="card-header" th:inline="text"><i class="fa fa-inr" style="font-size: 15px;"></i> [[${amountEntry.amount== 1 ?  amountEntry.amount +' Ruppee Entry' : amountEntry.amount +' Ruppees Entry'}]]</div>
+      <div class="card-header" th:inline="text">
+      	<i class="fa fa-inr" style="font-size: 15px;"></i> [[${amountEntry.amount== 1 ?  amountEntry.amount +' Ruppee Entry' : amountEntry.amount +' Ruppees Entry'}]]
+      	<span style="float: right;"><a href="javascript:void(0)" class="viewplan" th:attr="data-questionid=${questionId}, data-amountid=${amountEntry.id}, data-gametype=${gameType}">Prize Pool</a></span>
+      	</div>
       <div class="card-body">
         <h5 class="card-title" th:text="${amountEntry.persons + '% of Peoples will win'}"></h5>
         <p class="card-text" th:text="${amountEntry.amountDescription}"></p>
@@ -96,6 +121,44 @@ color:red;
 	</div>
 </div>
 </div>
+
+
+ <div class="modal fade" id="teamCountModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog" style="width:100%">
+	<div class="modal-content">'
+	 	<div class="modal-body">
+	 	<div class="row">
+	 	<div class="col-md-12">
+	 	<p>User can join only up to 6 teams for selected entries.</p><hr/>
+	 	</div>
+       	<div class="col-md-12">
+       		<div class="form-group" style="text-align:center;">
+                	<button class="btn btn-primary" data-dismiss="modal">OK</button>
+                 </div>
+       		</div>
+       		</div>
+	 	</div>
+	</div>
+</div>
+</div>
+
+
+ <div class="modal fade" id="prizeModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog" style="width:100%">
+	<div class="modal-content">
+	<div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+	 	<div class="modal-body">
+	 	<div class="row">
+	 	<div class="col-md-12">
+	 	<p id="viewprizeamount"></p>
+	 	</div>
+       		</div>
+	 	</div>
+	</div>
+</div>
+</div>
   
 </body>
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
@@ -114,20 +177,41 @@ $(function() {
 	$(".redirectmodal").on('click', function(){
 		window.location.href="/user/game/"+playType+"/entry";
 	})
-})
+});
 
-$(".confirm-amount-check").on('click', function(e){
+$(".viewplan").on('click', function(e) {
 	e.preventDefault();
 	questionid = $(this).data('questionid');
 	amountid = $(this).data('amountid');
 	gametype = $(this).data('gametype');
-	$.get("/user/checkuseramount/" + amountid, function(response) {
+	$.get("/user/game/" + gametype + "/prize/" + questionid + "/pool/" + amountid, function(response) {
 		if(response) {
-			$('#amountModal').modal('show');
-		} else {
-			window.location.href="/user/game/"+playType+"/amount/"+questionid+"/participants/"+amountid;
+			$("#viewprizeamount").html(response);
+			$('#prizeModal').modal('show');
 		}
-		
+	});
+});
+
+$(".confirm-amount-check").on('click', function(e) {
+	e.preventDefault();
+	questionid = $(this).data('questionid');
+	amountid = $(this).data('amountid');
+	gametype = $(this).data('gametype');
+	$.get("/user/checkuseramount/" + playType + "/" + questionid + "/" + amountid, function(response) {
+		console.log(response);
+		if(response && response.login) {
+			window.location.href= "/signin";
+		} else {
+			if(response && response.teamCount >= 6) {
+				$('#teamCountModal').modal('show');
+			} else {
+				if(response && response.enabled) {
+					window.location.href= "/user/game/" + playType + "/amount/" + questionid + "/participants/" + amountid;
+				} else {
+					$('#amountModal').modal('show');
+				}	
+			}
+		}	
 	});
 });
 

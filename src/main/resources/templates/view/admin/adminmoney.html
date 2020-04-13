@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1"/>
+ <meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Participant Money - Sports Fantasy</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round"/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"/>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"/>
+<link rel="stylesheet" media="all" type="text/css" href="https://code.jquery.com/ui/1.12.1/themes/ui-lightness/jquery-ui.css" />
+<link rel="stylesheet" media="all" type="text/css" href="https://trentrichardson.com/examples/timepicker/jquery-ui-timepicker-addon.css" />
+<link rel="stylesheet" th:href="@{/css/participant.css}"/>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery-validation-bootstrap-tooltip@0.10.2/jquery-validate.bootstrap-tooltip.min.js"></script>
+
+</head>
+<body>
+<nav th:replace="fragments/adminmenu :: adminmenu"></nav>
+<div class="container-fluid"><br/><br/><br/>
+<div class="table-wrapper">
+	<div class="table-title">
+		<div class="row">
+			<div class="col-sm-6">
+				<h2>
+					<b>Game Money</b>
+				</h2>
+			</div>
+
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-12">
+		<form th:action="@{'/admin/getmoney'}" method="get" id="usermoney">
+			<div class="row">
+				<div class="col-md-4">
+					<div class="form-group">
+						<label for="participantEffect">Participant Amount:</label> 
+						<select class="form-control" id="amount" name="amount"> 
+						 <option value="">Select Amount</option>
+						 <option th:each="amountEntry : ${amountEntries}" th:value="${amountEntry.amount}" th:text="'₹ '+${#numbers.formatDecimal(amountEntry.amount, 1, 'COMMA', 2, 'POINT')}"></option>
+						</select>
+					</div>
+				</div>
+				<div class="col-md-4">
+					<div class="form-group">
+						<label for="participantEffect">Participant Persons:</label> 
+						<select class="form-control" id="person" name="persons"> 
+						 <option value="">Select Persons</option>
+						 <option th:each="person : ${persons}" th:value="${person}" th:text="${person}"></option>
+						</select>
+					</div>
+				</div>
+				<div class="col-md-4">
+					<div class="form-group">
+						<label for="participantEffect"></label>
+						<button type="submit" class="btn btn-primary" style="margin-top: 5px;width: 100%;">Submit</button>
+					</div>
+				</div>
+			</div>
+			</form>
+		</div>
+	</div>
+</div>
+</div>
+<script type="text/javascript">
+	$(function() {
+		$("#usermoney").validate({
+			errorClass : 'inputError',
+			validClass : 'InputSuccess',
+			rules : {
+				amountId : {
+					required : true
+				},
+				persons : {
+					required : true
+				}
+			},
+
+			messages : {
+				amountId : {
+					required : "Please choose amount"
+				},
+				persons : {
+					required : "Please choose persons"
+				}
+
+			},
+			tooltip_options : {
+				amountId : {
+					placement : 'bottom',
+					html : true
+				},
+				persons : {
+					placement : 'bottom',
+					html : true
+				},
+				email : {
+					placement : 'bottom',
+					html : true
+				}
+			},
+			submitHandler : function(form) {
+				form.submit();
+			}
+		});
+	});
+</script>
+
+</body>
+</html>

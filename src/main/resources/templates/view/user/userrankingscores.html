@@ -106,9 +106,9 @@
 		
 			<label style="cursor: auto;">
 			<a th:href="@{'/user/game/'+${gametype}+'/pdf/'+${questionId}+'/download/'+${amountId}}" style="text-decoration:none;">
-				<img src="https://lh3.googleusercontent.com/proxy/229CCZyXFzunaFf6VpZSMVLnyP00mBAfOlJSUCvuB8YiBqfINd97c6aggbvHNs6SFQetr9gEk1V1PRnDWZ0fdVPLApLmMctDHFIdLKMCCwMYxqipEoNG9MHtdKprXZSg" style="width:25px;"/>
+				<img th:src="${'/genders/download.png'}" style="width:25px;"/>
 			</a>
-			<span th:text="${gameQuestion.question}" style="margin-left: 10px;vertical-align: middle;"></span> 
+			<span th:text="${#strings.length(gameQuestion.question) >= 41 ? #strings.substring(gameQuestion.question,0,40) + '...' : gameQuestion.question}" style="margin-left: 10px;vertical-align: middle;"></span> 
 			<span th:inline="text" style="margin-left: 5%;vertical-align: middle;">Entry : <i class="fa fa-inr" style="font-size: 15px;"></i> [[${amountEntry.amount}]]</span> 
 			<span th:id="'demo'+${gameQuestion.id}" style="float:right;"></span>
 			</label>
@@ -163,7 +163,7 @@ $(".readPointsInfo").on('click', function(e){
 </script>
 <script type="text/javascript" th:inline="javascript">
 	//<![CDATA[
-/* window.onload = function() {
+ window.onload = function() {
 		document.addEventListener("contextmenu", function(e) {
 			e.preventDefault();
 		}, false);
@@ -181,7 +181,7 @@ $(".readPointsInfo").on('click', function(e){
 			e.preventDefault();
 			return false;
 		}
-	} */
+	}
 	// ]]>
 </script>
 </html>

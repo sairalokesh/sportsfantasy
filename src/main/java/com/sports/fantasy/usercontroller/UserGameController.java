@@ -18,12 +18,16 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import com.sports.fantasy.adminservice.MoneyService;
+import com.sports.fantasy.domain.Response;
 import com.sports.fantasy.domain.SelectedMembers;
 import com.sports.fantasy.domain.SelectedParticipants;
 import com.sports.fantasy.model.AmountEntries;
 import com.sports.fantasy.model.CuponCodeUsers;
+import com.sports.fantasy.model.GameMoneyRange;
 import com.sports.fantasy.model.GameParticipants;
 import com.sports.fantasy.model.GameQuestions;
+import com.sports.fantasy.model.MatchPayments;
 import com.sports.fantasy.model.UserAmount;
 import com.sports.fantasy.model.UserInfo;
 import com.sports.fantasy.model.UserSelectedTeam;
@@ -36,6 +40,7 @@ import com.sports.fantasy.userservice.UserAmountService;
 import com.sports.fantasy.userservice.UserCouponService;
 import com.sports.fantasy.userservice.UserSelectedTeamService;
 import com.sports.fantasy.userservice.UserTempParticipantService;
+import com.sports.fantasy.userservice.UserTransactionService;
 import com.sports.fantasy.util.DataMapper;
 import com.sports.fantasy.util.LoginUtil;
 
@@ -51,7 +56,10 @@ public class UserGameController {
   @Autowired private UserTempParticipantService userTempParticipantService;
   @Autowired private UserSelectedTeamService userSelectedTeamService;
   @Autowired private UserCouponService userCouponService;
+  @Autowired private MoneyService moneyService;
+  @Autowired private UserTransactionService userTransactionService;
 
+  
   @ModelAttribute
   public void admindashboardtitle(Model model) {
     model.addAttribute("title", "usergameentrypages");
@@ -92,14 +100,37 @@ public class UserGameController {
     model.addAttribute("gameType", gameType);
     return "view/user/selectamount";
   }
-
-  @GetMapping(value = "/checkuseramount/{amountId}")
-  public @ResponseBody boolean checkuseramount(@PathVariable Long amountId, Principal principal) {
+  
+  @GetMapping(value = "/game/{gameType}/prize/{questionId}/pool/{amountId}")
+  public String prizepool(@PathVariable String gameType, @PathVariable Long questionId, @PathVariable Long amountId, Model model, Principal principal) {
     if (!LoginUtil.getAuthentication(principal)) {
-      return true;
+      return "redirect:/signin";
+    }
+    
+    AmountEntries amountEntry = gameAmountService.findByAmountId(amountId);
+    Long count = userSelectedTeamService.getUsersCount(gameType, questionId, amountId);
+    if(amountEntry!=null && StringUtils.hasText(amountEntry.getAmount()) && count != null && count > 0) {
+      List<GameMoneyRange> gameMoneyRanges = moneyService.getGameMoneyRange(Double.parseDouble(amountEntry.getAmount()), Integer.parseInt(count.toString()));
+      model.addAttribute("gameMoneyRanges", gameMoneyRanges);
+    }
+    model.addAttribute("count", count);
+    return "view/user/prizepool";
+  }
+  
+  @GetMapping(value = "/checkuseramount/{gameType}/{questionId}/{amountId}")
+  public @ResponseBody Response checkuseramount(@PathVariable String gameType, @PathVariable Long questionId, @PathVariable Long amountId, Principal principal) {
+    Response response = new Response();
+    if (!LoginUtil.getAuthentication(principal)) {
+      response.setLogin(true);
+      return response;
     }
 
     UserInfo user = userService.findByEmail(principal.getName());
+    Long count = userSelectedTeamService.getSelectedUserCount(gameType, questionId, amountId, user.getId());
+    if(count == null) {
+      count = 0L;
+    }
+    response.setTeamCount(count);
     AmountEntries amountEntry = gameAmountService.findByAmountId(amountId);
     UserAmount amount = userAmountService.getUserAmount(user.getId());
     if (amount != null && amountEntry != null) {
@@ -118,13 +149,15 @@ public class UserGameController {
       
       double cashamount = Double.parseDouble(amountEntry.getAmount()) - bonusAmount;
       if (amount.getAddedAmount() >= cashamount) {
-        return false;
+        response.setEnabled(true);
       } else {
-        return true;
+        response.setEnabled(false);
       }
     } else {
-      return true;
+      response.setEnabled(false);
     }
+    
+    return response;
   }
 
   @GetMapping(value = "/game/{gameType}/amount/{questionId}/participants/{amountId}")
@@ -380,6 +413,16 @@ public class UserGameController {
               }
             }
             deleteTempUserSelectionParticipants(userTempParticipants);
+            if (amountEntry != null && !amountEntry.getAmount().equals("0.0") && !amountEntry.getAmount().equals("0.00")) {
+              MatchPayments matchPayments = new MatchPayments();
+              matchPayments.setAddedAmount(cashamount);
+              matchPayments.setAmountType("DEBITED");
+              matchPayments.setBonusAmount(bonusAmount);
+              matchPayments.setMatchName(gameQuestion.getQuestion());
+              matchPayments.setTransactionDate(new Date());
+              matchPayments.setUser(user);
+              userTransactionService.saveMatchPayment(matchPayments);
+            }
             return "redirect:/user/game/" + selectedMembers.getGameType() + "/edit";
           }
         }
