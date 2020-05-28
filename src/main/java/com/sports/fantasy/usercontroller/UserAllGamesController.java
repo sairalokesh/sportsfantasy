@@ -107,7 +107,7 @@ public class UserAllGamesController {
     if (user!=null && !user.getRole().equalsIgnoreCase("USER")) {
       return "redirect:/accessdenied";
     }
-    List<Ranking> rankings = userRankingService.getSelectedParticipantsScore(questionId, amountId, gametype, user);
+    List<Ranking> rankings = userRankingService.getSelectedParticipantsScore(questionId, amountId, gametype, user, true);
     GameQuestions gameQuestion = gameQuestionsService.getGameQuestionByQuestionId(questionId, gametype);
     AmountEntries amountEntry = gameAmountService.findByAmountId(amountId);
     model.addAttribute("participantScores", rankings);
@@ -131,7 +131,7 @@ public class UserAllGamesController {
       return "redirect:/accessdenied";
     }
     
-    List<Ranking> rankings = userRankingService.getSelectedParticipantsScore(questionId, amountId, gametype, user);
+    List<Ranking> rankings = userRankingService.getSelectedParticipantsScore(questionId, amountId, gametype, user, true);
     GameQuestions gameQuestion = gameQuestionsService.getCompletedGameQuestionByQuestionId(questionId, gametype);
     AmountEntries amountEntry = gameAmountService.findByAmountId(amountId);
     model.addAttribute("participantScores", rankings);

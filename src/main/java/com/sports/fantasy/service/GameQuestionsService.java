@@ -19,6 +19,7 @@ public interface GameQuestionsService {
   GameQuestions getCompletedGameQuestionByQuestionId(Long questionId, String gametype);
   List<GameQuestions> getGameQuestionsByGreaterthanCurrentDatewithLimit(String gameType);
   List<GameQuestions> findAllActivaGameQuestions(boolean isActive);
+  void updateGameQuestionStatus(Long questionId, String gametype);
 
 
 

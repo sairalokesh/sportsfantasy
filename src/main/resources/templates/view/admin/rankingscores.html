@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1"/>
+ <meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Rankings | All Sports Fantasy</title>
+<link rel="shortcut icon" type="image/png" th:href="@{/pages/images/icon/favicon.png}"/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round"/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"/>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"/>
+<link rel="stylesheet" th:href="@{/css/historypoint.css}"/>
+<link rel="stylesheet" th:href="@{/css/participantsrole.css}"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css"/>
+<link rel="stylesheet" th:href="@{/css/bossselect.css}"/>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script type="text/javascript"  src= "https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"> </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.min.js"></script>
+<script src="https://unpkg.com/tippy.js@4.3.4/umd/index.all.min.js"></script>
+</head>
+<style>
+ /* width */
+::-webkit-scrollbar {
+  width: 3px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px grey; 
+  border-radius: 10px;
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: blue!important; 
+  border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: blue!important; 
+}
+ </style>
+<body style="background: url(http://0effortthemes.com/soccerclubv2/images/background/innerpageBg.jpg);">
+<nav th:replace="fragments/adminmenu :: adminmenu"></nav>
+<div class="container-fluid">
+<div class="col-md-12">
+<div class="row">
+
+<div class="col-md-4">
+<section>
+  <div class="tbl-header leader_board">
+    <table cellpadding="0" cellspacing="0" border="0">
+      <thead>
+        <tr>
+          <th>Person</th>
+          <th style="text-align:right">Rank</th>
+        </tr>
+      </thead>
+    </table>
+  </div>
+  <div class="tbl-content">
+    <table cellpadding="0" cellspacing="0" border="0">
+      <tbody>
+        <tr th:each="participantScore : ${participantScores}" class="readPointsInfo primary" th:attr="data-id=${participantScore.id}, data-userid=${participantScore.userId}, data-amountid=${participantScore.amountId}, data-questionid=${participantScore.questionId}">
+          <td>
+          <span  class="user">
+          <img  alt="" class="user"  th:src="${(participantScore.imageUrl!=null and participantScore.imageUrl!='')?('/genders/'+participantScore.imageUrl+'.png'):'http://playmonks.com/playmonks/images/no_image.jpg'}"/>
+          <span  class="user_data"><span  class="text name text_exlips" th:text="${participantScore.userName}">Haritha Team</span></span>
+          </span>
+		  </td>
+		  
+		   <td style="text-align:center;" th:if="${participantScore.winningResult != null and participantScore.winningResult != ''}">
+	          <span  class="user_pos">
+	          <span  class="text rank" th:text="'Winning'">#1</span>
+	          <span  class="text points"><b ><small th:inline="text"><i class="fa fa-inr"></i> [[${participantScore.winningAmount}]]0</small></b></span>
+          </span>
+          </td>
+          
+          <td style="text-align:center;" th:if="${participantScore.winningResult == null or participantScore.winningResult == ''}">
+	          <span  class="user_pos">
+	          <span  class="text rank">&nbsp;</span>
+	          <span  class="text points"><b ><small>&nbsp;</small></b></span>
+          </span>
+          </td>
+		  
+          <td style="text-align:right">
+	          <span  class="user_pos">
+	          <span  class="text rank" th:text="'#'+${participantScore.rank}">#1</span>
+	          <span  class="text points"><b ><small th:text="${participantScore.score!=0.0 and participantScore.score!=0 ?#numbers.formatDecimal(participantScore.score, 0, 'COMMA', 2, 'POINT') : participantScore.score+'0'}+' PTS'">0 PTS</small></b></span>
+          </span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+</div>
+<div class="col-md-8" style="margin-top: 81px;">
+ <div class="row">
+  <div class="col-md-12 col-sm-12">
+	<div th:class="'radiobtn  animated '+${gameQuestion.questionEffect}">
+		
+			<label style="cursor: auto;">
+			<a th:href="@{'/user/game/'+${gametype}+'/pdf/'+${questionId}+'/download/'+${amountId}}" style="text-decoration:none;">
+				<img th:src="${'/genders/download.png'}" style="width:25px;"/>
+			</a>
+			<span th:text="${#strings.length(gameQuestion.question) >= 41 ? #strings.substring(gameQuestion.question,0,40) + '...' : gameQuestion.question}" style="margin-left: 10px;vertical-align: middle;"></span> 
+			<span th:inline="text" style="margin-left: 5%;vertical-align: middle;">Entry : <i class="fa fa-inr" style="font-size: 15px;"></i> [[${amountEntry.amount}]]</span> 
+			<span style="float:right;"><a th:href="${'/admin/settlement/game/final/'+gametype+'/amount/'+questionId+'/participants/'+amountId}" class="btn btn-success" style="padding: 0px 10px">Submit</a></span>
+			</label>
+	</div>
+  </div>
+</div>
+<div class="userpointsreplace"></div>
+</div>
+</div>
+</div>
+</div>
+</body>
+<script>
+$(document).ready(function(){
+var addclass = 'activediv';
+var $cols = $('.readPointsInfo').click(function(e) {
+    $cols.removeClass(addclass);
+    $(this).addClass(addclass);
+});	
+		
+$(".readPointsInfo").on('click', function(e){
+	e.preventDefault();
+	var id = $(this).data('id');
+	var userId = $(this).data('userid');
+	var amountId = $(this).data("amountid");
+	var questionId = $(this).data("questionid");
+	$.get("/admin/settlement/game/selecteduserparticipantsscore/"+id+"/"+userId+"/"+questionId+"/"+amountId, function( data ) {
+		  $( ".userpointsreplace" ).html( data );
+	});
+	
+});
+});
+</script>
+<script type="text/javascript" th:inline="javascript">
+	//<![CDATA[
+/*  window.onload = function() {
+		document.addEventListener("contextmenu", function(e) {
+			e.preventDefault();
+		}, false);
+		document.addEventListener("keydown", function(e) {
+			if (event.keyCode == 123) {
+				disabledEvent(e);
+			}
+		}, false);
+		function disabledEvent(e) {
+			if (e.stopPropagation) {
+				e.stopPropagation();
+			} else if (window.event) {
+				window.event.cancelBubble = true;
+			}
+			e.preventDefault();
+			return false;
+		}
+	} */
+	// ]]>
+</script>
+</html>

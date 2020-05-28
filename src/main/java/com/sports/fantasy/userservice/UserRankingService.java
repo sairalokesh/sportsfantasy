@@ -6,6 +6,6 @@ import com.sports.fantasy.model.UserInfo;
 
 public interface UserRankingService {
 
-  List<Ranking> getSelectedParticipantsScore(Long questionId, Long amountId, String gametype, UserInfo user);
+  List<Ranking> getSelectedParticipantsScore(Long questionId, Long amountId, String gametype, UserInfo user, boolean isRequired);
 
 }

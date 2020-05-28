@@ -25,7 +25,7 @@ public class UserRankingServiceImpl implements UserRankingService {
   private UserTeamDao userTeamDao;
 
   @Override
-  public List<Ranking> getSelectedParticipantsScore(Long questionId, Long amountId, String gametype, UserInfo user) {
+  public List<Ranking> getSelectedParticipantsScore(Long questionId, Long amountId, String gametype, UserInfo user, boolean isRequired) {
     // List<UsersParticipantsScore> usersParticipantsScore =  userTeamDao.findParticipantsScoreByQuestionIdAndAmountId(questionId, amountId, gametype);
     List<Ranking> userRank = new ArrayList<>();
     List<UserSelectedTeamsScore> userSelectedTeamsScores = userTeamDao.findUsersSeletedTeamsScoreByQuestionIdAndAmountId(questionId, amountId, gametype);
@@ -55,8 +55,12 @@ public class UserRankingServiceImpl implements UserRankingService {
             
             if(ranking!=null && !ranking.isEmpty()) {
                  ranking.removeAll(Collections.singletonList(null));
-                 List<Ranking> sortedRanking =  ranking.stream().limit(100).collect(Collectors.toList());
-                userRank.addAll(sortedRanking);
+                 if(isRequired) {
+                   List<Ranking> sortedRanking =  ranking.stream().limit(100).collect(Collectors.toList());
+                   userRank.addAll(sortedRanking);
+                 } else {
+                   userRank.addAll(ranking);
+                 }
             }
           }
         }

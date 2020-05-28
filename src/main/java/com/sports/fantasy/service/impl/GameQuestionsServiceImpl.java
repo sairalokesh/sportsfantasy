@@ -159,4 +159,10 @@ public class GameQuestionsServiceImpl implements GameQuestionsService {
   public List<GameQuestions> findAllActivaGameQuestions(boolean isActive) {
     return gameQuestionsRepository.findAllActivaGameQuestions(isActive);
   }
+
+  @Override
+  public void updateGameQuestionStatus(Long questionId, String gametype) {
+    gameQuestionsRepository.updateGameQuestionStatus(questionId, gametype, false);
+    
+  }
 }

@@ -2,6 +2,7 @@ package com.sports.fantasy.userservice;
 
 import java.util.List;
 import java.util.Map;
+import com.sports.fantasy.domain.Ranking;
 import com.sports.fantasy.domain.SelectedTeam;
 import com.sports.fantasy.domain.UserPoints;
 import com.sports.fantasy.model.GameParticipantScore;
@@ -25,5 +26,7 @@ public interface UserSelectedTeamService {
   public void deleteUserTeam(Long userTeamId);
   public Long getUsersCount(String gameType, Long questionId, Long amountId);
   public Long getSelectedUserCount(String gameType, Long questionId, Long amountId, Long userId);
+  public List<SelectedTeam> getTeamSettlements(String gametype);
+  public void updateUserSelectedTeam(Ranking ranking, Long questionId, Long amountId, String gametype, Integer spiltAmount);
 
 }

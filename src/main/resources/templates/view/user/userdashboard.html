@@ -88,7 +88,7 @@
           <table class="table table-dic table-hover ">
             <tbody th:if="${userSelectedParticipants!=null and !userSelectedParticipants.isEmpty()}">
               <tr th:each="userSelectedParticipant : ${userSelectedParticipants}">
-                <td th:inline="text" style="width: 42%;"><i class="fa fa-quora"></i>[[${userSelectedParticipant.question}]]</td>
+                <td th:inline="text" style="width: 50%;"><i class="fa fa-quora"></i>[[${userSelectedParticipant.question}]]</td>
                 <td class="text-r" th:inline="text"><i class="fa fa-inr" style="color: var(--gray);font-size: inherit;"></i>[[${userSelectedParticipant.amount}]]</td>
                 <td class="text-r" th:inline="text">
                 <div class="imageorder" th:if="${userSelectedParticipant.captainimage!=null and userSelectedParticipant.captainimage!=''}"><img th:src="${userSelectedParticipant.captainimage}" class="imagewidth" th:id="${'captian'+userSelectedParticipant.userselectedteamid}"/></div>

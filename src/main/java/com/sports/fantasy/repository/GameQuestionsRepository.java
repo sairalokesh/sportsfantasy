@@ -3,6 +3,7 @@ package com.sports.fantasy.repository;
 import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
@@ -27,8 +28,13 @@ public interface GameQuestionsRepository extends CrudRepository<GameQuestions, L
   GameQuestions findByUniqueId(Long uniqueId);
 
   @Query("Select g from GameQuestions as g where g.validDate >= now() order by g.validDate asc")
-  Page<GameQuestions> getGameQuestionsByGreaterthanCurrentDatewithLimit(String gameType, Pageable pageable);
+  Page<GameQuestions> getGameQuestionsByGreaterthanCurrentDatewithLimit(String gameType,
+      Pageable pageable);
 
   @Query("Select g from GameQuestions as g where g.active = ?1 and g.validDate <= now() and g.spinDate >= now() order by g.validDate asc")
   List<GameQuestions> findAllActivaGameQuestions(boolean isActive);
+
+  @Modifying
+  @Query("update GameQuestions set active = ?3 where id = ?1 and questionType = ?2")
+  void updateGameQuestionStatus(Long questionId, String gametype, boolean isActive);
 }

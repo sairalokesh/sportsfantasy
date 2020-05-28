@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.sports.fantasy.dao.UserTeamDao;
+import com.sports.fantasy.domain.Ranking;
 import com.sports.fantasy.domain.SelectedTeam;
 import com.sports.fantasy.domain.UserPoints;
 import com.sports.fantasy.model.AmountEntries;
@@ -23,6 +24,7 @@ import com.sports.fantasy.model.UserTeamParticipants;
 import com.sports.fantasy.model.UserTempParticipants;
 import com.sports.fantasy.repository.GameParticipantPointsRepository;
 import com.sports.fantasy.repository.GameParticipantScoreRepository;
+import com.sports.fantasy.repository.UserAmountRepository;
 import com.sports.fantasy.repository.UserSelectedTeamRepository;
 import com.sports.fantasy.userservice.UserSelectedTeamService;
 
@@ -36,8 +38,8 @@ public class UserSelectedTeamServiceImpl implements UserSelectedTeamService {
   private GameParticipantScoreRepository gameParticipantScoreRepository;
   @Autowired
   private GameParticipantPointsRepository gameParticipantPointsRepository;
-
-
+  @Autowired
+  private UserAmountRepository userAmountRepository;
   @Autowired
   private UserTeamDao userTeamDao;
 
@@ -222,6 +224,18 @@ public class UserSelectedTeamServiceImpl implements UserSelectedTeamService {
   @Override
   public Long getSelectedUserCount(String gameType, Long questionId, Long amountId, Long userId) {
     return userSelectedTeamRepository.getSelectedUserCount(gameType, questionId, amountId, userId);
+  }
+
+  @Override
+  public List<SelectedTeam> getTeamSettlements(String gametype) {
+    return userSelectedTeamRepository.getTeamSettlements(gametype, true);
+  }
+
+  @Override
+  public void updateUserSelectedTeam(Ranking ranking, Long questionId, Long amountId, String gametype, Integer spiltAmount) {
+    userSelectedTeamRepository.updateUserSelectedTeam(ranking.getId(), ranking.getUserId(), questionId, amountId, gametype, (double)spiltAmount);
+    userAmountRepository.updateUserAmount(ranking.getUserId(), (double)spiltAmount);
+    
   }
 
 }

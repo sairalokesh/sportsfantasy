@@ -1,6 +1,7 @@
 package com.sports.fantasy.repository;
 
 import java.util.List;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
@@ -42,5 +43,12 @@ public interface UserSelectedTeamRepository extends CrudRepository<UserSelectedT
 
   @Query("select count(p.id) from UserSelectedTeam as p where p.gameType = ?1 and p.gameQuestions.id = ?2 and p.amountEntries.id = ?3 and p.user.id = ?4")
   Long getSelectedUserCount(String gameType, Long questionId, Long amountId, Long userId);
+
+  @Query("select new com.sports.fantasy.domain.SelectedTeam(ust.amountEntries.id, ust.amountEntries.amount, ust.gameQuestions.id, ust.gameQuestions.teamOne, ust.gameQuestions.teamOneImage, ust.gameQuestions.teamTwo, ust.gameQuestions.teamTwoImage, count(ust.id), ust.id, ust.gameQuestions.questionEffect, ust.gameQuestions.validDate) from UserSelectedTeam as ust where ust.gameQuestions.active = ?2 and ust.gameQuestions.questionType = ?1 and ust.gameQuestions.spinDate <= now() group by ust.amountEntries.id, ust.gameQuestions.id order by ust.gameQuestions.validDate asc")
+  List<SelectedTeam> getTeamSettlements(String gametype, boolean isActive);
+
+  @Modifying
+  @Query("update UserSelectedTeam set playerResult = 'Winning', winningAmount = ?6, paymentDone = 'Done' where amountEntries.id = ?4 and gameQuestions.id = ?3 and id = ?1 and paymentDone = 'Not_Done' and user.id = ?2 and gameType = ?5")
+  void updateUserSelectedTeam(Long id, Long userId, Long questionId, Long amountId, String gametype, Double spiltAmount);
   
 }

@@ -102,7 +102,7 @@ public class AdminMoneyController {
     }
 
     List<Integer> persons = new ArrayList<>();
-    for (int i = 1; i <= 1000; i++) {
+    for (int i = 1; i <= 10000; i++) {
       persons.add(i);
     }
     model.addAttribute("amountEntries", amountEntries);
