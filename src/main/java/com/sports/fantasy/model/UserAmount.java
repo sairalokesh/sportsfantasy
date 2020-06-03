@@ -17,79 +17,102 @@ import org.hibernate.annotations.GenericGenerator;
 @Table(name = "user_amount")
 public class UserAmount implements Serializable {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -33823126118904729L;
+  /**
+   * 
+   */
+  private static final long serialVersionUID = -33823126118904729L;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
-	@GenericGenerator(name = "native", strategy = "native")
-	@Column(name = "id")
-	private Long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
+  @GenericGenerator(name = "native", strategy = "native")
+  @Column(name = "id")
+  private Long id;
 
-	@OneToOne
-	@JoinColumn(name = "user_id")
-	private UserInfo user;
+  @OneToOne
+  @JoinColumn(name = "user_id")
+  private UserInfo user;
 
-	@Column(name = "bonus_amount")
-	private double bonusAmount = 0.00;
+  @Column(name = "bonus_amount")
+  private double bonusAmount = 0.00;
 
-	@Column(name = "added_amount")
-	private double addedAmount = 0.00;
+  @Column(name = "added_amount")
+  private double addedAmount = 0.00;
 
-	@Transient
-	private boolean phonevalid;
+  @Transient
+  private boolean phonevalid;
 
-	@Transient
-	private List<CuponCodeUsers> cuponCodeUsers;
+  @Transient
+  private List<CuponCodeUsers> cuponCodeUsers;
 
-	public Long getId() {
-		return id;
-	}
+  @Transient
+  List<UserWithdrawAmount> userWithdrawAmounts;
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+  @Transient
+  private String message;
 
-	public UserInfo getUser() {
-		return user;
-	}
 
-	public void setUser(UserInfo user) {
-		this.user = user;
-	}
 
-	public double getBonusAmount() {
-		return bonusAmount;
-	}
+  public Long getId() {
+    return id;
+  }
 
-	public void setBonusAmount(double bonusAmount) {
-		this.bonusAmount = bonusAmount;
-	}
+  public void setId(Long id) {
+    this.id = id;
+  }
 
-	public double getAddedAmount() {
-		return addedAmount;
-	}
+  public UserInfo getUser() {
+    return user;
+  }
 
-	public void setAddedAmount(double addedAmount) {
-		this.addedAmount = addedAmount;
-	}
+  public void setUser(UserInfo user) {
+    this.user = user;
+  }
 
-	public boolean isPhonevalid() {
-		return phonevalid;
-	}
+  public double getBonusAmount() {
+    return bonusAmount;
+  }
 
-	public void setPhonevalid(boolean phonevalid) {
-		this.phonevalid = phonevalid;
-	}
+  public void setBonusAmount(double bonusAmount) {
+    this.bonusAmount = bonusAmount;
+  }
 
-	public List<CuponCodeUsers> getCuponCodeUsers() {
-		return cuponCodeUsers;
-	}
+  public double getAddedAmount() {
+    return addedAmount;
+  }
 
-	public void setCuponCodeUsers(List<CuponCodeUsers> cuponCodeUsers) {
-		this.cuponCodeUsers = cuponCodeUsers;
-	}
+  public void setAddedAmount(double addedAmount) {
+    this.addedAmount = addedAmount;
+  }
 
+  public boolean isPhonevalid() {
+    return phonevalid;
+  }
+
+  public void setPhonevalid(boolean phonevalid) {
+    this.phonevalid = phonevalid;
+  }
+
+  public List<CuponCodeUsers> getCuponCodeUsers() {
+    return cuponCodeUsers;
+  }
+
+  public void setCuponCodeUsers(List<CuponCodeUsers> cuponCodeUsers) {
+    this.cuponCodeUsers = cuponCodeUsers;
+  }
+
+  public List<UserWithdrawAmount> getUserWithdrawAmounts() {
+    return userWithdrawAmounts;
+  }
+
+  public void setUserWithdrawAmounts(List<UserWithdrawAmount> userWithdrawAmounts) {
+    this.userWithdrawAmounts = userWithdrawAmounts;
+  }
+
+  public String getMessage() {
+    return message;
+  }
+
+  public void setMessage(String message) {
+    this.message = message;
+  }
 }

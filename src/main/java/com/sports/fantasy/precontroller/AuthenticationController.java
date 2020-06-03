@@ -54,28 +54,23 @@ public class AuthenticationController {
   private UserAmountService userAmountService;
 
   @PostMapping({"/signup"})
-  public ResponseEntity<UserTokenInfo> usersignup(@RequestBody UserInfo userInfo,
-      HttpServletRequest request, HttpServletResponse response) {
+  public ResponseEntity<UserTokenInfo> usersignup(@RequestBody UserInfo userInfo, HttpServletRequest request, HttpServletResponse response) {
     try {
       UserInfo user = userService.findByEmail(userInfo.getEmail());
       if (user != null && user.getEmail().equalsIgnoreCase(userInfo.getEmail())) {
-        return new ResponseEntity<UserTokenInfo>(new UserTokenInfo("Email is Already exist."),
-            HttpStatus.FOUND);
+        return new ResponseEntity<UserTokenInfo>(new UserTokenInfo("Email is Already exist."), HttpStatus.FOUND);
       }
 
       UserInfo usermobile = userService.findByPhoneNumber(userInfo.getPhoneNumber());
-      if (usermobile != null
-          && usermobile.getPhoneNumber().equalsIgnoreCase(userInfo.getPhoneNumber())) {
-        return new ResponseEntity<UserTokenInfo>(
-            new UserTokenInfo("Phone Number is Already exist."), HttpStatus.FOUND);
+      if (usermobile != null && usermobile.getPhoneNumber().equalsIgnoreCase(userInfo.getPhoneNumber())) {
+        return new ResponseEntity<UserTokenInfo>(new UserTokenInfo("Phone Number is Already exist."), HttpStatus.FOUND);
       }
 
       UserInfo cuponUser = new UserInfo();
       if (userInfo != null && StringUtils.hasText(userInfo.getCuponCode())) {
         cuponUser = userService.getUserByCuponCode(userInfo.getCuponCode());
         if (cuponUser == null || cuponUser.getId() == null) {
-          return new ResponseEntity<UserTokenInfo>(new UserTokenInfo("Invalid Cuponcode"),
-              HttpStatus.NOT_FOUND);
+          return new ResponseEntity<UserTokenInfo>(new UserTokenInfo("Invalid Cuponcode"), HttpStatus.NOT_FOUND);
         }
       }
 
@@ -83,15 +78,12 @@ public class AuthenticationController {
       if (dbUserInfo != null && dbUserInfo.getId() != null) {
         userAmountService.saveUserAmount(dbUserInfo.getId());
       }
-      if (cuponUser != null && cuponUser.getId() != null && dbUserInfo != null
-          && dbUserInfo.getId() != null) {
+      if (cuponUser != null && cuponUser.getId() != null && dbUserInfo != null && dbUserInfo.getId() != null) {
         userCouponService.saveCuponCodeUser(cuponUser.getId(), dbUserInfo.getId());
       }
-      return new ResponseEntity<UserTokenInfo>(new UserTokenInfo("User Registered Successfully!"),
-          HttpStatus.OK);
+      return new ResponseEntity<UserTokenInfo>(new UserTokenInfo("User Registered Successfully!"), HttpStatus.OK);
     } catch (Exception e) {
-      return new ResponseEntity<UserTokenInfo>(new UserTokenInfo(e.getMessage()),
-          HttpStatus.INTERNAL_SERVER_ERROR);
+      return new ResponseEntity<UserTokenInfo>(new UserTokenInfo(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 
