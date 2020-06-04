@@ -2,7 +2,7 @@ package com.sports.fantasy.securityservice;
 
 import java.util.Date;
 import java.util.List;
-
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -87,4 +87,13 @@ public class UserServiceImpl implements UserService {
 			user.setLoginDate(loginDate);
 		}
 	}
+
+  @Override
+  public UserInfo findById(Long id) {
+    Optional<UserInfo> userInfo = userRepository.findById(id);
+    if (userInfo.isPresent()) {
+      return userInfo.get();
+    }
+    return null;
+  }
 }

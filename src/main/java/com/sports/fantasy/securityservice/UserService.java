@@ -18,6 +18,7 @@ public interface UserService {
 	
 	void datetostringformat(UserInfo dbUser);
 	void stringtodateformat(UserInfo user);
+  UserInfo findById(Long id);
 	
 	
 	

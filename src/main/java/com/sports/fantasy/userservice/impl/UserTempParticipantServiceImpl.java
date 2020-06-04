@@ -13,9 +13,12 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import com.sports.fantasy.domain.SelectedMembers;
 import com.sports.fantasy.model.GameParticipants;
+import com.sports.fantasy.model.UserAmount;
 import com.sports.fantasy.model.UserInfo;
+import com.sports.fantasy.model.UserTempAmount;
 import com.sports.fantasy.model.UserTempParticipants;
 import com.sports.fantasy.repository.GameParticipantRepository;
+import com.sports.fantasy.repository.UserTempAmountRepository;
 import com.sports.fantasy.repository.UserTempParticipantRepository;
 import com.sports.fantasy.userservice.UserTempParticipantService;
 
@@ -26,6 +29,7 @@ public class UserTempParticipantServiceImpl implements UserTempParticipantServic
   @Autowired
   private UserTempParticipantRepository userTempParticipantRepository;
   @Autowired private GameParticipantRepository gameParticipantRepository;
+  @Autowired private UserTempAmountRepository userTempAmountRepository;
 
   @Override
   public UserTempParticipants save(SelectedMembers selectedMembers, UserInfo user) {
@@ -202,6 +206,30 @@ public class UserTempParticipantServiceImpl implements UserTempParticipantServic
     
     userTempParticipants.setCreatedDate(new Date());
     return userTempParticipantRepository.save(userTempParticipants);
+  }
+
+  @Override
+  public UserTempAmount saveUserAmount(UserAmount userAmount, String orderId) {
+    UserTempAmount userTempAmount = new UserTempAmount();
+    userTempAmount.setAmount(userAmount.getAddedAmount());
+    userTempAmount.setOrderId(orderId);
+    userTempAmount.setUserId(userAmount.getUser().getId());
+    return userTempAmountRepository.save(userTempAmount);
+  }
+
+  @Override
+  public UserTempAmount getUserTempAmount(String orderId) {
+    return userTempAmountRepository.getUserTempAmount(orderId);
+  }
+
+  @Override
+  public void deleteTempUserSelectedAmountById(Long id) {
+    userTempAmountRepository.deleteById(id);
+  }
+
+  @Override
+  public void deleteTempUserSelectedAmount(String orderId) {
+    userTempAmountRepository.deleteTempUserSelectedAmount(orderId);
   }
 
 }
