@@ -71,6 +71,10 @@ public class UserGameController {
     if (!LoginUtil.getAuthentication(principal)) {
       return "redirect:/signin";
     }
+    UserInfo userInfo = userService.findByEmail(principal.getName());
+    if (userInfo!=null && !userInfo.getRole().equalsIgnoreCase("USER")) {
+      return "redirect:/accessdenied";
+    }
     List<GameQuestions> gameQuestions = gameQuestionsService.getGameQuestionsByGreaterthanCurrentDate(gameType);
     model.addAttribute("gameQuestions", gameQuestions);
     model.addAttribute("gameType", gameType);

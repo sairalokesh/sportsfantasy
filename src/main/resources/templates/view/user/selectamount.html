@@ -198,7 +198,6 @@ $(".confirm-amount-check").on('click', function(e) {
 	amountid = $(this).data('amountid');
 	gametype = $(this).data('gametype');
 	$.get("/user/checkuseramount/" + playType + "/" + questionid + "/" + amountid, function(response) {
-		console.log(response);
 		if(response && response.login) {
 			window.location.href= "/signin";
 		} else {

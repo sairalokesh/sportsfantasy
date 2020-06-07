@@ -13,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,6 +29,7 @@ import com.sports.fantasy.model.AmountEntries;
 import com.sports.fantasy.model.CuponCodeUsers;
 import com.sports.fantasy.model.GameParticipants;
 import com.sports.fantasy.model.GameQuestions;
+import com.sports.fantasy.model.MatchPayments;
 import com.sports.fantasy.model.UserAmount;
 import com.sports.fantasy.model.UserInfo;
 import com.sports.fantasy.model.UserSelectedTeam;
@@ -42,6 +42,7 @@ import com.sports.fantasy.userservice.UserAmountService;
 import com.sports.fantasy.userservice.UserCouponService;
 import com.sports.fantasy.userservice.UserSelectedTeamService;
 import com.sports.fantasy.userservice.UserTempParticipantService;
+import com.sports.fantasy.userservice.UserTransactionService;
 import com.sports.fantasy.util.DataMapper;
 
 @RestController
@@ -64,10 +65,11 @@ public class GameRestController {
   private UserSelectedTeamService userSelectedTeamService;
   @Autowired
   private UserCouponService userCouponService;
+  @Autowired private UserTransactionService userTransactionService;
 
   @GetMapping(value = "/game/{gameType}/entry")
   @PreAuthorize("hasRole('USER')")
-  public ResponseEntity<List<GameQuestions>> gameentry(@PathVariable String gameType,
+  public ResponseEntity<List<GameQuestions>> gameEntry(@PathVariable String gameType,
       Principal principal) {
     List<GameQuestions> gameQuestions =
         gameQuestionsService.getGameQuestionsByGreaterthanCurrentDate(gameType);
@@ -76,11 +78,10 @@ public class GameRestController {
 
   @GetMapping(value = "/game/{gameType}/amount/{questionId}")
   @PreAuthorize("hasRole('USER')")
-  public ResponseEntity<GameSelectedAmount> selectamount(@PathVariable String gameType,
+  public ResponseEntity<GameSelectedAmount> selectAmount(@PathVariable String gameType,
       @PathVariable Long questionId, Principal principal) throws AccessDeniedException {
     GameSelectedAmount gameSelectedAmount = new GameSelectedAmount();
-    GameQuestions gameQuestion =
-        gameQuestionsService.getGameQuestionByQuestionId(questionId, gameType);
+    GameQuestions gameQuestion = gameQuestionsService.getGameQuestionByQuestionId(questionId, gameType);
     if (gameQuestion.getValidDate().before(new Date())) {
       throw new AccessDeniedException("Timeout");
     }
@@ -95,44 +96,58 @@ public class GameRestController {
     gameSelectedAmount.setQuestionId(questionId);
     return new ResponseEntity<GameSelectedAmount>(gameSelectedAmount, HttpStatus.OK);
   }
-
-  @GetMapping(value = "/game/checkuseramount/{amountId}/{userId}")
+  
+  @GetMapping(value = "/checkUserAmount/{gameType}/{questionId}/{amountId}")
   @PreAuthorize("hasRole('USER')")
-  public ResponseEntity<Response> checkuseramount(@PathVariable Long amountId,
-      @PathVariable Long userId, Principal principal) {
+  public ResponseEntity<Response> checkUserAmount(@PathVariable String gameType, @PathVariable Long questionId, @PathVariable Long amountId, Principal principal) {
+    Response response = new Response();
     UserInfo user = userService.findByEmail(principal.getName());
+    Long count = userSelectedTeamService.getSelectedUserCount(gameType, questionId, amountId, user.getId());
+    if(count == null) {
+      count = 0L;
+    }
+    response.setTeamCount(count);
     AmountEntries amountEntry = gameAmountService.findByAmountId(amountId);
     UserAmount amount = userAmountService.getUserAmount(user.getId());
     if (amount != null && amountEntry != null) {
       double bonusAmount = 0.00;
-      if (amount.getBonusAmount() >= 10) {
-        bonusAmount = 10.00;
+      if(Double.parseDouble(amountEntry.getAmount()) >=10 && Double.parseDouble(amountEntry.getAmount()) < 20) {
+        bonusAmount = amount.getBonusAmount() >= 1 ? 1.00 : 0.00;
+      } else if(Double.parseDouble(amountEntry.getAmount()) >=20 && Double.parseDouble(amountEntry.getAmount()) < 30) {
+        bonusAmount = amount.getBonusAmount() >= 3 ? 3.00 : amount.getBonusAmount();
+      } else if(Double.parseDouble(amountEntry.getAmount()) >=30 && Double.parseDouble(amountEntry.getAmount()) < 50) {
+        bonusAmount = amount.getBonusAmount() >= 5 ? 5.00 : amount.getBonusAmount();
+      } else if(Double.parseDouble(amountEntry.getAmount()) >=50 && Double.parseDouble(amountEntry.getAmount()) < 1000) {
+        bonusAmount = amount.getBonusAmount() >= 10 ? 10.00 : amount.getBonusAmount();
+      } else if(Double.parseDouble(amountEntry.getAmount()) >=1000) {
+        bonusAmount = amount.getBonusAmount() >= 15 ? 15.00 : amount.getBonusAmount();
       }
+      
       double cashamount = Double.parseDouble(amountEntry.getAmount()) - bonusAmount;
       if (amount.getAddedAmount() >= cashamount) {
-        return new ResponseEntity<Response>(new Response(200, "success"), HttpStatus.OK);
+        response.setEnabled(true);
       } else {
-        return new ResponseEntity<Response>(new Response(400, "failure"), HttpStatus.OK);
+        response.setEnabled(false);
       }
     } else {
-      return new ResponseEntity<Response>(new Response(400, "failure"), HttpStatus.OK);
+      response.setEnabled(false);
     }
+    
+    return new ResponseEntity<Response>(response, HttpStatus.OK);
   }
+  
+
 
   @GetMapping(value = "/game/{gameType}/amount/{questionId}/participants/{amountId}")
   @PreAuthorize("hasRole('USER')")
-  public ResponseEntity<GameParticipantsData> selectparticipants(@PathVariable String gameType,
-      @PathVariable Long questionId, @PathVariable Long amountId, Model model,
-      Principal principal) {
+  public ResponseEntity<GameParticipantsData> selectparticipants(@PathVariable String gameType, @PathVariable Long questionId, @PathVariable Long amountId, Principal principal) {
     GameParticipantsData gameParticipantsDto = new GameParticipantsData();
-    GameQuestions gameQuestion =
-        gameQuestionsService.getGameQuestionByQuestionId(questionId, gameType);
+    GameQuestions gameQuestion = gameQuestionsService.getGameQuestionByQuestionId(questionId, gameType);
     if (gameQuestion != null && StringUtils.hasText(gameQuestion.getQuestion())) {
       gameQuestion.setGameQuestion(gameQuestion.getQuestion());
     }
     AmountEntries amountEntries = gameAmountService.findByAmountId(amountId);
-    Map<String, List<GameParticipants>> gameParticipants =
-        gameParticipantsService.getAllActiveParticipantsByQuestionId(questionId);
+    Map<String, List<GameParticipants>> gameParticipants = gameParticipantsService.getAllActiveParticipantsByQuestionId(questionId);
     List<String> countries = gameParticipantsService.getAllParticipantTypesByQuestionId(questionId);
     if (countries != null && !countries.isEmpty()) {
       Map<String, Integer> gamecountries = new TreeMap<>();
@@ -188,11 +203,9 @@ public class GameRestController {
 
   @PostMapping(value = "/game/sendcapitanselection")
   @PreAuthorize("hasRole('USER')")
-  public ResponseEntity<SelectedMembers> sendcapitanselection(
-      @RequestBody SelectedMembers selectedMembers, Model model, Principal principal) {
+  public ResponseEntity<SelectedMembers> sendcapitanselection(@RequestBody SelectedMembers selectedMembers, Principal principal) {
     UserInfo user = userService.findByEmail(principal.getName());
-    UserTempParticipants dbUserTempParticipants =
-        userTempParticipantService.save(selectedMembers, user);
+    UserTempParticipants dbUserTempParticipants = userTempParticipantService.save(selectedMembers, user);
     if (dbUserTempParticipants != null && dbUserTempParticipants.getId() != null) {
       selectedMembers.setMessage("Successfully added");
       selectedMembers.setUserTempId(dbUserTempParticipants.getId());
@@ -210,18 +223,15 @@ public class GameRestController {
       @PathVariable Long usertempId, Principal principal)
       throws NoSuchAlgorithmException, InvalidKeyException {
     GameParticipantsData gameParticipantsDto = new GameParticipantsData();
-    GameQuestions gameQuestion =
-        gameQuestionsService.getGameQuestionByQuestionId(questionId, gameType);
+    GameQuestions gameQuestion = gameQuestionsService.getGameQuestionByQuestionId(questionId, gameType);
     if (gameQuestion != null && StringUtils.hasText(gameQuestion.getQuestion())) {
       gameQuestion.setGameQuestion(gameQuestion.getQuestion());
     }
     AmountEntries amountEntries = gameAmountService.findByAmountId(amountId);
 
     UserInfo user = userService.findByEmail(principal.getName());
-    Map<String, List<GameParticipants>> gameParticipants = userTempParticipantService
-        .getAllTempParticipantsByQuestionId(usertempId, questionId, amountId, gameType, user);
-    SelectedMembers selectedMembers =
-        userTempParticipantService.findById(usertempId, questionId, amountId, gameType, user);
+    Map<String, List<GameParticipants>> gameParticipants = userTempParticipantService.getAllTempParticipantsByQuestionId(usertempId, questionId, amountId, gameType, user);
+    SelectedMembers selectedMembers = userTempParticipantService.findById(usertempId, questionId, amountId, gameType, user);
 
     gameParticipantsDto.setGameQuestion(gameQuestion);
     gameParticipantsDto.setGameParticipants(gameParticipants);
@@ -247,13 +257,9 @@ public class GameRestController {
   public ResponseEntity<SelectedMembers> updateTeamRole(
       @RequestBody SelectedMembers selectedMembers, Principal principal) {
     UserInfo user = userService.findByEmail(principal.getName());
-    UserTempParticipants userTempParticipants =
-        userTempParticipantService.findCurrentParticipantById(selectedMembers.getUserTempId(),
-            selectedMembers.getQuestionId(), selectedMembers.getAmountId(),
-            selectedMembers.getGameType(), user);
+    UserTempParticipants userTempParticipants = userTempParticipantService.findCurrentParticipantById(selectedMembers.getUserTempId(), selectedMembers.getQuestionId(), selectedMembers.getAmountId(), selectedMembers.getGameType(), user);
     if (userTempParticipants != null) {
-      UserTempParticipants updatedUserTempParticipants =
-          userTempParticipantService.update(selectedMembers, userTempParticipants);
+      UserTempParticipants updatedUserTempParticipants = userTempParticipantService.update(selectedMembers, userTempParticipants);
       if (updatedUserTempParticipants != null && updatedUserTempParticipants.getId() != null) {
         selectedMembers.setMessage("Role Updated");
         return new ResponseEntity<SelectedMembers>(selectedMembers, HttpStatus.OK);
@@ -299,9 +305,18 @@ public class GameRestController {
     if (amount != null && amountEntries != null) {
       gameParticipantsDto.setAmountEntries(amountEntries);
       double bonusAmount = 0.00;
-      if (amount.getBonusAmount() >= 10) {
-        bonusAmount = 10.00;
+      if(Double.parseDouble(amountEntries.getAmount()) >=10 && Double.parseDouble(amountEntries.getAmount()) < 20) {
+        bonusAmount = amount.getBonusAmount() >= 1 ? 1.00 : 0.00;
+      } else if(Double.parseDouble(amountEntries.getAmount()) >=20 && Double.parseDouble(amountEntries.getAmount()) < 30) {
+        bonusAmount = amount.getBonusAmount() >= 3 ? 3.00 : amount.getBonusAmount();
+      } else if(Double.parseDouble(amountEntries.getAmount()) >=30 && Double.parseDouble(amountEntries.getAmount()) < 50) {
+        bonusAmount = amount.getBonusAmount() >= 5 ? 5.00 : amount.getBonusAmount();
+      } else if(Double.parseDouble(amountEntries.getAmount()) >=50 && Double.parseDouble(amountEntries.getAmount()) < 1000) {
+        bonusAmount = amount.getBonusAmount() >= 10 ? 10.00 : amount.getBonusAmount();
+      } else if(Double.parseDouble(amountEntries.getAmount()) >=1000) {
+        bonusAmount = amount.getBonusAmount() >= 15 ? 15.00 : amount.getBonusAmount();
       }
+
       double cashamount = Double.parseDouble(amountEntries.getAmount()) - bonusAmount;
       if (amount.getAddedAmount() >= cashamount) {
         gameParticipantsDto.setBonusAmount(bonusAmount);
@@ -324,19 +339,32 @@ public class GameRestController {
 
     UserInfo user = userService.findByEmail(principal.getName());
     UserTempParticipants userTempParticipants = userTempParticipantService.findCurrentParticipantById(usertempId, questionId, amountId, gameType, user);
+    GameQuestions gameQuestion = gameQuestionsService.getGameQuestionByQuestionId(questionId, gameType);
 
     if (userTempParticipants != null && user != null && user.getId() == userTempParticipants.getUserId()) {
-      UserSelectedTeam selectedTeam =  userSelectedTeamService.getUserSelectTeam(userTempParticipants);
-      UserSelectedTeam dbUserSelectedTeam = userSelectedTeamService.save(selectedTeam);
-      if (dbUserSelectedTeam != null && dbUserSelectedTeam.getId() != null) {
-        UserAmount amount = userAmountService.getUserAmount(user.getId());
-        double bonusAmount = 0.00;
-        if (amount.getBonusAmount() >= 10) {
-          bonusAmount = 10.00;
-        }
-        AmountEntries amountEntries = gameAmountService.findByAmountId(amountId);
-        double cashamount = Double.parseDouble(amountEntries.getAmount()) - bonusAmount;
-        if (amount.getAddedAmount() >= cashamount) {
+      UserAmount amount = userAmountService.getUserAmount(user.getId());
+      AmountEntries amountEntries = gameAmountService.findByAmountId(amountId);
+      
+      double bonusAmount = 0.00;
+      if(Double.parseDouble(amountEntries.getAmount()) >=10 && Double.parseDouble(amountEntries.getAmount()) < 20) {
+        bonusAmount = amount.getBonusAmount() >= 1 ? 1.00 : 0.00;
+      } else if(Double.parseDouble(amountEntries.getAmount()) >=20 && Double.parseDouble(amountEntries.getAmount()) < 30) {
+        bonusAmount = amount.getBonusAmount() >= 3 ? 3.00 : amount.getBonusAmount();
+      } else if(Double.parseDouble(amountEntries.getAmount()) >=30 && Double.parseDouble(amountEntries.getAmount()) < 50) {
+        bonusAmount = amount.getBonusAmount() >= 5 ? 5.00 : amount.getBonusAmount();
+      } else if(Double.parseDouble(amountEntries.getAmount()) >=50 && Double.parseDouble(amountEntries.getAmount()) < 1000) {
+        bonusAmount = amount.getBonusAmount() >= 10 ? 10.00 : amount.getBonusAmount();
+      } else if(Double.parseDouble(amountEntries.getAmount()) >=1000) {
+        bonusAmount = amount.getBonusAmount() >= 15 ? 15.00 : amount.getBonusAmount();
+      }
+      
+      double cashamount = Double.parseDouble(amountEntries.getAmount()) - bonusAmount;
+      if (amount.getAddedAmount() >= cashamount) {
+        UserSelectedTeam selectedTeam =  userSelectedTeamService.getUserSelectTeam(userTempParticipants);
+        selectedTeam.setBonusAmount(bonusAmount);
+        selectedTeam.setAddedAmount(cashamount);
+        UserSelectedTeam dbUserSelectedTeam = userSelectedTeamService.save(selectedTeam);
+        if (dbUserSelectedTeam != null && dbUserSelectedTeam.getId() != null) {
           double bonusRemainigAmount = amount.getBonusAmount() - bonusAmount;
           double addedRemainigAmount = amount.getAddedAmount() - cashamount;
           amount.setBonusAmount(bonusRemainigAmount);
@@ -355,11 +383,21 @@ public class GameRestController {
               }
             }
             deleteTempUserSelectionParticipants(userTempParticipants);
+            if (amountEntries != null && !amountEntries.getAmount().equals("0.0") && !amountEntries.getAmount().equals("0.00")) {
+              MatchPayments matchPayments = new MatchPayments();
+              matchPayments.setAddedAmount(cashamount);
+              matchPayments.setAmountType("DEBITED");
+              matchPayments.setBonusAmount(bonusAmount);
+              matchPayments.setMatchName(gameQuestion.getQuestion());
+              matchPayments.setTransactionDate(new Date());
+              matchPayments.setUser(user);
+              userTransactionService.saveMatchPayment(matchPayments);
+            }
             response.setMessage("Team is Created Successfully");
             return new ResponseEntity<Response>(response, HttpStatus.OK);
-          }
+          } 
         }
-      }
+      } 
     }
     response.setMessage("Some Thing Went Wrong Please Try Again");
     return new ResponseEntity<Response>(response, HttpStatus.INTERNAL_SERVER_ERROR);
