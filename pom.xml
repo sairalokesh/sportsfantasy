@@ -12,7 +12,7 @@
 	<groupId>com.sports.fantasy</groupId>
 	<artifactId>sportsfantasy</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>war</packaging>
+	<packaging>jar</packaging>
 	<name>sportsfantasy</name>
 	<description>cricket sports fantasy</description>
 
