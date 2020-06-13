@@ -149,13 +149,9 @@ public class AuthenticationController {
     }
     String username = jwtTokenUtil.getUsernameFromToken(authToken);
     JwtUser userDetails = (JwtUser) userDetailsService.loadUserByUsername(username);
-    if (jwtTokenUtil.canTokenBeRefreshed(authToken, userDetails.getLastPasswordResetDate())) {
-      String refreshedToken = jwtTokenUtil.refreshToken(authToken);
-      response.setHeader("Token", refreshedToken);
-      return ResponseEntity.ok(new UserTokenInfo(userDetails.getUser(), refreshedToken));
-    } else {
-      return ResponseEntity.badRequest().body(null);
-    }
+    String refreshedToken = jwtTokenUtil.refreshToken(authToken);
+    response.setHeader("Token", refreshedToken);
+    return ResponseEntity.ok(new UserTokenInfo(userDetails.getUser(), refreshedToken));
   }
 
   @GetMapping(value = "/refresh")

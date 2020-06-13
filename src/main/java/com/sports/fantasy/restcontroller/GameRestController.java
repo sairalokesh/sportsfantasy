@@ -69,17 +69,14 @@ public class GameRestController {
 
   @GetMapping(value = "/game/{gameType}/entry")
   @PreAuthorize("hasRole('USER')")
-  public ResponseEntity<List<GameQuestions>> gameEntry(@PathVariable String gameType,
-      Principal principal) {
-    List<GameQuestions> gameQuestions =
-        gameQuestionsService.getGameQuestionsByGreaterthanCurrentDate(gameType);
+  public ResponseEntity<List<GameQuestions>> gameEntry(@PathVariable String gameType, Principal principal) {
+    List<GameQuestions> gameQuestions = gameQuestionsService.getGameQuestionsByGreaterthanCurrentDate(gameType);
     return new ResponseEntity<List<GameQuestions>>(gameQuestions, HttpStatus.OK);
   }
 
   @GetMapping(value = "/game/{gameType}/amount/{questionId}")
   @PreAuthorize("hasRole('USER')")
-  public ResponseEntity<GameSelectedAmount> selectAmount(@PathVariable String gameType,
-      @PathVariable Long questionId, Principal principal) throws AccessDeniedException {
+  public ResponseEntity<GameSelectedAmount> selectAmount(@PathVariable String gameType, @PathVariable Long questionId, Principal principal) throws AccessDeniedException {
     GameSelectedAmount gameSelectedAmount = new GameSelectedAmount();
     GameQuestions gameQuestion = gameQuestionsService.getGameQuestionByQuestionId(questionId, gameType);
     if (gameQuestion.getValidDate().before(new Date())) {
@@ -89,6 +86,7 @@ public class GameRestController {
     if (gameQuestion != null && StringUtils.hasText(gameQuestion.getQuestion())) {
       gameQuestion.setGameQuestion(gameQuestion.getQuestion());
     }
+    
     List<AmountEntries> amountEntries = gameAmountService.findAllActiveAmountEntries();
     gameSelectedAmount.setGameQuestion(gameQuestion);
     gameSelectedAmount.setAmountEntries(amountEntries);
@@ -99,9 +97,13 @@ public class GameRestController {
   
   @GetMapping(value = "/checkUserAmount/{gameType}/{questionId}/{amountId}")
   @PreAuthorize("hasRole('USER')")
-  public ResponseEntity<Response> checkUserAmount(@PathVariable String gameType, @PathVariable Long questionId, @PathVariable Long amountId, Principal principal) {
+  public ResponseEntity<Response> checkUserAmount(@PathVariable String gameType, @PathVariable Long questionId, @PathVariable Long amountId, Principal principal) throws AccessDeniedException {
     Response response = new Response();
     UserInfo user = userService.findByEmail(principal.getName());
+    GameQuestions gameQuestion = gameQuestionsService.getGameQuestionByQuestionId(questionId, gameType);
+    if (gameQuestion.getValidDate().before(new Date())) {
+      throw new AccessDeniedException("Timeout");
+    }
     Long count = userSelectedTeamService.getSelectedUserCount(gameType, questionId, amountId, user.getId());
     if(count == null) {
       count = 0L;
@@ -136,13 +138,14 @@ public class GameRestController {
     return new ResponseEntity<Response>(response, HttpStatus.OK);
   }
   
-
-
   @GetMapping(value = "/game/{gameType}/amount/{questionId}/participants/{amountId}")
   @PreAuthorize("hasRole('USER')")
-  public ResponseEntity<GameParticipantsData> selectparticipants(@PathVariable String gameType, @PathVariable Long questionId, @PathVariable Long amountId, Principal principal) {
+  public ResponseEntity<GameParticipantsData> selectparticipants(@PathVariable String gameType, @PathVariable Long questionId, @PathVariable Long amountId, Principal principal) throws AccessDeniedException {
     GameParticipantsData gameParticipantsDto = new GameParticipantsData();
     GameQuestions gameQuestion = gameQuestionsService.getGameQuestionByQuestionId(questionId, gameType);
+    if (gameQuestion.getValidDate().before(new Date())) {
+      throw new AccessDeniedException("Timeout");
+    }
     if (gameQuestion != null && StringUtils.hasText(gameQuestion.getQuestion())) {
       gameQuestion.setGameQuestion(gameQuestion.getQuestion());
     }
@@ -180,14 +183,10 @@ public class GameRestController {
 
   @PostMapping(value = "/game/viewparticipants")
   @PreAuthorize("hasRole('USER')")
-  public ResponseEntity<Map<String, List<GameParticipants>>> viewparticipants(
-      @RequestBody SelectedMembers selectedMembers, Principal principal) {
+  public ResponseEntity<Map<String, List<GameParticipants>>> viewparticipants(@RequestBody SelectedMembers selectedMembers, Principal principal) {
     Map<String, List<GameParticipants>> teamParticipants = new TreeMap<>();
-    if (selectedMembers != null && selectedMembers.getSelectedMembers() != null
-        && !selectedMembers.getSelectedMembers().isEmpty()) {
-      List<GameParticipants> gameParticipants =
-          gameParticipantsService.getAllParticipantsByQuestionIdAndParticipantIds(
-              selectedMembers.getQuestionId(), selectedMembers.getSelectedMembers());
+    if (selectedMembers != null && selectedMembers.getSelectedMembers() != null && !selectedMembers.getSelectedMembers().isEmpty()) {
+      List<GameParticipants> gameParticipants = gameParticipantsService.getAllParticipantsByQuestionIdAndParticipantIds(selectedMembers.getQuestionId(), selectedMembers.getSelectedMembers());
       if (gameParticipants != null && !gameParticipants.isEmpty()) {
         SelectedParticipants participants = new SelectedParticipants();
         participants.setSelectedParticipants(selectedMembers.getSelectedMembers());
@@ -215,15 +214,14 @@ public class GameRestController {
     return new ResponseEntity<SelectedMembers>(selectedMembers, HttpStatus.INTERNAL_SERVER_ERROR);
   }
 
-  @GetMapping(
-      value = "/game/{gameType}/amount/{questionId}/participants/{amountId}/gameparticipantrole/{usertempId}")
+  @GetMapping(value = "/game/{gameType}/amount/{questionId}/participants/{amountId}/gameparticipantrole/{usertempId}")
   @PreAuthorize("hasRole('USER')")
-  public ResponseEntity<GameParticipantsData> selectedparticipantroles(
-      @PathVariable String gameType, @PathVariable Long questionId, @PathVariable Long amountId,
-      @PathVariable Long usertempId, Principal principal)
-      throws NoSuchAlgorithmException, InvalidKeyException {
+  public ResponseEntity<GameParticipantsData> selectedparticipantroles(@PathVariable String gameType, @PathVariable Long questionId, @PathVariable Long amountId, @PathVariable Long usertempId, Principal principal) throws NoSuchAlgorithmException, InvalidKeyException, AccessDeniedException {
     GameParticipantsData gameParticipantsDto = new GameParticipantsData();
     GameQuestions gameQuestion = gameQuestionsService.getGameQuestionByQuestionId(questionId, gameType);
+    if (gameQuestion.getValidDate().before(new Date())) {
+      throw new AccessDeniedException("Timeout");
+    }
     if (gameQuestion != null && StringUtils.hasText(gameQuestion.getQuestion())) {
       gameQuestion.setGameQuestion(gameQuestion.getQuestion());
     }
@@ -272,16 +270,15 @@ public class GameRestController {
   @GetMapping(
       value = "/game/{gameType}/amount/{questionId}/participants/{amountId}/seletedpayments/{usertempId}")
   @PreAuthorize("hasRole('USER')")
-  public ResponseEntity<GameParticipantsData> seletedpayments(@PathVariable String gameType,
-      @PathVariable Long questionId, @PathVariable Long amountId, @PathVariable Long usertempId,
-      Principal principal) throws NoSuchAlgorithmException, InvalidKeyException {
+  public ResponseEntity<GameParticipantsData> seletedpayments(@PathVariable String gameType, @PathVariable Long questionId, @PathVariable Long amountId, @PathVariable Long usertempId, Principal principal) throws NoSuchAlgorithmException, InvalidKeyException, AccessDeniedException {
     UserInfo user = userService.findByEmail(principal.getName());
     GameParticipantsData gameParticipantsDto = new GameParticipantsData();
-    GameQuestions gameQuestion =
-        gameQuestionsService.getGameQuestionByQuestionId(questionId, gameType);
+    GameQuestions gameQuestion = gameQuestionsService.getGameQuestionByQuestionId(questionId, gameType);
+    if (gameQuestion.getValidDate().before(new Date())) {
+      throw new AccessDeniedException("Timeout");
+    }
     AmountEntries amountEntries = gameAmountService.findByAmountId(amountId);
-    SelectedMembers selectedMembers =
-        userTempParticipantService.findById(usertempId, questionId, amountId, gameType, user);
+    SelectedMembers selectedMembers = userTempParticipantService.findById(usertempId, questionId, amountId, gameType, user);
     String lastCountry = "";
     List<String> countries = gameParticipantsService.getAllParticipantTypesByQuestionId(questionId);
     if (countries != null && !countries.isEmpty()) {
@@ -334,13 +331,17 @@ public class GameRestController {
   @PreAuthorize("hasRole('USER')")
   public ResponseEntity<Response> createfinalteam(@PathVariable String gameType,
       @PathVariable Long questionId, @PathVariable Long amountId, @PathVariable Long usertempId,
-      Principal principal) throws NoSuchAlgorithmException, InvalidKeyException {
+      Principal principal) throws NoSuchAlgorithmException, InvalidKeyException, AccessDeniedException {
     Response response = new Response();
+
+    GameQuestions gameQuestion = gameQuestionsService.getGameQuestionByQuestionId(questionId, gameType);
+    if (gameQuestion.getValidDate().before(new Date())) {
+      throw new AccessDeniedException("Timeout");
+    }
 
     UserInfo user = userService.findByEmail(principal.getName());
     UserTempParticipants userTempParticipants = userTempParticipantService.findCurrentParticipantById(usertempId, questionId, amountId, gameType, user);
-    GameQuestions gameQuestion = gameQuestionsService.getGameQuestionByQuestionId(questionId, gameType);
-
+    
     if (userTempParticipants != null && user != null && user.getId() == userTempParticipants.getUserId()) {
       UserAmount amount = userAmountService.getUserAmount(user.getId());
       AmountEntries amountEntries = gameAmountService.findByAmountId(amountId);

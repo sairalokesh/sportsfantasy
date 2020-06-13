@@ -21,6 +21,7 @@ public class JwtTokenUtil implements Serializable {
 	static final String CLAIM_KEY_USERNAME = "sub";
 	static final String CLAIM_KEY_AUDIENCE = "audience";
 	static final String CLAIM_KEY_CREATED = "created";
+	static final String CLAIM_KEY_EXP = "exp";
 
 	private static final String AUDIENCE_MOBILE = "mobile";
 	private static final String AUDIENCE_TABLET = "tablet";
@@ -132,7 +133,7 @@ public class JwtTokenUtil implements Serializable {
 		}
 		return refreshedToken;
 	}
-
+	
 	public Boolean validateToken(String token, UserDetails userDetails) {
 		JwtUser user = (JwtUser) userDetails;
 		final String username = getUsernameFromToken(token);

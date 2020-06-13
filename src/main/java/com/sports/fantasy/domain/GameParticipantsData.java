@@ -23,6 +23,7 @@ public class GameParticipantsData {
   private double cashAmount = 0.00;
   private String message;
   private String lastCountry;
+  private Long userTeamId;
 
   /**
    * @return the gameQuestion
@@ -240,6 +241,14 @@ public class GameParticipantsData {
 
   public void setLastCountry(String lastCountry) {
     this.lastCountry = lastCountry;
+  }
+
+  public Long getUserTeamId() {
+    return userTeamId;
+  }
+
+  public void setUserTeamId(Long userTeamId) {
+    this.userTeamId = userTeamId;
   }
 
 
