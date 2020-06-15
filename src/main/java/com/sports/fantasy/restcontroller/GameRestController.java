@@ -44,6 +44,7 @@ import com.sports.fantasy.userservice.UserSelectedTeamService;
 import com.sports.fantasy.userservice.UserTempParticipantService;
 import com.sports.fantasy.userservice.UserTransactionService;
 import com.sports.fantasy.util.DataMapper;
+import com.sports.fantasy.util.DateUtil;
 
 @RestController
 @RequestMapping(value = "/user/api/")
@@ -71,6 +72,19 @@ public class GameRestController {
   @PreAuthorize("hasRole('USER')")
   public ResponseEntity<List<GameQuestions>> gameEntry(@PathVariable String gameType, Principal principal) {
     List<GameQuestions> gameQuestions = gameQuestionsService.getGameQuestionsByGreaterthanCurrentDate(gameType);
+    if(gameQuestions != null && gameQuestions.size() > 0) {
+      for (GameQuestions gameQuestion: gameQuestions) {
+        if (gameQuestion != null && gameQuestion.getValidDate() != null) {
+          String validDate = DateUtil.dateToString(gameQuestion.getValidDate());
+          gameQuestion.setExValidDate(validDate);
+        }
+
+        if (gameQuestion != null && gameQuestion.getSpinDate() != null) {
+          String spinDate = DateUtil.dateToString(gameQuestion.getSpinDate());
+          gameQuestion.setExSpinDate(spinDate);
+        }
+      }
+    }
     return new ResponseEntity<List<GameQuestions>>(gameQuestions, HttpStatus.OK);
   }
 
