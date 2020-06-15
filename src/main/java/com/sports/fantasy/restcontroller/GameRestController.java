@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
 import com.sports.fantasy.domain.GameParticipantsData;
 import com.sports.fantasy.domain.GameSelectedAmount;
 import com.sports.fantasy.domain.Response;
@@ -44,7 +46,6 @@ import com.sports.fantasy.userservice.UserSelectedTeamService;
 import com.sports.fantasy.userservice.UserTempParticipantService;
 import com.sports.fantasy.userservice.UserTransactionService;
 import com.sports.fantasy.util.DataMapper;
-import com.sports.fantasy.util.DateUtil;
 
 @RestController
 @RequestMapping(value = "/user/api/")
@@ -72,19 +73,6 @@ public class GameRestController {
   @PreAuthorize("hasRole('USER')")
   public ResponseEntity<List<GameQuestions>> gameEntry(@PathVariable String gameType, Principal principal) {
     List<GameQuestions> gameQuestions = gameQuestionsService.getGameQuestionsByGreaterthanCurrentDate(gameType);
-    if(gameQuestions != null && gameQuestions.size() > 0) {
-      for (GameQuestions gameQuestion: gameQuestions) {
-        if (gameQuestion != null && gameQuestion.getValidDate() != null) {
-          String validDate = DateUtil.dateToString(gameQuestion.getValidDate());
-          gameQuestion.setExValidDate(validDate);
-        }
-
-        if (gameQuestion != null && gameQuestion.getSpinDate() != null) {
-          String spinDate = DateUtil.dateToString(gameQuestion.getSpinDate());
-          gameQuestion.setExSpinDate(spinDate);
-        }
-      }
-    }
     return new ResponseEntity<List<GameQuestions>>(gameQuestions, HttpStatus.OK);
   }
 
