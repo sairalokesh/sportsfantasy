@@ -42,6 +42,9 @@ public class UserController {
     }
 
     UserInfo dbUser = userService.findByEmail(principal.getName());
+    if (dbUser!=null && !dbUser.getRole().equalsIgnoreCase("USER")) {
+      return "redirect:/accessdenied";
+    }
     Long userEntries = userDashboardService.getCountOfGameEntries(dbUser.getId());
     Double dbEntriesAmount = userDashboardService.getSumOfEntriesAmount(dbUser.getId());
     Long winningEntries = userDashboardService.getCountOfWinningEntries(dbUser.getId());

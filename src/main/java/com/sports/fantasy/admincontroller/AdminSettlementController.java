@@ -124,7 +124,7 @@ public class AdminSettlementController {
       
       List<Ranking> filteredRankings = rankings.stream().filter(rank -> rank.getRank() <= lastEntry).collect(Collectors.toList());
       
-      if(filteredRankings!=null && filteredRankings.size() > map.size()) {
+      if(filteredRankings!=null && filteredRankings.size() >= map.size()) {
         for(int i = (map.size()+1);i<=filteredRankings.size(); i++) {
             // map.put(i, map.get(map.size() - 1));
                map.put(i, 0.0);

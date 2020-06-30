@@ -47,6 +47,9 @@ public class UserProfileController {
       return "redirect:/signin";
     }
     UserInfo dbUser = userService.findByEmail(principal.getName());
+    if (dbUser!=null && !dbUser.getRole().equalsIgnoreCase("USER")) {
+      return "redirect:/accessdenied";
+    }
     UserAccount account = new UserAccount();
     if (dbUser != null) {
       account = userAccountService.getUserAccountInfo(dbUser.getId());
@@ -77,6 +80,9 @@ public class UserProfileController {
       return "redirect:/signin";
     }
     UserInfo dbUser = userService.findByEmail(principal.getName());
+    if (dbUser!=null && !dbUser.getRole().equalsIgnoreCase("USER")) {
+      return "redirect:/accessdenied";
+    }
     UserAccount account = new UserAccount();
     if (dbUser != null) {
       userService.datetostringformat(dbUser);
@@ -99,6 +105,9 @@ public class UserProfileController {
     }
 
     UserInfo dbcUser = userService.findByEmail(principal.getName());
+    if (dbcUser!=null && !dbcUser.getRole().equalsIgnoreCase("USER")) {
+      return "redirect:/accessdenied";
+    }
     if (dbcUser != null && !dbcUser.getEmail().equalsIgnoreCase(user.getEmail())) {
       attributes.addFlashAttribute("errormessage", "Email is Not Matched.");
       return "redirect:/user/editprofile";
@@ -128,6 +137,9 @@ public class UserProfileController {
     }
 
     UserInfo dbUser = userService.findByEmail(principal.getName());
+    if (dbUser!=null && !dbUser.getRole().equalsIgnoreCase("USER")) {
+      return "redirect:/accessdenied";
+    }
     UserAccount existAccount =
         userAccountService.getAccountByAccountId(userAccount.getAccountNumber());
     if (existAccount != null && dbUser != null && dbUser.getId() != null
@@ -182,6 +194,9 @@ public class UserProfileController {
     }
     try {
       UserInfo dbUser = userService.findByEmail(user.getEmail());
+      if (dbUser!=null && !dbUser.getRole().equalsIgnoreCase("USER")) {
+        return "redirect:/accessdenied";
+      }
       if (dbUser != null && user.getId() == dbUser.getId()) {
         if (StringUtils.hasText(user.getPassword())) {
           dbUser.setPassword(PasswordUtil.getEncodedPassword(user.getPassword()));

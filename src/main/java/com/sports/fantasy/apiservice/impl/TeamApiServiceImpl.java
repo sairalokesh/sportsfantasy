@@ -194,7 +194,7 @@ public class TeamApiServiceImpl implements TeamApiService {
               (7 * gameParticipantPoints.getCatches()) +
               (6 * gameParticipantPoints.getStumpeds()) +
               (6 * gameParticipantPoints.getRunouts()) +
-              (6 * gameParticipantPoints.getBowleds()) +
+              (3 * gameParticipantPoints.getBowleds()) +
               (6 * gameParticipantPoints.getLbws());
           /*
            * if(StringUtils.hasText(gameParticipantPoints.getGameParticipants().getAvailability())
@@ -352,7 +352,7 @@ public class TeamApiServiceImpl implements TeamApiService {
                         (5 * gameParticipantPoints.getMaidens()) + 
                         (7 * gameParticipantPoints.getCatches()) +
                         (6 * gameParticipantPoints.getStumpeds()) +
-                        (6 * gameParticipantPoints.getRunouts()) +
+                        (3 * gameParticipantPoints.getRunouts()) +
                         (6 * gameParticipantPoints.getBowleds()) +
                         (6 * gameParticipantPoints.getLbws());
                         

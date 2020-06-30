@@ -52,7 +52,7 @@ public class GameParticpantPointsServiceImpl implements GameParticpantPointsServ
                         (5 * gameParticipantPoints.getMaidens()) + 
                         (7 * gameParticipantPoints.getCatches()) +
                         (6 * gameParticipantPoints.getStumpeds()) +
-                        (6 * gameParticipantPoints.getRunouts()) +
+                        (3 * gameParticipantPoints.getRunouts()) +
                         (6 * gameParticipantPoints.getBowleds()) + // bowled
                         (6 * gameParticipantPoints.getLbws()); 
           /*

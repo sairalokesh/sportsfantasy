@@ -261,6 +261,56 @@ public class EditTeamsRestController {
     return new ResponseEntity<SelectedMembers>(selectedMembers, HttpStatus.INTERNAL_SERVER_ERROR);
   }
   
+  
+  @GetMapping(value = "/edit/game/{gameType}/amount/{questionId}/editSelectedParticipants/{amountId}/{userTempId}")
+  public ResponseEntity<GameParticipantsData> reSelectparticipants(@PathVariable String gameType, @PathVariable Long questionId,
+      @PathVariable Long amountId, @PathVariable Long userTempId, Principal principal) throws AccessDeniedException {
+    GameParticipantsData gameParticipantsDto = new GameParticipantsData();
+    UserInfo user = userService.findByEmail(principal.getName());
+    GameQuestions gameQuestion = gameQuestionsService.getGameQuestionByQuestionId(questionId, gameType);
+    if (gameQuestion.getValidDate().before(new Date())) {
+      throw new AccessDeniedException("Timeout");
+    }
+    if (gameQuestion != null && StringUtils.hasText(gameQuestion.getQuestion())) {
+      gameQuestion.setGameQuestion(gameQuestion.getQuestion());
+    }
+
+    UserTempParticipants dbTempParticipants = userTempParticipantService.findCurrentParticipantById(userTempId, questionId, amountId, gameType, user);
+    if (dbTempParticipants != null && StringUtils.hasText(dbTempParticipants.getParticipants())) {
+      SelectedMembers selectedMembers = DataMapper.getRedirectEditTeamSelection(dbTempParticipants, user);
+      AmountEntries amountEntry = gameAmountService.findByAmountId(amountId);
+      Map<String, List<GameParticipants>> gameParticipants = gameParticipantsService.getAllActiveParticipantsByQuestionId(questionId);
+      Map<String, Integer> gametypecounts =  DataMapper.getGameTypeCounts(gameParticipants, selectedMembers);
+      if (gametypecounts != null && gametypecounts.size() > 0) {
+        gameParticipantsDto.setGametypecounts(gametypecounts);
+        gameParticipantsDto.setGamecount(gametypecounts.size());
+      }
+
+      Map<String, Integer> gameplayercounts = DataMapper.getGamePlayerCounts(gameParticipants, selectedMembers);
+      
+      gameParticipantsDto.setTypecount(gameplayercounts);
+      gameParticipantsDto.setSelectedMembers(selectedMembers);
+      gameParticipantsDto.setGameQuestion(gameQuestion);
+      gameParticipantsDto.setAmountEntries(amountEntry);
+      gameParticipantsDto.setGameParticipants(gameParticipants);
+      gameParticipantsDto.setQuestionId(gameQuestion.getId());
+      gameParticipantsDto.setAmountId(amountEntry.getId());
+      gameParticipantsDto.setGameType(gameType);
+      gameParticipantsDto.setUserTeamId(dbTempParticipants.getUserTeamId());
+      String lastCountry = "";
+      List<String> countries = gameParticipantsService.getAllParticipantTypesByQuestionId(questionId);
+      if (countries != null && !countries.isEmpty()) {
+        for (String country : countries) {
+          lastCountry = country;
+        }
+      }
+      gameParticipantsDto.setLastCountry(lastCountry);
+      return new ResponseEntity<GameParticipantsData>(gameParticipantsDto, HttpStatus.OK);
+    } else {
+      throw new AccessDeniedException("Internal Server Error");
+    }
+  }
+  
   private void deleteTempUserSelectionParticipants(UserTempParticipants dbTempParticipants) {
     if (dbTempParticipants != null && dbTempParticipants.getId() != null) {
       userTempParticipantService.deleteTempUserSelectedParticipantsById(dbTempParticipants.getId());

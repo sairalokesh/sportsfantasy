@@ -111,6 +111,11 @@ public class UserGameController {
       return "redirect:/signin";
     }
     
+    GameQuestions gameQuestion = gameQuestionsService.getGameQuestionByQuestionId(questionId, gameType);
+    if (gameQuestion.getValidDate().before(new Date())) {
+      return "redirect:/user/game/" + gameType + "/entry";
+    }
+    
     AmountEntries amountEntry = gameAmountService.findByAmountId(amountId);
     Long count = userSelectedTeamService.getUsersCount(gameType, questionId, amountId);
     if(amountEntry!=null && StringUtils.hasText(amountEntry.getAmount()) && count != null && count > 0) {

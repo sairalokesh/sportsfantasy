@@ -9,11 +9,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.sports.fantasy.domain.GameParticipantsData;
 import com.sports.fantasy.domain.GameSelectedAmount;
 import com.sports.fantasy.domain.Response;
@@ -413,7 +412,44 @@ public class GameRestController {
       userTempParticipantService.deleteTempUserSelectedParticipantsById(dbTempParticipants.getId());
     }
   }
+  
+  
+  @GetMapping(value = "/game/{gameType}/amount/{questionId}/selectedparticipants/{amountId}/{userTempId}")
+  @PreAuthorize("hasRole('USER')")
+  public ResponseEntity<GameParticipantsData> reSeelectParticipants(@PathVariable String gameType, @PathVariable Long questionId, @PathVariable Long amountId, 
+      @PathVariable Long userTempId, Model model, Principal principal) throws AccessDeniedException {
+    GameParticipantsData gameParticipantsDto = new GameParticipantsData();
+    UserInfo user = userService.findByEmail(principal.getName());
+    GameQuestions gameQuestion = gameQuestionsService.getGameQuestionByQuestionId(questionId, gameType);
+    if (gameQuestion.getValidDate().before(new Date())) {
+      throw new AccessDeniedException("Timeout");
+    }
+    if (gameQuestion != null && StringUtils.hasText(gameQuestion.getQuestion())) {
+      gameQuestion.setGameQuestion(gameQuestion.getQuestion());
+    }
+    AmountEntries amountEntries = gameAmountService.findByAmountId(amountId);
+    UserTempParticipants dbTempParticipants = userTempParticipantService.findCurrentParticipantById(userTempId, questionId, amountId, gameType, user);
+    if (dbTempParticipants != null && StringUtils.hasText(dbTempParticipants.getParticipants())) {
+      SelectedMembers selectedMembers = DataMapper.getRedirectTeamSelection(dbTempParticipants, user);
+      Map<String, List<GameParticipants>> gameParticipants = gameParticipantsService.getAllActiveParticipantsByQuestionId(questionId);
+      Map<String, Integer> gametypecounts = DataMapper.getGameTypeCounts(gameParticipants, selectedMembers);
+      if (gametypecounts != null && gametypecounts.size() > 0) {
+        gameParticipantsDto.setGametypecounts(gametypecounts);
+        gameParticipantsDto.setGamecount(gametypecounts.size());
+      }
 
-
-
+      Map<String, Integer> gameplayercounts = DataMapper.getGamePlayerCounts(gameParticipants, selectedMembers);
+      gameParticipantsDto.setTypecount(gameplayercounts);
+      
+      gameParticipantsDto.setSelectedMembers(selectedMembers);
+      gameParticipantsDto.setGameQuestion(gameQuestion);
+      gameParticipantsDto.setAmountEntries(amountEntries);
+      gameParticipantsDto.setGameParticipants(gameParticipants);
+      gameParticipantsDto.setQuestionId(questionId);
+      gameParticipantsDto.setAmountId(amountId);
+      gameParticipantsDto.setGameType(gameType);
+      return new ResponseEntity<GameParticipantsData>(gameParticipantsDto, HttpStatus.OK);
+  }
+    throw new AccessDeniedException("Internal Server Error");
+  }
 }

@@ -21,7 +21,7 @@ public interface GameQuestionsRepository extends CrudRepository<GameQuestions, L
   @Query("Select g from GameQuestions as g where g.id = ?1 and g.questionType = ?2 and g.active = ?3")
   GameQuestions getGameQuestionByQuestionId(Long questionId, String gameType, boolean isActive);
 
-  @Query("Select g from GameQuestions as g where g.active = ?1 and g.validDate >= now() order by g.validDate asc")
+  @Query("Select g from GameQuestions as g where g.active = ?1 order by g.validDate asc")
   List<GameQuestions> findAllGameQuestions(boolean isActive);
 
   @Query("Select g from GameQuestions as g where g.uniqueId = ?1")
