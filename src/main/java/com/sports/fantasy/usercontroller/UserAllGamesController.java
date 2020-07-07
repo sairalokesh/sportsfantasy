@@ -21,6 +21,7 @@ import com.sports.fantasy.model.UserInfo;
 import com.sports.fantasy.model.UserSelectedTeam;
 import com.sports.fantasy.securityservice.UserService;
 import com.sports.fantasy.service.GameAmountService;
+import com.sports.fantasy.service.GameParticipantService;
 import com.sports.fantasy.service.GameQuestionsService;
 import com.sports.fantasy.userservice.UserRankingService;
 import com.sports.fantasy.userservice.UserSelectedTeamService;
@@ -40,6 +41,7 @@ public class UserAllGamesController {
   private GameQuestionsService gameQuestionsService;
   @Autowired
   private GameAmountService gameAmountService;
+  @Autowired private GameParticipantService gameParticipantsService;
   
   @ModelAttribute
   public void admindashboardtitle(Model model) {
@@ -166,6 +168,15 @@ public class UserAllGamesController {
         if(userSelectedTeam != null) {
           Map<String, List<GameParticipantScore>> teamParticipants = userSelectedTeamService.getAllParticipantsScores(userSelectedTeam, questionId);
           model.addAttribute("teamParticipants", teamParticipants);
+        }
+        
+        List<String> countries = gameParticipantsService.getAllParticipantTypesByQuestionId(questionId); // Means Countries
+        if (countries != null && !countries.isEmpty()) {
+          String lastCountry = "";
+          for (String country : countries) {
+            lastCountry = country;
+          }
+          model.addAttribute("lastCountry", lastCountry);
         }
         model.addAttribute("teamId", teamId);
         model.addAttribute("questionId", questionId);

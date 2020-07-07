@@ -97,7 +97,7 @@
   <label id="suppoterId-error" class="inputError" for="suppoterId" style="padding: 0px;">&nbsp;</label>
   </div>
   </div>
-	<table class="table table-hover" style="background-color:white;">
+	<table class="table table-hover" style="background-color:white;margin-bottom: 0rem!important;">
 	<thead class="tableheader">
 	<tr>
 	<th width="55%">Participant</th>
@@ -107,8 +107,8 @@
 	</tr>
 	</thead>
 	</table>
-	<div style="overflow-x: auto;height: calc(100vh - 292px);">
-	<table class="table table-hover" style="background-color:white;">
+	<div style="overflow-x: auto;height: calc(100vh - 279px);">
+	<table class="table table-hover" style="background-color:white;margin-bottom: 0rem!important;">
           <tbody th:each="participant : ${gameParticipants}">
           <tr>
             <td colspan="4" th:text="${participant.key}" class="tdheader">Cell</td>
@@ -117,7 +117,7 @@
           <tr th:each="gameparticipant,iter : ${participant.value}" style="background: white;">
             <td><div class="row" style="margin-top: 10px;flex-wrap: inherit;">
 	            <div class="col-md-1 col-sm-1 col-xs-3">
-	            <img th:src="${gameparticipant.participantImage}" style="width:60px; height:52px;border-radius: 50%;" class="image"/>
+	            <img th:src="${gameparticipant.participantImage != '' ? gameparticipant.participantImage : 'https://anotherjavaduke.files.wordpress.com/2018/08/avataaars-2.png'}" style="width:60px; height:52px;border-radius: 50%;" class="image"/>
 	            </div>
 	            <div class="col-md-11 col-sm-11 col-xs-9">
 	             <p style="margin: 3px 0px 2px 0px;font-weight: bolder;margin-left: 50px;margin-top: 6px;" th:text="${gameparticipant.participantName}"></p>

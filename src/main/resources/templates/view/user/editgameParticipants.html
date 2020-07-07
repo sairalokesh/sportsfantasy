@@ -123,7 +123,7 @@
             <label for="option">
             <div class="row">
 	            <div class="col-md-3 col-sm-3 col-xs-3">
-	            <img th:src="${gameparticipant.participantImage}" style="width:80px; height:80px;border-radius: 50%;" class="image"/>
+	            <img th:src="${gameparticipant.participantImage != '' ? gameparticipant.participantImage : 'https://anotherjavaduke.files.wordpress.com/2018/08/avataaars-2.png'}" style="width:80px; height:80px;border-radius: 50%;" class="image"/>
 	             <span class="profile-status online" th:if="${gameparticipant.availability != null and gameparticipant.availability == 'YES'}"></span>
 	            <span class="profile-status offline" th:if="${gameparticipant.availability != null and gameparticipant.availability == 'NO'}"></span>
 	            </div>

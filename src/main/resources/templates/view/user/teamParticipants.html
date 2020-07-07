@@ -9,7 +9,7 @@
 					<span class="playerImageRoleContainer" style="background-color: #3eb9e8;" th:if="${gameparticipant.viceCapitanId!=null}">VC</span>
 					<span class="playerImageRoleContainer" style="background-color: #6d6c7d;" th:if="${gameparticipant.suppoterId!=null}">SP</span>
 						<div class="imageProfileContainer">
-							<div class="player-image-profile__image" th:style="'background: url('+${gameparticipant.participantImage}+');'"></div>
+							<div class="player-image-profile__image" th:style="'background: url('+${gameparticipant.participantImage != '' ? gameparticipant.participantImage : 'https://anotherjavaduke.files.wordpress.com/2018/08/avataaars-2.png'}+');'"></div>
 						</div>
 					</div>
 					<div class="playerTitleContainer">

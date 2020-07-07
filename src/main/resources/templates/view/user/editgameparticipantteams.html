@@ -96,19 +96,19 @@
                                  <ul class="ec-team-matches" style="margin-bottom: 0px;">
                                      <li>
                                          <a href="javascript:void(0);">
-                                         	<img th:src="${teamParticipant.captainimage}" alt=""/><br/>
+                                         	<img th:src="${teamParticipant.captainimage != '' ? teamParticipant.captainimage : 'https://anotherjavaduke.files.wordpress.com/2018/08/avataaars-2.png'}" alt=""/><br/>
                                          	<span th:text="${teamParticipant.captain+' (C)'}">Captain</span>
                                          </a>
                                      </li>
                                      <li>
                                      	<a href="javascript:void(0);">
-                                         	<img th:src="${teamParticipant.vicecaptainimage}" alt=""/><br/>
+                                         	<img th:src="${teamParticipant.vicecaptainimage != '' ? teamParticipant.vicecaptainimage : 'https://anotherjavaduke.files.wordpress.com/2018/08/avataaars-2.png'}" alt=""/><br/>
                                          	<span th:text="${teamParticipant.vicecaptain+' (VC)'}">Vice Captain</span>
                                          </a>
                                     </li>
                                      <li>
                                         <a href="javascript:void(0);">
-                                        	<img th:src="${teamParticipant.suppoterimage}" alt=""/><br/>
+                                        	<img th:src="${teamParticipant.suppoterimage != '' ? teamParticipant.suppoterimage : 'https://anotherjavaduke.files.wordpress.com/2018/08/avataaars-2.png'}" alt=""/><br/>
                                         	<span th:text="${teamParticipant.suppoter+' (SP)'}">Supporter</span>
                                         </a>
                                      </li>

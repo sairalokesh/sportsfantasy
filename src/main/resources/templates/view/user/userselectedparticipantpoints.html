@@ -17,11 +17,11 @@ background-size: cover;box-shadow: 0 0 20px 5px rgba(0,0,0,.5);
 					<span class="playerImageRoleContainer" style="background-color: #3eb9e8;" th:if="${gameparticipant.viceCaptain}">VC</span>
 					<span class="playerImageRoleContainer" style="background-color: #6d6c7d;" th:if="${gameparticipant.suppoter}">SP</span>
 						<div class="imageProfileContainer">
-							<div class="player-image-profile__image" th:style="'background: url('+${gameparticipant.gameParticipants.participantImage}+');'"></div>
+							<div class="player-image-profile__image" th:style="'background: url('+${gameparticipant.gameParticipants.participantImage != '' ? gameparticipant.gameParticipants.participantImage : 'https://anotherjavaduke.files.wordpress.com/2018/08/avataaars-2.png'}+');'"></div>
 						</div>
 					</div>
 					<div class="playerTitleContainer">
-						<div class="fieldPlayerTitle awayTeamPlayerTitle" th:text="${gameparticipant.gameParticipants.participantName}">J Buttler</div>
+						<div th:class="${gameparticipant.gameParticipants.participantGameType == lastCountry ? 'fieldPlayerTitle awayTeamPlayerTitle' : 'fieldPlayerTitle homeTeamPlayerTitle'}" th:text="${gameparticipant.gameParticipants.participantName}">J Buttler</div>
 					</div>
 					<div class="playerPoints" style="font-size: 10px;" th:if="${gameparticipant.captain}" th:text="${gameparticipant.captainScore!=0.0 && gameparticipant.captainScore!=0 ?#numbers.formatDecimal(gameparticipant.captainScore, 0, 'COMMA', 2, 'POINT') : gameparticipant.captainScore+'0'}+' PTS'">22.5  PTS</div>
 					<div class="playerPoints" style="font-size: 10px;" th:if="${gameparticipant.viceCaptain}" th:text="${gameparticipant.viceCaptainScore!=0.0 && gameparticipant.viceCaptainScore!=0 ?#numbers.formatDecimal(gameparticipant.viceCaptainScore, 0, 'COMMA', 2, 'POINT') : gameparticipant.viceCaptainScore+'0'}+' PTS'">22.5  PTS</div>
@@ -149,6 +149,10 @@ $(".userInfo").on('click', function(e){
 .awayTeamPlayerTitle {
     color: #282828;
     background-color: #fff;
+}
+.homeTeamPlayerTitle {
+  background-color: #282828;
+  color: #fff;
 }
 .playerPoints {
     white-space: nowrap;
